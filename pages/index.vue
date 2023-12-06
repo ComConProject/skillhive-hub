@@ -6,5 +6,6 @@ const { x, y } = useMouse()
   <div>
     starter template nuxt app
     x: {{ x }}, y: {{ y }}
+    <UIcon name="i-ph-rocket-launch" />
   </div>
 </template>
