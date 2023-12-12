@@ -11,6 +11,12 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
   },
+  "dependencies": {
+    "@nuxt/ui": "^2.11.0",
+    "@pinia/nuxt": "^0.5.1",
+    "@vueuse/nuxt": "^10.6.1",
+    "graphql": "^16.8.1"
+  },
   "devDependencies": {
     "@antfu/eslint-config": "^2.1.1",
     "@nuxt/devtools": "latest",
@@ -18,10 +24,5 @@
     "nuxt": "^3.8.2",
     "vue": "^3.3.8",
     "vue-router": "^4.2.5"
-  },
-  "dependencies": {
-    "@nuxt/ui": "^2.11.0",
-    "@pinia/nuxt": "^0.5.1",
-    "@vueuse/nuxt": "^10.6.1"
   }
 }
