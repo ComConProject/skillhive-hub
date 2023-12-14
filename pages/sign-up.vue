@@ -3,7 +3,7 @@ definePageMeta({
   layout: 'blank',
 })
 const { nhost } = useNhost()
-const { user } = useAuthUser()
+const { login } = useAuth()
 
 const isCheck = shallowRef(false)
 const loading = shallowRef(false)
@@ -18,21 +18,20 @@ const checkType = computed(() => {
 
 async function signIn() {
   loading.value = true
-  const { error } = await nhost.auth.signIn({
-    email: state.email,
-    password: state.password,
-  })
-  if (error?.message) {
-    loading.value = false
-    console.error(error)
-    return
-  }
+  const { error } = await login(state.email, state.password)
+
+  if (!error?.message)
+    navigateTo('/')
+
   loading.value = false
 }
-watchEffect(() => {
-  if (user.value)
-    navigateTo('/')
-})
+
+async function signOut() {
+  const { error } = await nhost.auth.signOut()
+  if (error?.message)
+    console.error(error)
+  alert('Sign out success')
+}
 </script>
 
 <template>
@@ -47,9 +46,14 @@ watchEffect(() => {
           <UInput v-model="state.password" :type="checkType" placeholder="your password" />
         </UFormGroup>
         <UCheckbox v-model="isCheck" label="Show password" />
-        <UButton :loading="loading" @click="signIn">
-          Sign in
-        </UButton>
+        <div class="flex gap-2 items-center">
+          <UButton :loading="loading" @click="signIn">
+            Sign in
+          </UButton>
+          <UButton @click="signOut">
+            Logout
+          </UButton>
+        </div>
       </section>
     </UCard>
   </div>
