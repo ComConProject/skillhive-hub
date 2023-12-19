@@ -2,7 +2,7 @@
 definePageMeta({
   layout: 'blank',
 })
-const { nhost } = useNhost()
+const nhost = useNhost()
 const { login } = useAuth()
 
 const isCheck = shallowRef(false)

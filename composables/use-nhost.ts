@@ -8,7 +8,5 @@ export function useNhost() {
     region: config.nhostRegion,
   })
 
-  return {
-    nhost,
-  }
+  return nhost
 }

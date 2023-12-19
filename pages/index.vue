@@ -1,6 +1,5 @@
 <script setup lang="ts">
 const { x, y } = useMouse()
-const { nhost } = useNhost()
 const { user } = useAuthUser()
 
 console.log(user.value)
