@@ -7,14 +7,11 @@ const state = ref({
 })
 const loading = ref(false)
 
-async function signUp() {
+async function signIn() {
   loading.value = true
-  const { data, error } = await supabase.auth.signUp({
+  const { data, error } = await supabase.auth.signInWithPassword({
     email: state.value.email,
     password: state.value.password,
-    options: {
-      emailRedirectTo: 'http://localhost:3001/confirm',
-    },
   })
   if (error?.message) {
     loading.value = false
@@ -23,7 +20,7 @@ async function signUp() {
 
   loading.value = false
   if (data.user)
-    navigateTo('/confirm')
+    navigateTo('/')
 }
 </script>
 
@@ -35,8 +32,8 @@ async function signUp() {
     <UFormGroup label="Password">
       <UInput v-model="state.password" type="password" />
     </UFormGroup>
-    <UButton @click="signUp">
-      Sign Up
+    <UButton :loading="loading" @click="signIn">
+      Sign In
     </UButton>
   </div>
 </template>
