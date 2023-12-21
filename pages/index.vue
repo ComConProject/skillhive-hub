@@ -1,11 +1,5 @@
 <script setup lang="ts">
 const { x, y } = useMouse()
-const { user } = useAuthUser()
-
-console.log(user.value)
-
-onMounted(() => {
-})
 </script>
 
 <template>

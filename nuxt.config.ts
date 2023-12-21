@@ -8,11 +8,12 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     '@nuxt/ui',
     '@pinia/nuxt',
+    '@nuxtjs/supabase',
   ],
   runtimeConfig: {
     public: {
-      nhostRegion: process.env.VITE_NHOST_REGION,
-      nhostSubdomain: process.env.VITE_NHOST_SUBDOMAIN,
+      supabaseUrl: process.env.SUPABASE_URL,
+      supabaseKey: process.env.SUPABASE_KEY,
     },
   },
 })

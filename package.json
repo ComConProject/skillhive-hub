@@ -12,15 +12,14 @@
     "lint:fix": "eslint . --fix"
   },
   "dependencies": {
-    "@nhost/nhost-js": "^2.2.18",
     "@nuxt/ui": "^2.11.0",
     "@pinia/nuxt": "^0.5.1",
-    "@vueuse/nuxt": "^10.6.1",
-    "graphql": "^16.8.1"
+    "@vueuse/nuxt": "^10.6.1"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.1.1",
     "@nuxt/devtools": "latest",
+    "@nuxtjs/supabase": "^1.1.4",
     "eslint": "^8.54.0",
     "nuxt": "^3.8.2",
     "vue": "^3.3.8",
