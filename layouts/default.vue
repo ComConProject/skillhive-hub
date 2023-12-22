@@ -8,5 +8,7 @@
       <ColorChange />
     </nav>
     <slot />
+
+    <LoginModal />
   </div>
 </template>

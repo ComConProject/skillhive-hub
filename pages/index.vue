@@ -2,6 +2,7 @@
 const { x, y } = useMouse()
 const user = useSupabaseUser()
 const supabase = useSupabaseClient()
+const login = useLogin()
 
 const isSignOut = ref(false)
 
@@ -29,6 +30,9 @@ async function signOut() {
     </UButton>
     <UButton :loading="isSignOut" @click="signOut">
       Sign out
+    </UButton>
+    <UButton @click="login.toggle">
+      Show modal
     </UButton>
   </div>
 </template>

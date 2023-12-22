@@ -4,6 +4,7 @@ import process from 'node:process'
 export default defineNuxtConfig({
   devtools: { enabled: true },
   ssr: false,
+  css: ['@/assets/css/main.css'],
   modules: [
     '@vueuse/nuxt',
     '@nuxt/ui',
@@ -14,6 +15,13 @@ export default defineNuxtConfig({
     public: {
       supabaseUrl: process.env.SUPABASE_URL,
       supabaseKey: process.env.SUPABASE_KEY,
+    },
+  },
+  supabase: {
+    redirectOptions: {
+      login: '/',
+      callback: '/confirm',
+      exclude: [],
     },
   },
 })

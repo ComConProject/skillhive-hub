@@ -1,4 +1,8 @@
 <script setup lang="ts">
+definePageMeta({
+  layout: 'blank',
+})
+
 const supabase = useSupabaseClient()
 
 const state = ref({
@@ -25,15 +29,28 @@ async function signIn() {
 </script>
 
 <template>
-  <div class="flex gap-2 items-center justify-center">
-    <UFormGroup label="Email">
-      <UInput v-model="state.email" type="email" />
-    </UFormGroup>
-    <UFormGroup label="Password">
-      <UInput v-model="state.password" type="password" />
-    </UFormGroup>
-    <UButton :loading="loading" @click="signIn">
-      Sign In
-    </UButton>
+  <div class="flex h-full w-full  flex-col items-center justify-center">
+    <UCard class="max-w-xl w-full">
+      <section class="space-y-3">
+        <h1 class="text-center font-semibold text-xl">
+          Welcome to Skillhive!
+        </h1>
+        <div>
+          <UFormGroup label="Email">
+            <UInput v-model="state.email" type="email" />
+          </UFormGroup>
+        </div>
+        <div>
+          <UFormGroup label="Password">
+            <UInput v-model="state.password" type="password" />
+          </UFormGroup>
+        </div>
+        <div>
+          <UButton :loading="loading" @click="signIn">
+            Login
+          </UButton>
+        </div>
+      </section>
+    </UCard>
   </div>
 </template>
