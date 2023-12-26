@@ -1,5 +1,5 @@
 <script setup lang="ts">
-
+const user = useSupabaseUser()
 </script>
 
 <template>
@@ -31,9 +31,9 @@
         </li>
         <li>
           <UPopover>
-            <button>
+            <UButton color="gray" variant="ghost">
               Orders
-            </button>
+            </UButton>
             <template #panel>
               <UCard>
                 Hello world
@@ -43,13 +43,17 @@
         </li>
         <li>
           <UAvatar
+            v-if="user"
             chip-color="primary"
             chip-text=""
             chip-position="top-right"
             size="sm"
-            src="https://avatars.githubusercontent.com/u/739984?v=4"
+            :src="user.user_metadata.avatar_url"
             alt="Avatar"
           />
+          <UButton v-else variant="ghost">
+            Join
+          </UButton>
         </li>
       </ul>
     </section>
