@@ -1,23 +1,12 @@
 <script setup lang="ts">
 const { x, y } = useMouse()
 const user = useSupabaseUser()
-const supabase = useSupabaseClient()
+const { signOut } = useAuth()
 const login = useLogin()
 
 const isSignOut = ref(false)
 
 console.log(user.value)
-
-async function signOut() {
-  isSignOut.value = true
-  const { error } = await supabase.auth.signOut()
-  if (error?.message) {
-    isSignOut.value = false
-    return console.error(error.message)
-  }
-  isSignOut.value = false
-  navigateTo('/login')
-}
 </script>
 
 <template>
@@ -31,8 +20,8 @@ async function signOut() {
     <UButton :loading="isSignOut" @click="signOut">
       Sign out
     </UButton>
-    <UButton @click="login.toggle">
-      Show modal
+    <UButton @click="login.open">
+      Open modal
     </UButton>
   </div>
 </template>

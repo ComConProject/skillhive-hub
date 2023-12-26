@@ -11,9 +11,9 @@ const state = ref({
 })
 const loading = ref(false)
 
-async function signIn(provider?: 'google' | 'github' | 'facebook') {
+async function signIn(provider?: 'google' | 'github' | 'facebook' | 'email') {
   loading.value = true
-  if (provider) {
+  if (provider === 'google' || provider === 'github' || provider === 'facebook') {
     const { error } = await supabase.auth.signInWithOAuth({
       provider,
       options: {
@@ -64,22 +64,19 @@ async function signIn(provider?: 'google' | 'github' | 'facebook') {
           </UFormGroup>
         </div>
         <div>
-          <UButton :loading="loading" @click="signIn">
+          <UButton :loading="loading" @click="signIn('email')">
             Login
           </UButton>
         </div>
         <div class="text-center">
-          <ULink href="/signup">
+          <ULink to="/signup">
             Don't have an account? Sign up
           </ULink>
         </div>
         <UDivider label="Or continue with" />
-        <div class="space-y-1">
-          <UButton variant="outline" block @click="signIn('google')">
+        <div class=" flex justify-center gap-3">
+          <UButton variant="outline" @click="signIn('google')">
             <UIcon name="i-mdi-google" class="text-xl" />
-          </UButton>
-          <UButton variant="outline" block @click="signIn('github')">
-            <UIcon name="i-mdi-facebook" class="text-xl" />
           </UButton>
         </div>
       </section>
