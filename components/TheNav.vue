@@ -6,9 +6,11 @@ const user = useSupabaseUser()
   <div>
     <section class="flex items-center justify-between gap-4">
       <div class="flex items-center gap-3">
-        <h1 class="font-semibold text-lg">
-          Skillhive
-        </h1>
+        <NuxtLink to="/">
+          <h1 class="font-semibold text-lg">
+            Skillhive
+          </h1>
+        </NuxtLink>
         <div class="w-96">
           <UInput placeholder="What service are you looking for today?" trailing-icon="i-heroicons-magnifying-glass" />
         </div>
