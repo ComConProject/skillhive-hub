@@ -9,6 +9,79 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
+      term: {
+        Row: {
+          active: boolean
+          created_at: string | null
+          group_id: number | null
+          id: number
+          name: string
+          parent_id: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string | null
+          group_id?: number | null
+          id?: number
+          name: string
+          parent_id?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          active?: boolean
+          created_at?: string | null
+          group_id?: number | null
+          id?: number
+          name?: string
+          parent_id?: number | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "term_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "term"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      term_meta: {
+        Row: {
+          created_at: string | null
+          id: number
+          key: string
+          term_id: number
+          updated_at: string | null
+          value: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: number
+          key: string
+          term_id: number
+          updated_at?: string | null
+          value: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: number
+          key?: string
+          term_id?: number
+          updated_at?: string | null
+          value?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "term_meta_term_id_fkey"
+            columns: ["term_id"]
+            isOneToOne: false
+            referencedRelation: "term"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       todo: {
         Row: {
           created_at: string
