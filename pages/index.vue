@@ -23,5 +23,8 @@ console.log(user.value)
     <UButton @click="login.open">
       Open modal
     </UButton>
+    <UFormGroup>
+      <TermInput />
+    </UFormGroup>
   </div>
 </template>
