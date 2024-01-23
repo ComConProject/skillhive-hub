@@ -32,7 +32,7 @@ async function addTodo() {
   const { data, error } = await client.from('todo').insert({
     title: state.value.title,
     user_email: user.value?.email,
-  } as any).select()
+  }).select()
   if (error) {
     loading.value = false
     console.error(error.message)
