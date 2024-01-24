@@ -9,68 +9,81 @@ interface Todo {
 
 const client = useSupabaseClient<Database>()
 const user = useSupabaseUser()
+const { state, todos, loading, isUpdate, getTodo, addTodo, updateTodo, deleteTodo } = useTodo()
 
-const todos = ref<Todo[]>([])
-const state = ref({
-  title: '',
-})
-const loading = shallowRef(false)
-const isUpdate = shallowRef(false)
+function useTodo() {
+  const todos = ref<Todo[]>([])
+  const state = ref({
+    title: '',
+  })
+  const loading = shallowRef(false)
+  const isUpdate = shallowRef(false)
 
-async function getTodo() {
-  const { data, error } = await client.from('todo').select()
-  if (error) {
-    console.error(error.message)
-    return
+  async function getTodo() {
+    const { data, error } = await client.from('todo').select()
+    if (error) {
+      console.error(error.message)
+      return
+    }
+
+    todos.value = data as Todo[]
   }
 
-  todos.value = data as Todo[]
-}
-
-async function addTodo() {
-  loading.value = true
-  const { data, error } = await client.from('todo').insert({
-    title: state.value.title,
-    user_email: user.value?.email,
-  }).select()
-  if (error) {
+  async function addTodo() {
+    loading.value = true
+    const { data, error } = await client.from('todo').insert({
+      title: state.value.title,
+      user_email: user.value?.email,
+    }).select()
+    if (error) {
+      loading.value = false
+      console.error(error.message)
+      return
+    }
+    if (!data)
+      return
+    todos.value.push(data[0])
+    state.value.title = ''
     loading.value = false
-    console.error(error.message)
-    return
   }
-  if (!data)
-    return
-  todos.value.push(data[0])
-  state.value.title = ''
-  loading.value = false
-}
 
-async function updateTodo(todo: Todo) {
-  if (todo.is_complete)
-    return
-  isUpdate.value = true
-  const { error } = await client.from('todo').update({
-    is_complete: true,
-  }).eq('id', todo.id)
-  if (error) {
+  async function updateTodo(todo: Todo) {
+    if (todo.is_complete)
+      return
+    isUpdate.value = true
+    const { error } = await client.from('todo').update({
+      is_complete: true,
+    }).eq('id', todo.id)
+    if (error) {
+      isUpdate.value = false
+      console.error(error.message)
+      return
+    }
+
+    getTodo()
     isUpdate.value = false
-    console.error(error.message)
-    return
   }
 
-  getTodo()
-  isUpdate.value = false
+  async function deleteTodo(todo: Todo) {
+    const { error, data } = await client.from('todo').delete().eq('id', todo.id)
+    if (error)
+      console.error(error.message)
+    if (!data)
+      todos.value = todos.value.filter(t => t.id !== todo.id)
+  }
+  return {
+    state,
+    todos,
+    loading,
+    isUpdate,
+    getTodo,
+    addTodo,
+    updateTodo,
+    deleteTodo,
+  }
 }
 
-async function deleteTodo(todo: Todo) {
-  const { error, data } = await client.from('todo').delete().eq('id', todo.id)
-  if (error)
-    console.error(error.message)
-  if (!data)
-    todos.value = todos.value.filter(t => t.id !== todo.id)
-}
-
-getTodo()
+await getTodo()
 </script>
 
 <template>
