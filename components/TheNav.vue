@@ -4,7 +4,7 @@ const user = useSupabaseUser()
 
 <template>
   <div>
-    <section class="flex items-center justify-between gap-4">
+    <section class="flex items-center justify-between mt-3 gap-4">
       <div class="flex items-center gap-3">
         <NuxtLink to="/">
           <h1 class="font-semibold text-lg">

@@ -4,14 +4,14 @@
 
 <template>
   <div class="flex h-screen flex-col overflow-hidden">
-    <nav class="text-sm sm:mt-4 sm:px-6 sm:text-base xl:pt-0 2xl:pt-0">
+    <nav class="px-4">
       <TheNav class="hidden sm:block" />
     </nav>
-    <section class="text-sm sm:mt-4 sm:px-6 sm:text-base xl:pt-0 2xl:pt-0">
+    <section>
       <TheCategory />
     </section>
-    <main class="flex flex-1 flex-col overflow-auto">
-      <div class="text-sm sm:mt-4 sm:px-6 sm:text-base xl:pt-0 2xl:pt-0">
+    <main class="flex flex-1 flex-col overflow-auto gap-1">
+      <div class="flex-grow px-4 pt-4 text-sm md:text-base">
         <slot />
       </div>
     </main>
