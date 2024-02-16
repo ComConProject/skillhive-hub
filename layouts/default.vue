@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <div class="flex h-screen flex-col overflow-hidden">
+  <div class="flex h-[100dvh] flex-col overflow-hidden">
     <nav class="px-4 py-4 sm:px-28">
       <TheNav class="hidden sm:block" />
     </nav>
@@ -15,6 +15,6 @@
         <slot />
       </div>
     </main>
-    <LoginModal />
+    <signinModal />
   </div>
 </template>

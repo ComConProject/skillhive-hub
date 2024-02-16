@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const supabase = useSupabaseClient()
-const login = useLogin()
+const signIn = useSignIn()
 
 const state = ref({
   email: '',
@@ -8,7 +8,7 @@ const state = ref({
 })
 const loading = ref(false)
 
-async function signIn(provider?: 'google' | 'github' | 'facebook' | 'email') {
+async function signInWithProvider(provider?: 'google' | 'github' | 'facebook' | 'email') {
   loading.value = true
   if (provider === 'google' || provider === 'github' || provider === 'facebook') {
     const { error } = await supabase.auth.signInWithOAuth({
@@ -46,7 +46,7 @@ async function signIn(provider?: 'google' | 'github' | 'facebook' | 'email') {
 </script>
 
 <template>
-  <UModal v-model="login.showModal">
+  <UModal v-model="signIn.showModal">
     <UCard>
       <section class="space-y-3">
         <h1 class="text-center font-semibold text-xl">
@@ -63,8 +63,8 @@ async function signIn(provider?: 'google' | 'github' | 'facebook' | 'email') {
           </UFormGroup>
         </div>
         <div>
-          <UButton :loading="loading" @click="signIn('email')">
-            Login
+          <UButton :loading="loading" @click="signInWithProvider('email')">
+            signin
           </UButton>
         </div>
         <div class="text-center">
@@ -74,7 +74,7 @@ async function signIn(provider?: 'google' | 'github' | 'facebook' | 'email') {
         </div>
         <UDivider label="Or continue with" />
         <div class=" flex justify-center gap-3">
-          <UButton variant="outline" @click="signIn('google')">
+          <UButton variant="outline" @click="signInWithProvider('google')">
             <UIcon name="i-mdi-google" class="text-xl" />
           </UButton>
         </div>

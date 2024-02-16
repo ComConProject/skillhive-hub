@@ -47,7 +47,7 @@ async function signIn(provider?: 'google' | 'github' | 'facebook' | 'email') {
 </script>
 
 <template>
-  <div class="flex min-h-screen w-full items-center justify-center">
+  <div class="flex  h-[100dvh] w-full items-center justify-center">
     <UCard class="sm:w-full sm:max-w-xl">
       <section class="space-y-3">
         <h1 class="text-center font-semibold text-xl">
@@ -65,7 +65,7 @@ async function signIn(provider?: 'google' | 'github' | 'facebook' | 'email') {
         </div>
         <div>
           <UButton :loading="loading" @click="signIn('email')">
-            Login
+            signin
           </UButton>
         </div>
         <div class="text-center">

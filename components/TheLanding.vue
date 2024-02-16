@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <div class="h-screen w-full">
+  <div class="w-full">
     <!-- Navigation -->
     <nav class="bg-white shadow-lg">
       <div class="container mx-auto px-4">

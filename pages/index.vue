@@ -6,7 +6,7 @@ definePageMeta({
 const { x, y } = useMouse()
 const user = useSupabaseUser()
 const { signOut } = useAuth()
-const login = useLogin()
+const signin = useSignIn()
 
 const isSignOut = ref(false)
 
@@ -24,7 +24,7 @@ console.log(user.value)
     <UButton :loading="isSignOut" @click="signOut">
       Sign out
     </UButton>
-    <UButton @click="login.open">
+    <UButton @click="signin.open">
       Open modal
     </UButton>
     <UFormGroup>

@@ -20,7 +20,7 @@ const category = [
 </script>
 
 <template>
-  <div class="border-y border-2">
+  <div class="border-y dark:border-gray-700">
     <section class="px-4 sm:px-28 py-2">
       <article>
         <ul class="flex gap-10 justify-evenly">
