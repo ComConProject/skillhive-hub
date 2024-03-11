@@ -21,9 +21,10 @@ interface Village extends IBase {
 }
 const t = ref('')
 
-const { fetchDistricts, districts, search, fetchVillages, provinces } = useLocation()
+const { provinces, fetchProvinces } = useLocation()
+const { fetchDistricts, districts, search, fetchVillages } = useInlineLocation()
 
-function useLocation() {
+function useInlineLocation() {
   const supabase = useSupabaseClient<Database>()
   const search = ref('')
 
@@ -75,6 +76,10 @@ function useLocation() {
     fetchVillages,
   }
 }
+
+onMounted(() => {
+  fetchProvinces()
+})
 </script>
 
 <template>
