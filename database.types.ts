@@ -6,9 +6,62 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[]
 
-export interface Database {
+export type Database = {
   public: {
     Tables: {
+      districts: {
+        Row: {
+          en: string
+          id: number
+          is_active: boolean | null
+          lo: string
+          prov_id: number | null
+        }
+        Insert: {
+          en: string
+          id?: number
+          is_active?: boolean | null
+          lo: string
+          prov_id?: number | null
+        }
+        Update: {
+          en?: string
+          id?: number
+          is_active?: boolean | null
+          lo?: string
+          prov_id?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "districts_prov_id_fkey"
+            columns: ["prov_id"]
+            isOneToOne: false
+            referencedRelation: "provinces"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      provinces: {
+        Row: {
+          en: string
+          id: number
+          is_active: boolean | null
+          lo: string
+        }
+        Insert: {
+          en: string
+          id?: number
+          is_active?: boolean | null
+          lo: string
+        }
+        Update: {
+          en?: string
+          id?: number
+          is_active?: boolean | null
+          lo?: string
+        }
+        Relationships: []
+      }
       term: {
         Row: {
           active: boolean
@@ -108,6 +161,38 @@ export interface Database {
           user_email?: string | null
         }
         Relationships: []
+      }
+      villages: {
+        Row: {
+          dist_id: number | null
+          en: string
+          id: number
+          is_active: boolean | null
+          lo: string
+        }
+        Insert: {
+          dist_id?: number | null
+          en: string
+          id?: number
+          is_active?: boolean | null
+          lo: string
+        }
+        Update: {
+          dist_id?: number | null
+          en?: string
+          id?: number
+          is_active?: boolean | null
+          lo?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "villages_dist_id_fkey"
+            columns: ["dist_id"]
+            isOneToOne: false
+            referencedRelation: "districts"
+            referencedColumns: ["id"]
+          }
+        ]
       }
     }
     Views: {
