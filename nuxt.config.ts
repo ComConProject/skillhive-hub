@@ -23,6 +23,6 @@ export default defineNuxtConfig({
       callback: '/confirm',
       exclude: [],
     },
-    redirect: false,
+    redirect: true,
   },
 })

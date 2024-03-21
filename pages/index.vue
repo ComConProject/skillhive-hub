@@ -1,8 +1,4 @@
 <script setup lang="ts">
-definePageMeta({
-  middleware: 'is-logged',
-})
-
 const { x, y } = useMouse()
 const user = useSupabaseUser()
 const { signOut } = useAuth()
