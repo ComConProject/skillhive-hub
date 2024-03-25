@@ -6,7 +6,10 @@ const signin = useSignIn()
 
 const isSignOut = ref(false)
 
-console.log(user.value)
+const { data } = await useFetch('/api/stripe', {
+  method: 'POST',
+})
+console.log(data.value)
 </script>
 
 <template>
