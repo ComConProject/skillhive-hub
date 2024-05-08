@@ -20,15 +20,16 @@ const category = [
 </script>
 
 <template>
-  <div class="border-y dark:border-gray-700">
-    <section class="px-4 sm:px-28 py-2">
-      <article>
-        <ul class="flex gap-10 justify-evenly">
-          <li v-for="i in category" :key="i.id">
+  <div>
+    <UPopover>
+      <UButton icon="i-fluent-filter-12-regular" color="gray" variant="ghost" />
+      <template #panel>
+        <div class="p-4 w-96">
+          <p v-for="i in category" :key="i.id">
             {{ i.name }}
-          </li>
-        </ul>
-      </article>
-    </section>
+          </p>
+        </div>
+      </template>
+    </UPopover>
   </div>
 </template>

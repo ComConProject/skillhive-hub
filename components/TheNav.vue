@@ -14,6 +14,9 @@ const user = useSupabaseUser()
         <div class="w-96">
           <UInput placeholder="What service are you looking for today?" trailing-icon="i-heroicons-magnifying-glass" />
         </div>
+        <div>
+          <TheCategory />
+        </div>
       </div>
       <ul class="flex items-center gap-3">
         <li>

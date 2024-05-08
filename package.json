@@ -17,11 +17,11 @@
     "@vueuse/nuxt": "^10.7.2"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^2.6.3",
+    "@antfu/eslint-config": "^2.16.3",
     "@nuxt/devtools": "latest",
     "@nuxtjs/supabase": "^1.1.5",
     "@unlok-co/nuxt-stripe": "^2.0.0",
-    "eslint": "^8.56.0",
+    "eslint": "^9.2.0",
     "nuxt": "^3.11.1",
     "typescript": "^5.4.2",
     "vue": "^3.4.19",

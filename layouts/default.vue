@@ -7,9 +7,9 @@
     <nav class="px-4 py-4 sm:px-28">
       <TheNav class="hidden sm:block" />
     </nav>
-    <section>
+    <!-- <section>
       <TheCategory />
-    </section>
+    </section> -->
     <main class="flex flex-1 flex-col overflow-auto gap-1">
       <div class="flex-grow px-4 sm:px-28 pt-4 text-sm md:text-base">
         <slot />
