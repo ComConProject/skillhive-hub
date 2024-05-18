@@ -6,7 +6,7 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[]
 
-export interface Database {
+export type Database = {
   public: {
     Tables: {
       districts: {
@@ -33,11 +33,98 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: 'districts_prov_id_fkey'
-            columns: ['prov_id']
+            foreignKeyName: "districts_prov_id_fkey"
+            columns: ["prov_id"]
             isOneToOne: false
-            referencedRelation: 'provinces'
-            referencedColumns: ['id']
+            referencedRelation: "provinces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      freelancer: {
+        Row: {
+          created_at: string
+          description: string | null
+          email: string | null
+          firstname: string
+          id: number
+          is_available: boolean | null
+          lastname: string
+          phone: string | null
+          profile_url: string | null
+          updated_at: string | null
+          user_id: string | null
+          username: string | null
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          email?: string | null
+          firstname: string
+          id?: number
+          is_available?: boolean | null
+          lastname: string
+          phone?: string | null
+          profile_url?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+          username?: string | null
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          email?: string | null
+          firstname?: string
+          id?: number
+          is_available?: boolean | null
+          lastname?: string
+          phone?: string | null
+          profile_url?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+          username?: string | null
+        }
+        Relationships: []
+      }
+      language: {
+        Row: {
+          created_at: string
+          freelancer_id: number | null
+          id: number
+          name: string | null
+          term_id: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string
+          freelancer_id?: number | null
+          id?: number
+          name?: string | null
+          term_id?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string
+          freelancer_id?: number | null
+          id?: number
+          name?: string | null
+          term_id?: number | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "language_freelancer_id_fkey"
+            columns: ["freelancer_id"]
+            isOneToOne: false
+            referencedRelation: "freelancer"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "language_term_id_fkey"
+            columns: ["term_id"]
+            isOneToOne: false
+            referencedRelation: "term"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -62,6 +149,206 @@ export interface Database {
         }
         Relationships: []
       }
+      order: {
+        Row: {
+          buyer_id: number
+          created_at: string
+          detail: string
+          id: number
+          on_date: string
+          price: number
+          pricing_id: number
+          updated_at: string
+        }
+        Insert: {
+          buyer_id: number
+          created_at?: string
+          detail: string
+          id?: number
+          on_date: string
+          price: number
+          pricing_id: number
+          updated_at?: string
+        }
+        Update: {
+          buyer_id?: number
+          created_at?: string
+          detail?: string
+          id?: number
+          on_date?: string
+          price?: number
+          pricing_id?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      payment: {
+        Row: {
+          amount: number | null
+          created_at: string
+          description: string | null
+          id: number
+          method: string | null
+          on_date: string | null
+          order_id: number | null
+          refund_info: string | null
+          status: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          amount?: number | null
+          created_at?: string
+          description?: string | null
+          id?: number
+          method?: string | null
+          on_date?: string | null
+          order_id?: number | null
+          refund_info?: string | null
+          status?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          amount?: number | null
+          created_at?: string
+          description?: string | null
+          id?: number
+          method?: string | null
+          on_date?: string | null
+          order_id?: number | null
+          refund_info?: string | null
+          status?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payment_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "order"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      portfolio: {
+        Row: {
+          created_at: string
+          description: string | null
+          freelancer_id: number | null
+          id: number
+          title: string | null
+          updated_at: string
+          url: string | null
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          freelancer_id?: number | null
+          id?: number
+          title?: string | null
+          updated_at?: string
+          url?: string | null
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          freelancer_id?: number | null
+          id?: number
+          title?: string | null
+          updated_at?: string
+          url?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "portfolio_freelancer_id_fkey"
+            columns: ["freelancer_id"]
+            isOneToOne: false
+            referencedRelation: "freelancer"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      pricing: {
+        Row: {
+          created_at: string
+          delivery_timeframe: string | null
+          description: string | null
+          id: number
+          package_name: string | null
+          price: number | null
+          service_id: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string
+          delivery_timeframe?: string | null
+          description?: string | null
+          id?: number
+          package_name?: string | null
+          price?: number | null
+          service_id?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string
+          delivery_timeframe?: string | null
+          description?: string | null
+          id?: number
+          package_name?: string | null
+          price?: number | null
+          service_id?: number | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pricing_service_id_fkey"
+            columns: ["service_id"]
+            isOneToOne: false
+            referencedRelation: "providing_service"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      providing_service: {
+        Row: {
+          created_at: string
+          delivery_format: Json | null
+          description: string | null
+          id: number
+          service_duration: string | null
+          term_id: number | null
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string
+          delivery_format?: Json | null
+          description?: string | null
+          id?: number
+          service_duration?: string | null
+          term_id?: number | null
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string
+          delivery_format?: Json | null
+          description?: string | null
+          id?: number
+          service_duration?: string | null
+          term_id?: number | null
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "providing_service_term_id_fkey"
+            columns: ["term_id"]
+            isOneToOne: false
+            referencedRelation: "term"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       provinces: {
         Row: {
           en: string
@@ -82,6 +369,92 @@ export interface Database {
           lo?: string
         }
         Relationships: []
+      }
+      rating: {
+        Row: {
+          buyer_id: string | null
+          created_at: string
+          description: string | null
+          freelancer_id: number | null
+          id: number
+          picture: string | null
+          star: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          buyer_id?: string | null
+          created_at?: string
+          description?: string | null
+          freelancer_id?: number | null
+          id?: number
+          picture?: string | null
+          star?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          buyer_id?: string | null
+          created_at?: string
+          description?: string | null
+          freelancer_id?: number | null
+          id?: number
+          picture?: string | null
+          star?: number | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rating_buyer_id_fkey"
+            columns: ["buyer_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "rating_freelancer_id_fkey"
+            columns: ["freelancer_id"]
+            isOneToOne: false
+            referencedRelation: "freelancer"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      skill: {
+        Row: {
+          created_at: string
+          description: string | null
+          freelancer_id: number | null
+          id: number
+          level: string | null
+          name: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          freelancer_id?: number | null
+          id?: number
+          level?: string | null
+          name?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          freelancer_id?: number | null
+          id?: number
+          level?: string | null
+          name?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "skill_freelancer_id_fkey"
+            columns: ["freelancer_id"]
+            isOneToOne: false
+            referencedRelation: "freelancer"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       term: {
         Row: {
@@ -113,11 +486,11 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: 'term_parent_id_fkey'
-            columns: ['parent_id']
+            foreignKeyName: "term_parent_id_fkey"
+            columns: ["parent_id"]
             isOneToOne: false
-            referencedRelation: 'term'
-            referencedColumns: ['id']
+            referencedRelation: "term"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -148,11 +521,11 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: 'term_meta_term_id_fkey'
-            columns: ['term_id']
+            foreignKeyName: "term_meta_term_id_fkey"
+            columns: ["term_id"]
             isOneToOne: false
-            referencedRelation: 'term'
-            referencedColumns: ['id']
+            referencedRelation: "term"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -207,11 +580,11 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: 'villages_dist_id_fkey'
-            columns: ['dist_id']
+            foreignKeyName: "villages_dist_id_fkey"
+            columns: ["dist_id"]
             isOneToOne: false
-            referencedRelation: 'districts'
-            referencedColumns: ['id']
+            referencedRelation: "districts"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -231,84 +604,84 @@ export interface Database {
   }
 }
 
-type PublicSchema = Database[Extract<keyof Database, 'public'>]
+type PublicSchema = Database[Extract<keyof Database, "public">]
 
 export type Tables<
   PublicTableNameOrOptions extends
-  | keyof (PublicSchema['Tables'] & PublicSchema['Views'])
-  | { schema: keyof Database },
+    | keyof (PublicSchema["Tables"] & PublicSchema["Views"])
+    | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
-    ? keyof (Database[PublicTableNameOrOptions['schema']]['Tables'] &
-    Database[PublicTableNameOrOptions['schema']]['Views'])
+    ? keyof (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
+        Database[PublicTableNameOrOptions["schema"]]["Views"])
     : never = never,
 > = PublicTableNameOrOptions extends { schema: keyof Database }
-  ? (Database[PublicTableNameOrOptions['schema']]['Tables'] &
-  Database[PublicTableNameOrOptions['schema']]['Views'])[TableName] extends {
+  ? (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
+      Database[PublicTableNameOrOptions["schema"]]["Views"])[TableName] extends {
       Row: infer R
     }
-      ? R
-      : never
-  : PublicTableNameOrOptions extends keyof (PublicSchema['Tables'] &
-  PublicSchema['Views'])
-    ? (PublicSchema['Tables'] &
-    PublicSchema['Views'])[PublicTableNameOrOptions] extends {
+    ? R
+    : never
+  : PublicTableNameOrOptions extends keyof (PublicSchema["Tables"] &
+        PublicSchema["Views"])
+    ? (PublicSchema["Tables"] &
+        PublicSchema["Views"])[PublicTableNameOrOptions] extends {
         Row: infer R
       }
-        ? R
-        : never
+      ? R
+      : never
     : never
 
 export type TablesInsert<
   PublicTableNameOrOptions extends
-  | keyof PublicSchema['Tables']
-  | { schema: keyof Database },
+    | keyof PublicSchema["Tables"]
+    | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
-    ? keyof Database[PublicTableNameOrOptions['schema']]['Tables']
+    ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
     : never = never,
 > = PublicTableNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicTableNameOrOptions['schema']]['Tables'][TableName] extends {
-    Insert: infer I
-  }
-    ? I
-    : never
-  : PublicTableNameOrOptions extends keyof PublicSchema['Tables']
-    ? PublicSchema['Tables'][PublicTableNameOrOptions] extends {
+  ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Insert: infer I
     }
+    ? I
+    : never
+  : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
+    ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
+        Insert: infer I
+      }
       ? I
       : never
     : never
 
 export type TablesUpdate<
   PublicTableNameOrOptions extends
-  | keyof PublicSchema['Tables']
-  | { schema: keyof Database },
+    | keyof PublicSchema["Tables"]
+    | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
-    ? keyof Database[PublicTableNameOrOptions['schema']]['Tables']
+    ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
     : never = never,
 > = PublicTableNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicTableNameOrOptions['schema']]['Tables'][TableName] extends {
-    Update: infer U
-  }
-    ? U
-    : never
-  : PublicTableNameOrOptions extends keyof PublicSchema['Tables']
-    ? PublicSchema['Tables'][PublicTableNameOrOptions] extends {
+  ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Update: infer U
     }
+    ? U
+    : never
+  : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
+    ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
+        Update: infer U
+      }
       ? U
       : never
     : never
 
 export type Enums<
   PublicEnumNameOrOptions extends
-  | keyof PublicSchema['Enums']
-  | { schema: keyof Database },
+    | keyof PublicSchema["Enums"]
+    | { schema: keyof Database },
   EnumName extends PublicEnumNameOrOptions extends { schema: keyof Database }
-    ? keyof Database[PublicEnumNameOrOptions['schema']]['Enums']
+    ? keyof Database[PublicEnumNameOrOptions["schema"]]["Enums"]
     : never = never,
 > = PublicEnumNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicEnumNameOrOptions['schema']]['Enums'][EnumName]
-  : PublicEnumNameOrOptions extends keyof PublicSchema['Enums']
-    ? PublicSchema['Enums'][PublicEnumNameOrOptions]
+  ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
+  : PublicEnumNameOrOptions extends keyof PublicSchema["Enums"]
+    ? PublicSchema["Enums"][PublicEnumNameOrOptions]
     : never

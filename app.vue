@@ -1,11 +1,16 @@
+<script setup lang="ts">
+const { locale } = useI18n()
+</script>
+
 <template>
-  <div>
-    <Body class="bg-[#F6F7F9] text-slate-800 antialiased transition-colors duration-300 dark:bg-slate-900 dark:text-slate-400">
+  <Html :lang="locale">
+    <Body :class="locale" class="bg-[#F6F7F9] text-slate-800 antialiased transition-colors duration-300 dark:bg-slate-900 dark:text-slate-400">
       <NuxtLayout>
         <NuxtPage />
+        <UNotifications />
       </NuxtLayout>
     </Body>
-  </div>
+  </Html>
 </template>
 
 <style>

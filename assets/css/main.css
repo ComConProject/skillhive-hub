@@ -1,4 +1,23 @@
-  .slide-left-enter-active,
+@import url('../fonts/stylesheet.css');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+  .lo,
+  .lo,
+  .lo p,
+  .lo div,
+  .lo {
+      font-family: 'Bouasavanh';
+  }
+
+  .en,
+  .en,
+  .en p,
+  .en div,
+  .en {
+      font-family: 'Poppins', sans-serif;
+  }
+
+.slide-left-enter-active,
   .slide-left-leave-active,
   .slide-right-enter-active,
   .slide-right-leave-active {

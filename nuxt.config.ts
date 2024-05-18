@@ -11,6 +11,7 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@nuxtjs/supabase',
     '@unlok-co/nuxt-stripe',
+    '@nuxtjs/i18n',
   ],
   runtimeConfig: {
     public: {
@@ -42,5 +43,27 @@ export default defineNuxtConfig({
       options: {
       },
     },
+  },
+  i18n: {
+    locales: [
+      {
+        code: 'en',
+        file: 'en-US.json',
+      },
+      { code: 'lo', file: 'lo-LA.json' },
+    ],
+    defaultLocale: 'lo',
+    lazy: true,
+    langDir: 'locales/',
+    strategy: 'prefix_except_default',
+    vueI18n: './i18n.config.ts', // if you are using custom path, default
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: 'i18n_redirected',
+      redirectOn: 'root', // recommended
+    },
+  },
+  experimental: {
+    typedPages: true,
   },
 })

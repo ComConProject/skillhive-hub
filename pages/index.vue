@@ -1,33 +1,12 @@
 <script setup lang="ts">
-const { x, y } = useMouse()
-const user = useSupabaseUser()
-const { signOut } = useAuth()
-const signin = useSignIn()
+import type { Database } from '~/database.types'
 
-const isSignOut = ref(false)
+const supabase = useSupabaseClient<Database>()
 
-const { data } = await useFetch('/api/stripe', {
-  method: 'POST',
-})
-console.log(data.value)
+const { data } = await supabase.from('freelancer').select()
+console.log(data)
 </script>
 
 <template>
-  <div>
-    starter template nuxt app
-    x: {{ x }}, y: {{ y }}
-    <UIcon name="i-ph-rocket-launch" />
-    <UButton @click="() => navigateTo('/signup')">
-      Sign up
-    </UButton>
-    <UButton :loading="isSignOut" @click="signOut">
-      Sign out
-    </UButton>
-    <UButton @click="signin.open">
-      Open modal
-    </UButton>
-    <UFormGroup>
-      <TermInput />
-    </UFormGroup>
-  </div>
+  <div />
 </template>

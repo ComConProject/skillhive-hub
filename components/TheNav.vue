@@ -24,27 +24,27 @@ const user = useSupabaseUser()
             <UButton color="gray" variant="ghost" icon="i-heroicons-bell-20-solid" />
           </UTooltip>
         </li>
-        <li>
+        <!-- <li>
           <UTooltip text="Message">
             <UButton color="gray" variant="ghost" icon="i-heroicons-chat-bubble-left-right-solid" />
           </UTooltip>
-        </li>
+        </li> -->
         <li>
           <UTooltip text="Theme">
             <ColorChange />
           </UTooltip>
         </li>
         <li>
-          <UPopover>
-            <UButton color="gray" variant="ghost">
-              Orders
+          <UTooltip text="language">
+            <LanguageChange />
+          </UTooltip>
+        </li>
+        <li>
+          <NuxtLinkLocale to="/seller">
+            <UButton color="gray">
+              Become a seller
             </UButton>
-            <template #panel>
-              <UCard>
-                Hello world
-              </UCard>
-            </template>
-          </UPopover>
+          </NuxtLinkLocale>
         </li>
         <li>
           <UAvatar
