@@ -18,6 +18,7 @@ export function useTerm() {
       throw new Error(`[fetchTerms] ${error.message}`)
 
     terms.value = data
+    return data
   }
 
   return {

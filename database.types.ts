@@ -86,6 +86,48 @@ export type Database = {
         }
         Relationships: []
       }
+      freelancer_occupation: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: number
+          seller_id: number | null
+          term_id: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: number
+          seller_id?: number | null
+          term_id?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: number
+          seller_id?: number | null
+          term_id?: number | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "freelancer_occupation_seller_id_fkey"
+            columns: ["seller_id"]
+            isOneToOne: false
+            referencedRelation: "freelancer"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "freelancer_occupation_term_id_fkey"
+            columns: ["term_id"]
+            isOneToOne: false
+            referencedRelation: "term"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       language: {
         Row: {
           created_at: string

@@ -3,4 +3,5 @@ export enum TermGroup {
   CATEGORY = 2,
   SUB_CATEGORY = 3,
   LANGUAGE = 4,
+  SKILL_LEVEL = 5,
 }
