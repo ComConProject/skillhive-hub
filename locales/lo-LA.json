@@ -254,5 +254,8 @@
   "go_back": "ກັບຄືນ",
   "back": "ກັບ",
   "occupation": "ໜ້າວຽກ",
-  "skill": "ທັກສະ"
+  "skill": "ທັກສະ",
+  "title": "ຫົວຂໍ້",
+  "category": "ໝວດບໍລິການ",
+  "subcategory": "ໝວດຍ່ອຍບໍລິການ"
 }

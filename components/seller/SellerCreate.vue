@@ -277,9 +277,9 @@ if (user.value?.email)
     <UCard class="mx-auto max-w-6xl">
       <UForm :schema="schema" :state="state" @submit="onSubmit">
         <TransitionGroup name="slide-left">
-          <section v-show="step === 1" key="1" class="grid grid-cols-2 gap-2">
+          <section v-show="step === 1" key="1" class="flex flex-col gap-2">
             <!-- step -->
-            <div class=" text-3xl col-span-2 font-bold text-slate-800 mb-4">
+            <div class=" text-3xl col-span-1 font-bold text-slate-800 mb-4">
               Create your profile
             </div>
             <UFormGroup :label="$t('firstname')" name="firstname" required>

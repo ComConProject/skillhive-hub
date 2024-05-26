@@ -1,5 +1,37 @@
 <script setup lang="ts">
+import type { Database } from '~/database.types'
+
 const user = useSupabaseUser()
+const { supabase } = useCustomSupabase()
+const { seller } = useInlineSeller()
+
+// query if user have a seller account
+function useInlineSeller() {
+  const seller = shallowRef<Database['public']['Tables']['freelancer']['Row']>()
+
+  async function getSeller() {
+    if (!user.value)
+      return
+    const { data, error } = await supabase.from('freelancer').select('*').eq('user_id', user.value.id)
+
+    if (error)
+      throw new Error(`[getSeller] ${error.message}`)
+
+    if (!data)
+      return
+    if (data.length > 0)
+      seller.value = data[0]
+  }
+
+  onMounted(() => {
+    getSeller()
+  })
+
+  return {
+    getSeller,
+    seller,
+  }
+}
 </script>
 
 <template>
@@ -40,9 +72,14 @@ const user = useSupabaseUser()
           </UTooltip>
         </li>
         <li>
-          <NuxtLinkLocale to="/seller">
+          <NuxtLinkLocale v-if="!seller" to="/seller">
             <UButton color="gray">
               Become a seller
+            </UButton>
+          </NuxtLinkLocale>
+          <NuxtLinkLocale v-else :to="`/${seller.username}/manage-gig/`">
+            <UButton color="gray">
+              Manage Gig
             </UButton>
           </NuxtLinkLocale>
         </li>
