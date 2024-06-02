@@ -5,6 +5,25 @@ const user = useSupabaseUser()
 const { supabase } = useCustomSupabase()
 const { seller } = useInlineSeller()
 
+const dropdownItems = [
+  [
+    {
+      label: 'Profile',
+      icon: 'i-line-md-account',
+
+      click: () => {
+        navigateTo('/seller/profile')
+      },
+    },
+  ],
+  [{
+    label: 'Logout',
+    click: () => {
+      signOut()
+    },
+    icon: 'i-line-md-log-out',
+  }],
+]
 // query if user have a seller account
 function useInlineSeller() {
   const seller = shallowRef<Database['public']['Tables']['freelancer']['Row']>()
@@ -32,10 +51,16 @@ function useInlineSeller() {
     seller,
   }
 }
+
+async function signOut() {
+  const { error } = await supabase.auth.signOut()
+  if (error?.message)
+    return console.error(error.message)
+}
 </script>
 
 <template>
-  <div>
+  <div class="border-b pb-4 border-slate-100 dark:border-slate-700">
     <section class="flex items-center justify-between gap-4">
       <div class="flex items-center gap-3">
         <NuxtLink to="/">
@@ -84,15 +109,21 @@ function useInlineSeller() {
           </NuxtLinkLocale>
         </li>
         <li>
-          <UAvatar
+          <UDropdown
             v-if="user"
-            chip-color="primary"
-            chip-text=""
-            chip-position="top-right"
-            size="sm"
-            :src="user.user_metadata.avatar_url"
-            alt="Avatar"
-          />
+            :items="dropdownItems"
+            :popper="{ placement: 'bottom-start' }"
+          >
+            <UAvatar
+              chip-color="primary"
+              chip-text=""
+              chip-position="top-right"
+              size="sm"
+              :src="user.user_metadata.avatar_url"
+              alt="Avatar"
+              @click="signOut"
+            />
+          </UDropdown>
           <UButton v-else variant="ghost">
             Join
           </UButton>

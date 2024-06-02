@@ -12,6 +12,7 @@ export default defineNuxtConfig({
     '@nuxtjs/supabase',
     '@unlok-co/nuxt-stripe',
     '@nuxtjs/i18n',
+    '@nuxt/image',
   ],
   runtimeConfig: {
     public: {

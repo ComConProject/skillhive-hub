@@ -15,12 +15,14 @@
     "@nuxt/ui": "^2.14.2",
     "@pinia/nuxt": "^0.5.1",
     "@vueuse/nuxt": "^10.7.2",
+    "date-fns": "^3.6.0",
     "uuid": "^9.0.1",
     "yup": "^1.4.0"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.16.3",
     "@nuxt/devtools": "latest",
+    "@nuxt/image": "^1.7.0",
     "@nuxtjs/i18n": "^8.3.1",
     "@nuxtjs/supabase": "^1.1.5",
     "@types/uuid": "^9.0.8",
