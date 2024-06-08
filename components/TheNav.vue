@@ -81,11 +81,6 @@ async function signOut() {
             <UButton color="gray" variant="ghost" icon="i-heroicons-bell-20-solid" />
           </UTooltip>
         </li>
-        <!-- <li>
-          <UTooltip text="Message">
-            <UButton color="gray" variant="ghost" icon="i-heroicons-chat-bubble-left-right-solid" />
-          </UTooltip>
-        </li> -->
         <li>
           <UTooltip text="Theme">
             <ColorChange />
@@ -121,10 +116,9 @@ async function signOut() {
               size="sm"
               :src="user.user_metadata.avatar_url"
               alt="Avatar"
-              @click="signOut"
             />
           </UDropdown>
-          <UButton v-else variant="ghost">
+          <UButton v-else variant="ghost" @click="() => $router.push('/signin')">
             Join
           </UButton>
         </li>
