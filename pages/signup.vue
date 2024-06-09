@@ -88,9 +88,9 @@ async function signUp(provider?: 'google' | 'email') {
                 show-password-on="click"
                 icon="i-carbon-password"
               />
-              <NuxtLink to="/forgot" class="mt-1 block text-gray-500 underline">
+              <NuxtLinkLocale to="/forgot" class="mt-1 block text-gray-500 underline">
                 {{ $t('forgot_password') }}
-              </NuxtLink>
+              </NuxtLinkLocale>
             </div>
             <UButton
               type="primary"

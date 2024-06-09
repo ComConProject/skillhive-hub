@@ -25,7 +25,7 @@ withDefaults(defineProps<Props>(), {
 
 <template>
   <div>
-    <NuxtLink :to="to">
+    <NuxtLinkLocale :to="to">
       <!-- <div class="group aspect-[130/100] border rounded-lg flex flex-col justify-between overflow-hidden">  -->
       <div class="group border rounded-lg flex flex-col justify-between overflow-hidden">
         <div class="relative flex-1 bg-blue-50">
@@ -54,6 +54,6 @@ withDefaults(defineProps<Props>(), {
           :owner-label="ownerLabel"
         />
       </div>
-    </NuxtLink>
+    </NuxtLinkLocale>
   </div>
 </template>

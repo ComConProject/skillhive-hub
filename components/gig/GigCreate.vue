@@ -83,7 +83,7 @@ function useInlineGig() {
               >
                 <tr>
                   <th class="px-2 py-1.5">
-&nbsp;
+                    &nbsp;
                   </th>
                   <th class="px-2 py-1.5">
                     Basic
@@ -99,34 +99,187 @@ function useInlineGig() {
               <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
                 <tr>
                   <td class="px-2 py-1.5">
-                    sss
+                   &nbsp;
                   </td>
                   <td class="px-2 py-1.5">
-                    name
+                    <UInput placeholder="Name of your package" />
                   </td>
                   <td class="px-2 py-1.5">
-                    name
+                    <UInput placeholder="Name of your package" />
                   </td>
                   <td class="px-2 py-1.5">
-                    name
+                    <UInput placeholder="Name of your package" />
                   </td>
                 </tr>
                 <tr>
                   <td class="px-2 py-1.5">
-                    description
+                   &nbsp;
                   </td>
                   <td class="px-2 py-1.5">
-                    description
+                    <UTextarea placeholder="Describe the details of your offering" />
                   </td>
                   <td class="px-2 py-1.5">
-                    description
+                    <UTextarea placeholder="Describe the details of your offering" />
                   </td>
                   <td class="px-2 py-1.5">
-                    description
+                    <UTextarea placeholder="Describe the details of your offering" />
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-2 py-1.5">
+                   &nbsp;
+                  </td>
+                  <td class="px-2 py-1.5">
+                    <USelect placeholder="Delivery time" />
+                  </td>
+                  <td class="px-2 py-1.5">
+                    <USelect placeholder="Delivery time" />
+                  </td>
+                  <td class="px-2 py-1.5">
+                    <USelect placeholder="Delivery time" />
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-2 py-1.5">
+                    Number of pages
+                  </td>
+                  <td class="px-2 py-1.5">
+                    <USelect placeholder="Select" />
+                  </td>
+                  <td class="px-2 py-1.5">
+                    <USelect placeholder="Select" />
+                  </td>
+                  <td class="px-2 py-1.5">
+                    <USelect placeholder="Select" />
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-2 py-1.5">
+                    Content upload
+                  </td>
+                  <td class="px-2 py-1.5">
+                    <div class="flex justify-center w-full">
+                      <UCheckbox />
+                    </div>
+                  </td>
+                  <td class="px-2 py-1.5">
+                    <div class="flex justify-center w-full">
+                      <UCheckbox />
+                    </div>
+                  </td>
+                  <td class="px-2 py-1.5">
+                    <div class="flex justify-center w-full">
+                      <UCheckbox />
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-2 py-1.5">
+                    Design customization
+                  </td>
+                  <td class="px-2  py-1.5">
+                    <div class="flex justify-center w-full">
+                      <UCheckbox />
+                    </div>
+                  </td>
+                  <td class="px-2  py-1.5">
+                    <div class="flex justify-center w-full">
+                      <UCheckbox />
+                    </div>
+                  </td>
+                  <td class="px-2  py-1.5">
+                    <div class="flex justify-center w-full">
+                      <UCheckbox />
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-2 py-1.5">
+                    Responsive design
+                  </td>
+                  <td class="px-2  py-1.5">
+                    <div class="flex justify-center w-full">
+                      <UCheckbox />
+                    </div>
+                  </td>
+                  <td class="px-2  py-1.5">
+                    <div class="flex justify-center w-full">
+                      <UCheckbox />
+                    </div>
+                  </td>
+                  <td class="px-2  py-1.5">
+                    <div class="flex justify-center w-full">
+                      <UCheckbox />
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-2 py-1.5">
+                    Include source code
+                  </td>
+                  <td class="px-2  py-1.5">
+                    <div class="flex justify-center w-full">
+                      <UCheckbox />
+                    </div>
+                  </td>
+                  <td class="px-2  py-1.5">
+                    <div class="flex justify-center w-full">
+                      <UCheckbox />
+                    </div>
+                  </td>
+                  <td class="px-2  py-1.5">
+                    <div class="flex justify-center w-full">
+                      <UCheckbox />
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-2 py-1.5">
+                    Revisions
+                  </td>
+                  <td class="px-2  py-1.5">
+                    <USelect placeholder="Select" />
+                  </td>
+                  <td class="px-2  py-1.5">
+                    <USelect placeholder="Select" />
+                  </td>
+                  <td class="px-2  py-1.5">
+                    <USelect placeholder="Select" />
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-2 py-1.5">
+                    {{ $t('price') }}
+                  </td>
+                  <td class="px-2  py-1.5">
+                    <UInput type="number" placeholder="Price" />
+                  </td>
+                  <td class="px-2  py-1.5">
+                    <UInput type="number" placeholder="Price" />
+                  </td>
+                  <td class="px-2  py-1.5">
+                    <UInput type="number" placeholder="Price" />
                   </td>
                 </tr>
               </tbody>
             </table>
+          </section>
+          <section v-if="step === 3" key="3">
+            <h1 class="mb-2 text-xl font-semibold">
+              {{ $t('description') }}
+            </h1>
+            <div>
+              <UTextarea :rows="10" placeholder="Briefly Describe Your Gig" />
+            </div>
+            <UDivider class="my-2" />
+
+            <h1 class="mb-2 text-xl font-semibold">
+              {{ $t('upload_images') }}
+            </h1>
+            <div class="flex gap-1">
+              <UInput type="file" class="flex-1" multiple />
+              <UButton>{{ $t('upload') }}</UButton>
+            </div>
           </section>
         </TransitionGroup>
         <div class="flex gap-1 mt-4 items-center col-span-2">

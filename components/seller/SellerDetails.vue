@@ -6,15 +6,15 @@ const user = useSupabaseUser()
   <div>
     <div class="space-y-3">
       <div class="flex space-x-4">
-        <NuxtLink to="">
+        <NuxtLinkLocale to="">
           <UAvatar size="lg" :src="user?.user_metadata.avatar_url" />
-        </NuxtLink>
+        </NuxtLinkLocale>
         <div class="w-fit flex flex-col space-y-2">
-          <NuxtLink to="">
+          <NuxtLinkLocale to="">
             <p class="font-bold text-lg">
-              Micheal Schwartz
+              {{ user?.user_metadata.full_name || user?.email }}
             </p>
-          </NuxtLink>
+          </NuxtLinkLocale>
           <p class="text-md">
             Software Engineer
           </p>

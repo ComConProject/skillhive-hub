@@ -47,9 +47,9 @@ defineProps<Props>()
       </UButton>
     </div>
     <UButton v-else>
-      <NuxtLink>
+      <NuxtLinkLocale>
         Edit
-      </NuxtLink>
+      </NuxtLinkLocale>
     </UButton>
   </div>
 </template>

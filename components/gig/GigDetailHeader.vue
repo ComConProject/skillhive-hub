@@ -16,9 +16,9 @@
             md:text-md
             "
   >
-    <NuxtLink to="/">
+    <NuxtLinkLocale to="/">
       <Icon name="line-md:home" class="w-5 h-5" />
-    </NuxtLink>
+    </NuxtLinkLocale>
     <p className="text-muted-foreground cursor-default">
       /
     </p>
@@ -32,9 +32,9 @@
       Web Design
     </div>
     <UButton>
-      <NuxtLink to="">
+      <NuxtLinkLocale to="">
         Edit gig
-      </NuxtLink>
+      </NuxtLinkLocale>
     </UButton>
   </div>
 </template>

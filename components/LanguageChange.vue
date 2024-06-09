@@ -28,7 +28,7 @@ const availableLocales = [
       <div class="p-4">
         <ul class="flex flex-col gap-1">
           <li v-for="i in availableLocales" :key="i.iso">
-            <NuxtLink
+            <NuxtLinkLocale
               :to="switchLocalePath(i.iso)"
               class="flex w-full cursor-pointer items-center justify-between gap-2 rounded-md p-1 px-1 transition-all duration-100"
               :class="{
@@ -40,7 +40,7 @@ const availableLocales = [
                 {{ i.label }}
               </span>
               <Icon :name="i.flag" />
-            </NuxtLink>
+            </NuxtLinkLocale>
           </li>
         </ul>
       </div>

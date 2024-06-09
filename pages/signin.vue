@@ -87,9 +87,9 @@ async function signIn(provider?: 'google' | 'github' | 'facebook' | 'email') {
                 icon="i-carbon-password"
                 @keyup.enter="signIn('email')"
               />
-              <!-- <NuxtLink to="/forgot" class="mt-1 block text-gray-500 underline">
+              <!-- <NuxtLinkLocale to="/forgot" class="mt-1 block text-gray-500 underline">
                 {{ $t('forgot_password') }}
-              </NuxtLink> -->
+              </NuxtLinkLocale> -->
             </div>
             <UButton
               type="primary"
@@ -103,9 +103,9 @@ async function signIn(provider?: 'google' | 'github' | 'facebook' | 'email') {
             </UButton>
             <div class="text-sm text-gray-500">
               {{ $t('accounts.not') }}
-              <NuxtLink to="/signup" class="underline">
+              <NuxtLinkLocale to="/signup" class="underline">
                 {{ $t('auth.sign_up') }}
-              </NuxtLink>
+              </NuxtLinkLocale>
             </div>
           </figure>
 

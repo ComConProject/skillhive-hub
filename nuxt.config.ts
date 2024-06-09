@@ -2,7 +2,7 @@ import process from 'node:process'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  devtools: { enabled: true },
+  devtools: { enabled: false },
   ssr: false,
   css: ['@/assets/css/main.css'],
   modules: [
@@ -13,6 +13,7 @@ export default defineNuxtConfig({
     '@unlok-co/nuxt-stripe',
     '@nuxtjs/i18n',
     '@nuxt/image',
+    'nuxt-tiptap-editor',
   ],
   runtimeConfig: {
     public: {
@@ -66,5 +67,8 @@ export default defineNuxtConfig({
   },
   experimental: {
     typedPages: true,
+  },
+  tiptap: {
+    prefix: 'Tiptap', // prefix for Tiptap imports, composables not included
   },
 })

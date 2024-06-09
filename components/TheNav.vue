@@ -63,11 +63,11 @@ async function signOut() {
   <div class="border-b pb-4 border-slate-100 dark:border-slate-700">
     <section class="flex items-center justify-between gap-4">
       <div class="flex items-center gap-3">
-        <NuxtLink to="/">
+        <NuxtLinkLocale to="/">
           <h1 class="font-semibold text-lg">
             Skillhive
           </h1>
-        </NuxtLink>
+        </NuxtLinkLocale>
         <div class="w-96">
           <UInput placeholder="What service are you looking for today?" trailing-icon="i-heroicons-magnifying-glass" />
         </div>
