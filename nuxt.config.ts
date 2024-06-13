@@ -19,10 +19,8 @@ export default defineNuxtConfig({
     stripe: {
       key: process.env.STRIPE_SECRET_KEY,
     },
-    public: {
-      supabaseUrl: process.env.SUPABASE_URL,
-      supabaseKey: process.env.SUPABASE_KEY,
-    },
+    supabaseUrl: process.env.SUPABASE_URL,
+    supabaseKey: process.env.SUPABASE_KEY,
   },
   supabase: {
     redirectOptions: {
