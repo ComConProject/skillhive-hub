@@ -9,7 +9,8 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "db:gen": "supabase gen types typescript --project-id uhfpttfvryucxrnzudtj > database.types.ts"
   },
   "dependencies": {
     "@nuxt/ui": "^2.14.2",
