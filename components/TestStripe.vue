@@ -1,14 +1,42 @@
 <script setup lang="ts">
-// Call the composable to get the Stripe instance
-const stripe = await useClientStripe()
+async function test() {
+  try {
+    const { products } = await $fetch<any>('/api/products', {
+      method: 'GET',
 
-// Use the Stripe instance to interact with the stripe.js library
-// stripe.redirectToCheckout(...)
+    })
+    console.log(products)
+  }
+  catch (error) {
+    console.error('Error:', error)
+  }
+}
+async function createProduct() {
+  try {
+    const { products } = await $fetch<any>('/api/products', {
+      method: 'POST',
+      body: {
+        name: 'test',
+        description: 'test',
+        unit_amount: 1000,
+      },
+    })
+    console.log(products)
+  }
+  catch (error) {
+    console.error('Error:', error)
+  }
+}
 </script>
 
 <template>
-  <h1>Nuxt Stripe instance</h1>
   <div>
-    {{ stripe ? stripe : 'Loading...' }}
+    <h1>Hello</h1>
+    <UButton @click="test">
+      Get products
+    </UButton>
+    <UButton @click="createProduct">
+      Create product
+    </UButton>
   </div>
 </template>

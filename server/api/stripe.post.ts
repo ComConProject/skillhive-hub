@@ -6,7 +6,7 @@ export default defineEventHandler(async (event) => {
   const headers = event.node.req.headers
   const signature = headers['stripe-signature']
   const stripe = await useServerStripe(event)
-  console.info(signature)
+  console.info(stripe)
 
   return {
     VERSION: stripe.VERSION,

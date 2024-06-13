@@ -16,6 +16,9 @@ export default defineNuxtConfig({
     'nuxt-tiptap-editor',
   ],
   runtimeConfig: {
+    stripe: {
+      key: process.env.STRIPE_SECRET_KEY,
+    },
     public: {
       supabaseUrl: process.env.SUPABASE_URL,
       supabaseKey: process.env.SUPABASE_KEY,
@@ -32,7 +35,7 @@ export default defineNuxtConfig({
   stripe: {
     // Server
     server: {
-      key: process.env.STRIPE_PUBLISHABLE_KEY,
+      key: process.env.STRIPE_SECRET_KEY,
       options: {
         // your api options override for stripe server side
         apiVersion: '2022-11-15', // optional, default is '2022-11-15'
