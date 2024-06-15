@@ -69,7 +69,7 @@ async function signOut() {
           </h1>
         </NuxtLinkLocale>
         <div class="w-96">
-          <UInput placeholder="What service are you looking for today?" trailing-icon="i-heroicons-magnifying-glass" />
+          <UInput :placeholder="$t('what_service_are_you_looking_for_today')" trailing-icon="i-heroicons-magnifying-glass" />
         </div>
         <div>
           <TheCategory />
@@ -77,17 +77,24 @@ async function signOut() {
       </div>
       <ul class="flex items-center gap-3">
         <li>
-          <UTooltip text="Notification">
+          <UTooltip :text="$t('notification')">
             <UButton color="gray" variant="ghost" icon="i-heroicons-bell-20-solid" />
           </UTooltip>
         </li>
         <li>
-          <UTooltip text="Theme">
+          <UTooltip :text="$t('inbox.inbox')">
+            <NuxtLinkLocale to="/inbox">
+              <UButton color="gray" variant="ghost" icon="i-fluent-chat-12-filled" />
+            </NuxtLinkLocale>
+          </UTooltip>
+        </li>
+        <li>
+          <UTooltip :text="$t('theme')">
             <ColorChange />
           </UTooltip>
         </li>
         <li>
-          <UTooltip text="language">
+          <UTooltip :text="$t('language')">
             <LanguageChange />
           </UTooltip>
         </li>
