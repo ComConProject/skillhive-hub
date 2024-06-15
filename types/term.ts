@@ -7,3 +7,7 @@ export interface Term {
   parent_id: number | null
   updated_at: string | null
 }
+
+export interface CustomTerm extends Term {
+  children?: Term[]
+}

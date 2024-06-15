@@ -260,5 +260,14 @@
   "title": "ຫົວຂໍ້",
   "category": "ໝວດບໍລິການ",
   "subcategory": "ໝວດຍ່ອຍບໍລິການ",
-  "forgot_password": "ລືມລະຫັດຜ່ານ"
+  "forgot_password": "ລືມລະຫັດຜ່ານ",
+  "inbox": {
+    "inbox": "ກ່ອງຂໍ້ຄວາມ",
+    "no_conversation_yet": "ຍັງບໍ່ທັນມີບົດສົນທະນາເທື່ອ, ຖ້າຫາກທ່ານເລີ່ມສົນທະນາຈະປາກົດຂຶ້ນຢູ່ໜ້ານີ້",
+    "all_messages": "ຂໍ້ຄວາມທັງໝົດ",
+    "welcome": "ຍິນດີຕ້ອນຮັບເຂົ້າສູ່ກ່ອງຂໍ້ຄວາມ",
+    "search_conversatons": "ຄົ້ນຫາບົດສົນທະນາ"
+  },
+  "what_service_are_you_looking_for_today": "ມື້ນີ້ທ່ານກຳລັງຊອກຫາບໍລິການຫຍັງ?",
+  "theme": "ຮູບແບບ"
 }
