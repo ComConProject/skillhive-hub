@@ -1,4 +1,4 @@
-import type { Database } from '../../database.types'
+import type { Database } from '../database.types'
 
 export type Freelancer = Database['public']['Tables']['freelancer']['Row']
 

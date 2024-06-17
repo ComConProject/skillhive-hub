@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { TermGroup } from '../constants/'
-import type { Database } from '~/database.types'
-import type { CustomTerm, Term } from '~/types'
+import type { CustomTerm, Term } from '@/types'
 
 const { supabase } = useCustomSupabase()
 const router = useRouter()

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Database } from '@/database.types'
+import type { Database } from '~~/database.types'
 
 interface Todo {
   id: number

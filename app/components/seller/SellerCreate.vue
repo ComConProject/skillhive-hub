@@ -2,9 +2,9 @@
 import { type InferType, object, string } from 'yup'
 import { v4 as uuid } from 'uuid'
 import { TermGroup } from '../../constants'
-import type { Database } from '~/database.types'
+import type { Database } from '~~/database.types'
 import type { FormSubmitEvent } from '#ui/types'
-import type { Term } from '~/types'
+import type { Term } from '@/types'
 
 const supabase = useSupabaseClient<Database>()
 const user = useSupabaseUser()

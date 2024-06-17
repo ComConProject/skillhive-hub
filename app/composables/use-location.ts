@@ -1,4 +1,4 @@
-import type { Database } from '~/database.types'
+import type { Database } from '~~/database.types'
 import type { District, Province, Village } from '@/types/'
 
 export function useLocation() {

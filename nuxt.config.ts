@@ -4,7 +4,6 @@ import process from 'node:process'
 export default defineNuxtConfig({
   devtools: { enabled: true },
   future: { compatibilityVersion: 4 },
-  srcDir: 'app',
   ssr: false,
   css: ['@/assets/css/main.css'],
   modules: [
