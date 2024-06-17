@@ -13,7 +13,6 @@ export default defineNuxtConfig({
     '@unlok-co/nuxt-stripe',
     '@nuxtjs/i18n',
     '@nuxt/image',
-    'nuxt-tiptap-editor',
   ],
   runtimeConfig: {
     stripe: {
