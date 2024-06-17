@@ -4,14 +4,14 @@
 
 <template>
   <div class="flex h-[100dvh] flex-col overflow-hidden">
-    <nav class="px-4 py-4">
+    <nav class="py-4">
       <TheNav class="hidden sm:block" />
     </nav>
     <!-- <section>
       <TheCategory />
     </section> -->
     <main class="flex flex-1 flex-col overflow-auto gap-1">
-      <div class="flex-grow px-4 pt-4 text-sm md:text-base">
+      <div class="flex-grow text-sm md:text-base">
         <slot />
       </div>
     </main>

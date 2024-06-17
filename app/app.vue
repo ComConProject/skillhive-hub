@@ -4,7 +4,7 @@ const { locale } = useI18n()
 
 <template>
   <Html :lang="locale">
-    <Body :class="locale" class="bg-slate-50 text-slate-800 antialiased transition-colors duration-300 dark:bg-slate-900 dark:text-slate-400 mx-auto">
+    <Body :class="locale" class="bg-slate-50 container text-slate-800 antialiased transition-colors duration-300 dark:bg-slate-900 dark:text-slate-400 mx-auto">
       <NuxtLayout>
         <NuxtPage />
         <UNotifications />

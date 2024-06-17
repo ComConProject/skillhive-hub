@@ -35,7 +35,7 @@ const items = [{
 
 <template>
   <div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 gap-5 mt-8 pb-10 mx-10">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 gap-5">
       <GigCard
         v-for="item in items" :key="item.id"
         v-bind="item"
