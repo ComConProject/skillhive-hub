@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { type InferType, object, string } from 'yup'
 import { v4 as uuid } from 'uuid'
+import { TermGroup } from '../../constants'
 import type { Database } from '~/database.types'
 import type { FormSubmitEvent } from '#ui/types'
-import { TermGroup } from '~/constants'
 import type { Term } from '~/types'
 
 const supabase = useSupabaseClient<Database>()

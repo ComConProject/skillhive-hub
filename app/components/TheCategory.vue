@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { TermGroup } from '~/constants'
+import { TermGroup } from '../constants/'
 import type { Database } from '~/database.types'
 import type { CustomTerm, Term } from '~/types'
 

@@ -2,7 +2,9 @@ import process from 'node:process'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  devtools: { enabled: false },
+  devtools: { enabled: true },
+  future: { compatibilityVersion: 4 },
+  srcDir: 'app',
   ssr: false,
   css: ['@/assets/css/main.css'],
   modules: [
@@ -68,7 +70,14 @@ export default defineNuxtConfig({
   experimental: {
     typedPages: true,
   },
-  tiptap: {
-    prefix: 'Tiptap', // prefix for Tiptap imports, composables not included
+  app: {
+    pageTransition: {
+      name: 'slide-right',
+      mode: 'out-in',
+    },
+    layoutTransition: {
+      name: 'slide',
+      mode: 'out-in', // default
+    },
   },
 })
