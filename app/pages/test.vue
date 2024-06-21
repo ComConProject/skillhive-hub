@@ -1,13 +1,12 @@
 <script setup lang="ts">
-const { handleUpload, filePaths } = useUpload()
+const { handleUpload } = useUpload()
 const serviceId = 'test'
+const paths = ref<any[]>([])
 async function onUpload(e: FileList) {
-  Array.from(e).forEach((file) => {
-    console.log(file)
-    handleUpload(file, serviceId)
+  Array.from(e).forEach(async (file) => {
+    const path = await handleUpload(file, serviceId)
+    paths.value.push(path)
   })
-  // await handleUpload(e, serviceId)
-  console.log(filePaths.value)
 }
 </script>
 
@@ -15,5 +14,6 @@ async function onUpload(e: FileList) {
   <div>
     <h1>Test</h1>
     <UInput type="file" multiple @change="onUpload" />
+    {{ paths }}
   </div>
 </template>

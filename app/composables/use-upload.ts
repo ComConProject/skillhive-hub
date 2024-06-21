@@ -17,6 +17,7 @@ export function useUpload() {
     }
     if (data)
       filePaths.value.push(data.path as any)
+    return data.path
   }
 
   return {
