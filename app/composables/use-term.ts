@@ -1,8 +1,7 @@
-import type { Database } from '~~/database.types'
 import type { Term } from '~/types'
 
 export function useTerm() {
-  const supabase = useSupabaseClient<Database>()
+  const { supabase } = useCustomSupabase()
 
   const terms = useState('terms', () => [] as Term[])
 

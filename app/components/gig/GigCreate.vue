@@ -1,32 +1,28 @@
 <script setup lang="ts">
-import { type InferType, object, string } from 'yup'
+import type { InferType } from 'yup'
 import { TermGroup } from '../../constants'
-import type { Term } from '@/types'
+import type { Pricing, Term } from '@/types'
 import type { FormSubmitEvent } from '#ui/types'
 
-const schema = object({
-  title: string().required('Title is required'),
-  description: string().required('Description is required'),
-})
-
-const state = useState<any>('gig-create-state', () => ({
-  categoryId: undefined,
-  subCategoryId: undefined,
-  title: undefined,
-  description: undefined,
-}))
-
-type Schema = InferType<typeof schema>
+const { t } = useI18n()
 
 const { supabase } = useCustomSupabase()
-const { subcategories, getSubcategory, onSubmit } = useInlineGig()
+const { deliveryTimes, pagesOptions, revisions: revisionsOptions, state, schema, getTypes } = useGig()
+const { subcategories, getSubcategory, onSubmit, loading: creating } = useInlineGig()
+const toast = useToast()
+// define type
+type GigSchema = InferType<typeof schema>
 
 const step = ref(1)
-const loading = ref(false)
 const maxlength = shallowRef(260)
+
+function handleNext() {
+  step.value++
+}
 
 function useInlineGig() {
   const subcategories = ref<Term[]>([])
+  const loading = ref(false)
 
   async function getSubcategory() {
     if (!state.value.categoryId)
@@ -39,11 +35,119 @@ function useInlineGig() {
     subcategories.value = data
   }
 
-  function onSubmit(e: FormSubmitEvent<Schema>) {
-    console.log(e.data)
+  const packageTypes = shallowRef<{
+    basic: number | null
+    standard: number | null
+    premium: number | null
+  }>(
+    {
+      basic: null,
+      standard: null,
+      premium: null,
+    },
+
+  )
+  async function fetchTypes() {
+    const data = await getTypes()
+
+    packageTypes.value.basic = data.find(i => i.name === 'basic')?.id as number
+    packageTypes.value.standard = data.find(i => i.name === 'standard')?.id as number
+    packageTypes.value.premium = data.find(i => i.name === 'premium')?.id as number
   }
 
-  return { subcategories, getSubcategory, onSubmit }
+  async function onSubmit(e: FormSubmitEvent<GigSchema>) {
+    loading.value = true
+    toast.add({
+      id: 'inserting',
+      title: t('form.inserting'),
+    })
+    // insert providing_service table
+    const { data: serviceData, error } = await supabase.from('providing_service').insert({
+      title: e.data.title,
+      description: e.data.description,
+      term_id: e.data.subCategoryId,
+      delivery_format: {
+        basic: {
+          ...e.data.basic,
+          categoryId: e.data.categoryId,
+          subcategoryId: e.data.subCategoryId,
+        },
+        standard: {
+          ...e.data.standard,
+          categoryId: e.data.categoryId,
+          subcategoryId: e.data.subCategoryId,
+        },
+        premium: {
+          ...e.data.premium,
+          categoryId: e.data.categoryId,
+          subcategoryId: e.data.subCategoryId,
+        },
+      },
+    }).select()
+    if (error?.message) {
+      loading.value = false
+      throw new Error(`[onSubmit] providing_service table ${error.message}`)
+    }
+
+    if (!serviceData) {
+      loading.value = false
+      throw new Error(`[onSubmit] providing_service table`)
+    }
+
+    // insert pricing
+    const serviceId = serviceData[0]?.id as number
+
+    const objPricing = [
+      {
+        service_id: serviceId,
+        type_id: packageTypes.value.basic,
+        price: e.data.basic.price,
+        delivery_timeframe: `${e.data.basic.deliveryTime}`,
+        package_name: e.data.basic.title,
+        description: e.data.basic.description,
+        meta_data: {
+          ...e.data.basic,
+        },
+      },
+      {
+        service_id: serviceId,
+        type_id: packageTypes.value.standard,
+        price: e.data.standard.price,
+        delivery_timeframe: `${e.data.standard.deliveryTime}`,
+        package_name: e.data.standard.title,
+        description: e.data.standard.description,
+        meta_data: {
+          ...e.data.standard,
+        },
+      },
+      {
+        service_id: serviceId,
+        type_id: packageTypes.value.premium,
+        price: e.data.premium.price,
+        delivery_timeframe: `${e.data.premium.deliveryTime}`,
+        package_name: e.data.premium.title,
+        description: e.data.premium.description,
+        meta_data: {
+          ...e.data.premium,
+        },
+      },
+    ]
+
+    await supabase.from('pricing').insert([...objPricing]).select()
+
+    toast.add({
+      title: t('form.success'),
+      color: 'green',
+      icon: 'i-carbon-checkmark',
+    })
+    loading.value = false
+  }
+
+  onMounted(() => {
+    fetchTypes()
+  })
+
+  return { subcategories, getSubcategory, onSubmit, loading }
 }
 </script>
 
@@ -54,9 +158,9 @@ function useInlineGig() {
         <TransitionGroup name="slide-left">
           <section v-show="step === 1" key="1" class="space-y-3">
             <UFormGroup name="title" :label="$t('title')" required>
-              <UInput placeholder="Please input your title" />
+              <UInput v-model="state.title" placeholder="Please input your title" />
             </UFormGroup>
-            <UFormGroup required name="description" :label="`${$t('description')} (${state.description?.length || 0}/${maxlength})`">
+            <UFormGroup required name="description" :label="`${$t('description')} (${`${state.description || ''}`.length || 0}/${maxlength})`">
               <UTextarea v-model="state.description" :maxlength="maxlength" placeholder="Please input your description" />
             </UFormGroup>
             <div class="flex gap-2 items-center">
@@ -75,7 +179,7 @@ function useInlineGig() {
           <section v-show="step === 2" key="2">
             <!-- pricing table that has basic, standard, and premium -->
             <div class=" text-3xl col-span-2 font-bold text-slate-800 mb-4">
-              Package
+              {{ $t('gig.package') }}
             </div>
             <table class="table-auto w-full text-left">
               <thead
@@ -86,13 +190,13 @@ function useInlineGig() {
                     &nbsp;
                   </th>
                   <th class="px-2 py-1.5">
-                    Basic
+                    {{ $t('gig.basic') }}
                   </th>
                   <th class="px-2 py-1.5">
-                    Standard
+                    {{ $t('gig.standard') }}
                   </th>
                   <th class="px-2 py-1.5">
-                    Premium
+                    {{ $t('gig.premium') }}
                   </th>
                 </tr>
               </thead>
@@ -102,13 +206,19 @@ function useInlineGig() {
                    &nbsp;
                   </td>
                   <td class="px-2 py-1.5">
-                    <UInput placeholder="Name of your package" />
+                    <UFormGroup name="basic.title">
+                      <UInput v-model="state.basic.title" placeholder="Name of your package" />
+                    </UFormGroup>
                   </td>
                   <td class="px-2 py-1.5">
-                    <UInput placeholder="Name of your package" />
+                    <UFormGroup name="standard.title">
+                      <UInput v-model="state.standard.title" placeholder="Name of your package" />
+                    </UFormGroup>
                   </td>
                   <td class="px-2 py-1.5">
-                    <UInput placeholder="Name of your package" />
+                    <UFormGroup name="premium.title">
+                      <UInput v-model="state.premium.title" placeholder="Name of your package" />
+                    </UFormGroup>
                   </td>
                 </tr>
                 <tr>
@@ -116,13 +226,19 @@ function useInlineGig() {
                    &nbsp;
                   </td>
                   <td class="px-2 py-1.5">
-                    <UTextarea placeholder="Describe the details of your offering" />
+                    <UFormGroup name="basic.description">
+                      <UTextarea v-model="state.basic.description" placeholder="Describe the details of your offering" />
+                    </UFormGroup>
                   </td>
                   <td class="px-2 py-1.5">
-                    <UTextarea placeholder="Describe the details of your offering" />
+                    <UFormGroup name="standard.description">
+                      <UTextarea v-model="state.standard.description" placeholder="Describe the details of your offering" />
+                    </UFormGroup>
                   </td>
                   <td class="px-2 py-1.5">
-                    <UTextarea placeholder="Describe the details of your offering" />
+                    <UFormGroup name="premium.description">
+                      <UTextarea v-model="state.premium.description" placeholder="Describe the details of your offering" />
+                    </UFormGroup>
                   </td>
                 </tr>
                 <tr>
@@ -130,121 +246,85 @@ function useInlineGig() {
                    &nbsp;
                   </td>
                   <td class="px-2 py-1.5">
-                    <USelect placeholder="Delivery time" />
+                    <UFormGroup name="basic.deliveryTime">
+                      <USelect v-model="state.basic.deliveryTime" placeholder="Delivery time" :options="deliveryTimes" option-attribute="label" value-attribute="value" />
+                    </UFormGroup>
                   </td>
                   <td class="px-2 py-1.5">
-                    <USelect placeholder="Delivery time" />
+                    <UFormGroup name="standard.deliveryTime">
+                      <USelect v-model="state.standard.deliveryTime" placeholder="Delivery time" :options="deliveryTimes" option-attribute="label" value-attribute="value" />
+                    </UFormGroup>
                   </td>
                   <td class="px-2 py-1.5">
-                    <USelect placeholder="Delivery time" />
+                    <UFormGroup name="premium.deliveryTime">
+                      <USelect v-model="state.premium.deliveryTime" placeholder="Delivery time" :options="deliveryTimes" option-attribute="label" value-attribute="value" />
+                    </UFormGroup>
                   </td>
                 </tr>
                 <tr>
                   <td class="px-2 py-1.5">
-                    Number of pages
+                    {{ $t('gig.number_of_pages') }}
                   </td>
                   <td class="px-2 py-1.5">
-                    <USelect placeholder="Select" />
+                    <UFormGroup name="basic.page">
+                      <USelect v-model="state.basic.page" placeholder="Select" :options="pagesOptions" />
+                    </UFormGroup>
                   </td>
                   <td class="px-2 py-1.5">
-                    <USelect placeholder="Select" />
+                    <UFormGroup name="standard.page">
+                      <USelect v-model="state.standard.page" placeholder="Select" :options="pagesOptions" />
+                    </UFormGroup>
                   </td>
                   <td class="px-2 py-1.5">
-                    <USelect placeholder="Select" />
+                    <UFormGroup name="premium.page">
+                      <USelect v-model="state.premium.page" placeholder="Select" :options="pagesOptions" />
+                    </UFormGroup>
                   </td>
                 </tr>
                 <tr>
                   <td class="px-2 py-1.5">
-                    Content upload
-                  </td>
-                  <td class="px-2 py-1.5">
-                    <div class="flex justify-center w-full">
-                      <UCheckbox />
-                    </div>
-                  </td>
-                  <td class="px-2 py-1.5">
-                    <div class="flex justify-center w-full">
-                      <UCheckbox />
-                    </div>
-                  </td>
-                  <td class="px-2 py-1.5">
-                    <div class="flex justify-center w-full">
-                      <UCheckbox />
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="px-2 py-1.5">
-                    Design customization
+                    {{ $t('gig.design_customization') }}
                   </td>
                   <td class="px-2  py-1.5">
                     <div class="flex justify-center w-full">
-                      <UCheckbox />
+                      <UFormGroup name="basic.customDesign">
+                        <UCheckbox v-model="state.basic.customDesign" />
+                      </UFormGroup>
                     </div>
                   </td>
                   <td class="px-2  py-1.5">
                     <div class="flex justify-center w-full">
-                      <UCheckbox />
+                      <UFormGroup name="standard.customDesign">
+                        <UCheckbox v-model="state.standard.customDesign" />
+                      </UFormGroup>
                     </div>
                   </td>
                   <td class="px-2  py-1.5">
                     <div class="flex justify-center w-full">
-                      <UCheckbox />
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="px-2 py-1.5">
-                    Responsive design
-                  </td>
-                  <td class="px-2  py-1.5">
-                    <div class="flex justify-center w-full">
-                      <UCheckbox />
-                    </div>
-                  </td>
-                  <td class="px-2  py-1.5">
-                    <div class="flex justify-center w-full">
-                      <UCheckbox />
-                    </div>
-                  </td>
-                  <td class="px-2  py-1.5">
-                    <div class="flex justify-center w-full">
-                      <UCheckbox />
+                      <UFormGroup name="premium.customDesign">
+                        <UCheckbox v-model="state.premium.customDesign" />
+                      </UFormGroup>
                     </div>
                   </td>
                 </tr>
                 <tr>
                   <td class="px-2 py-1.5">
-                    Include source code
+                    {{ $t('gig.revisions') }}
                   </td>
                   <td class="px-2  py-1.5">
-                    <div class="flex justify-center w-full">
-                      <UCheckbox />
-                    </div>
+                    <UFormGroup name="basic.revisions">
+                      <USelect v-model="state.basic.revisions" :options="revisionsOptions" :placeholder="$t('gig.revisions')" />
+                    </UFormGroup>
                   </td>
                   <td class="px-2  py-1.5">
-                    <div class="flex justify-center w-full">
-                      <UCheckbox />
-                    </div>
+                    <UFormGroup name="standard.revisions">
+                      <USelect v-model="state.standard.revisions" :options="revisionsOptions" :placeholder="$t('gig.revisions')" />
+                    </UFormGroup>
                   </td>
                   <td class="px-2  py-1.5">
-                    <div class="flex justify-center w-full">
-                      <UCheckbox />
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="px-2 py-1.5">
-                    Revisions
-                  </td>
-                  <td class="px-2  py-1.5">
-                    <USelect placeholder="Select" />
-                  </td>
-                  <td class="px-2  py-1.5">
-                    <USelect placeholder="Select" />
-                  </td>
-                  <td class="px-2  py-1.5">
-                    <USelect placeholder="Select" />
+                    <UFormGroup name="premium.revisions">
+                      <USelect v-model="state.premium.revisions" :options="revisionsOptions" :placeholder="$t('gig.revisions')" />
+                    </UFormGroup>
                   </td>
                 </tr>
                 <tr>
@@ -252,13 +332,19 @@ function useInlineGig() {
                     {{ $t('price') }}
                   </td>
                   <td class="px-2  py-1.5">
-                    <UInput type="number" placeholder="Price" />
+                    <UFormGroup name="basic.price">
+                      <UInput v-model="state.basic.price" type="number" :placeholder="$t('price')" />
+                    </UFormGroup>
                   </td>
                   <td class="px-2  py-1.5">
-                    <UInput type="number" placeholder="Price" />
+                    <UFormGroup name="standard.price">
+                      <UInput v-model="state.standard.price" type="number" :placeholder="$t('price')" />
+                    </UFormGroup>
                   </td>
                   <td class="px-2  py-1.5">
-                    <UInput type="number" placeholder="Price" />
+                    <UFormGroup name="premium.price">
+                      <UInput v-model="state.premium.price" type="number" :placeholder="$t('price')" />
+                    </UFormGroup>
                   </td>
                 </tr>
               </tbody>
@@ -266,7 +352,7 @@ function useInlineGig() {
           </section>
           <section v-if="step === 3" key="3">
             <h1 class="mb-2 text-xl font-semibold">
-              {{ $t('description') }}
+              {{ $t('briefly_description') }}
             </h1>
             <div>
               <UTextarea :rows="10" placeholder="Briefly Describe Your Gig" />
@@ -289,10 +375,10 @@ function useInlineGig() {
           <UButton v-if="step > 1" variant="outline" @click="step--">
             {{ $t('go_back') }}
           </UButton>
-          <UButton v-if="step < 3" @click="step++">
+          <UButton v-if="step < 3" @click="handleNext">
             {{ $t('next') }}
           </UButton>
-          <UButton v-if="step === 3" type="submit" :loading="loading">
+          <UButton v-if="step === 3" type="submit" :loading="creating">
             {{ $t('form.submit') }}
           </UButton>
         </div>

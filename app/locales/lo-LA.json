@@ -139,7 +139,8 @@
     "please_select": "ກະລຸນາເລືອກ",
     "other": "ຂໍ້ມູນອື່ນໆ",
     "success": "ສຳເລັດ",
-    "create": "ສ້າງ"
+    "create": "ສ້າງ",
+    "inserting": "ກຳລັງສ້າງ"
   },
   "next": "ຕໍ່ໄປ",
   "previous": "ກັບຄືນ",
@@ -269,5 +270,19 @@
     "search_conversatons": "ຄົ້ນຫາບົດສົນທະນາ"
   },
   "what_service_are_you_looking_for_today": "ມື້ນີ້ທ່ານກຳລັງຊອກຫາບໍລິການຫຍັງ?",
-  "theme": "ຮູບແບບ"
+  "theme": "ຮູບແບບ",
+  "day": "ມື້",
+  "price": "ລາຄາ",
+  "gig": {
+    "gig": "ການບໍລິການ",
+    "number_of_pages": "ຈຳນວນໜ້າ",
+    "design_customization": "ການປັບແຕ່ງການອອກແບບ",
+    "revisions": "ການແກ້ໄຂ",
+    "price": "ລາຄາ",
+    "basic": "ພື້ນຖານ",
+    "standard": "ມາດຕະຖານ",
+    "premium": "ພິເສດ",
+    "package": "ແພັກເກດ",
+    "briefly_description": "ລາຍລະອຽດໂດຍລວມກ່ຽວກັບການບໍລິການ"
+  }
 }

@@ -315,30 +315,39 @@ export type Database = {
           delivery_timeframe: string | null
           description: string | null
           id: number
+          meta_data: Json | null
           package_name: string | null
           price: number | null
           service_id: number | null
+          type_id: number | null
           updated_at: string | null
+          user_id: string | null
         }
         Insert: {
           created_at?: string
           delivery_timeframe?: string | null
           description?: string | null
           id?: number
+          meta_data?: Json | null
           package_name?: string | null
           price?: number | null
           service_id?: number | null
+          type_id?: number | null
           updated_at?: string | null
+          user_id?: string | null
         }
         Update: {
           created_at?: string
           delivery_timeframe?: string | null
           description?: string | null
           id?: number
+          meta_data?: Json | null
           package_name?: string | null
           price?: number | null
           service_id?: number | null
+          type_id?: number | null
           updated_at?: string | null
+          user_id?: string | null
         }
         Relationships: [
           {
@@ -346,6 +355,13 @@ export type Database = {
             columns: ["service_id"]
             isOneToOne: false
             referencedRelation: "providing_service"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "pricing_type_id_fkey"
+            columns: ["type_id"]
+            isOneToOne: false
+            referencedRelation: "term"
             referencedColumns: ["id"]
           },
         ]
@@ -360,6 +376,7 @@ export type Database = {
           term_id: number | null
           title: string
           updated_at: string | null
+          user_id: string | null
         }
         Insert: {
           created_at?: string
@@ -370,6 +387,7 @@ export type Database = {
           term_id?: number | null
           title: string
           updated_at?: string | null
+          user_id?: string | null
         }
         Update: {
           created_at?: string
@@ -380,6 +398,7 @@ export type Database = {
           term_id?: number | null
           title?: string
           updated_at?: string | null
+          user_id?: string | null
         }
         Relationships: [
           {

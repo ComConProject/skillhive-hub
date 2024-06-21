@@ -2,11 +2,10 @@
 import { type InferType, object, string } from 'yup'
 import { v4 as uuid } from 'uuid'
 import { TermGroup } from '../../constants'
-import type { Database } from '~~/database.types'
 import type { FormSubmitEvent } from '#ui/types'
 import type { Term } from '@/types'
 
-const supabase = useSupabaseClient<Database>()
+const { supabase } = useCustomSupabase()
 const user = useSupabaseUser()
 const { step, languages, handleUpload, handleCreateLanguage, onSubmit, schema, state, formatTerms, levelId, occupations, skillLevel, skills, skillsLevels, subOccupations, handleCreateSkill, handleCreateOccupation } = useInlineForm()
 const toast = useToast()
@@ -101,7 +100,6 @@ const skills = ref<{
 }[]>([])
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   // Do something with event.data
-  console.log(event.data)
   loading.value = true
   const { data, error } = await supabase.from('freelancer').insert({
     firstname: event.data.firstname,
@@ -116,7 +114,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     loading.value = false
     throw new Error(`[onSubmit] freelancer table ${error.message}`)
   }
-  const freelancerId = data[0].id
+  const freelancerId = data[0]?.id
 
   // create portfolio
   const { error: portfolioError } = await supabase.from('portfolio').insert({

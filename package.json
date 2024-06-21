@@ -10,7 +10,7 @@
     "postinstall": "nuxt prepare",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "db:gen": "supabase gen types typescript --project-id uhfpttfvryucxrnzudtj > database.types.ts"
+    "db:gen": "supabase gen types typescript --project-id uhfpttfvryucxrnzudtj > app/database.types.ts"
   },
   "dependencies": {
     "@nuxt/ui": "^2.14.2",
@@ -30,7 +30,7 @@
     "@types/uuid": "^9.0.8",
     "@unlok-co/nuxt-stripe": "^2.0.0",
     "eslint": "^9.2.0",
-    "nuxt": "^3.11.1",
+    "nuxt": "^3.12.2",
     "typescript": "^5.4.2",
     "vue": "^3.4.19",
     "vue-router": "^4.2.5",
