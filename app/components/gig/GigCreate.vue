@@ -96,7 +96,7 @@ function useInlineGig() {
           filesPaths: filePaths.value,
         },
       },
-    }).select()
+    }).select('*')
     if (error?.message) {
       loading.value = false
       throw new Error(`[onSubmit] providing_service table ${error.message}`)
@@ -146,7 +146,38 @@ function useInlineGig() {
       },
     ]
 
-    await supabase.from('pricing').insert([...objPricing]).select()
+    const { data: pricingData, error: pricingError } = await supabase.from('pricing').insert([...objPricing]).select('*')
+
+    if (pricingError?.message) {
+      loading.value = false
+      throw new Error(`[onSubmit] pricing table ${pricingError.message}`)
+    }
+
+    if (!pricingData || pricingData.length === 0) {
+      loading.value = false
+      throw new Error(`[onSubmit] pricing table`)
+    }
+    const objsStripe = pricingData.map((item) => {
+      return {
+        ...item,
+      }
+    })
+    if (!objsStripe) {
+      loading.value = false
+      throw new Error(`[onSubmit] pricing table`)
+    }
+    // insert pricing into stripe
+    objsStripe.forEach(async (item) => {
+      await $fetch<any>('/api/products', {
+        method: 'POST',
+        body: {
+          name: item.package_name,
+          description: item.description,
+          unit_amount: (item.price || 0) * 100,
+          packageId: item.id,
+        },
+      })
+    })
 
     toast.add({
       title: t('form.success'),
@@ -154,6 +185,7 @@ function useInlineGig() {
       icon: 'i-carbon-checkmark',
     })
     loading.value = false
+    useRouter().back()
   }
 
   onMounted(() => {
@@ -180,7 +212,7 @@ function useInlineGig() {
               <UFormGroup
                 name="categoryId" :label="$t('category')" class="flex-1"
               >
-                <TermInput v-model="state.categoryId" type="select" :term-group="TermGroup.CATEGORY" placeholder="Choose a category" @update:model-value="getSubcategory" />
+                <TermInput v-model="state.categoryId" type="select" :term-group="TermGroup.CATEGORY" is-parent placeholder="Choose a category" @update:model-value="getSubcategory" />
               </UFormGroup>
               <UFormGroup
                 name="subcategoryId" :label="$t('subcategory')" class="flex-1"

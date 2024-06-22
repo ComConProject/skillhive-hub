@@ -4,10 +4,12 @@ import type { Term } from '~/types'
 interface Props {
   type?: 'select' | 'radio' | 'checkbox'
   termGroup: number
+  isParent?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
   type: 'select',
+  isParent: false,
 })
 const modelValue = defineModel<any>()
 const { fetchTerms } = useTerm()
@@ -16,7 +18,13 @@ const { options } = useInlineTerm()
 function useInlineTerm() {
   const terms = shallowRef<Term[]>([])
   async function getTerm() {
-    terms.value = await fetchTerms(props.termGroup)
+    const data = await fetchTerms(props.termGroup)
+    if (props.isParent) {
+      terms.value = data.filter(i => i.parent_id === null)
+    }
+    else {
+      terms.value = data
+    }
   }
 
   const options = computed(() => {

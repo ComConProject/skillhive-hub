@@ -55,11 +55,11 @@ onMounted(() => {
           {{ $t('gig.manage_create_edit') }}.
         </p>
       </div>
-      <UButton class="ml-auto" icon="i-ph-plus">
-        <NuxtLinkLocale :to="`/${username}/manage-gig/create`">
+      <NuxtLinkLocale class="ml-auto" :to="`/${username}/manage-gig/create`">
+        <UButton icon="i-ph-plus">
           {{ $t('form.add') }}
-        </NuxtLinkLocale>
-      </UButton>
+        </UButton>
+      </NuxtLinkLocale>
     </div>
     <UDivider class="my-6" />
     <div class="flex max-w-md mb-4">

@@ -11,17 +11,34 @@ async function test() {
     console.error('Error:', error)
   }
 }
+
+const data = [
+  {
+    id: 1,
+    name: 'aaa',
+    price: 1000,
+  },
+  {
+    id: 2,
+    name: 'bbb',
+    price: 2000,
+  },
+]
+
 async function createProduct() {
   try {
-    const { products } = await $fetch<any>('/api/products', {
-      method: 'POST',
-      body: {
-        name: 'test',
-        description: 'test',
-        unit_amount: 1000,
-      },
+    data.forEach(async (product) => {
+      const { products } = await $fetch<any>('/api/products', {
+        method: 'POST',
+        body: {
+          name: product.name,
+          description: product.name,
+          unit_amount: 1000,
+          packageId: product.id,
+        },
+      })
+      console.log(products)
     })
-    console.log(products)
   }
   catch (error) {
     console.error('Error:', error)

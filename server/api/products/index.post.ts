@@ -9,6 +9,9 @@ export default defineEventHandler(async (event) => {
       name: body.name,
       active: true,
       description: body.description,
+      metadata: {
+        gigId: body.packageId,
+      },
     },
   )
 
@@ -17,8 +20,10 @@ export default defineEventHandler(async (event) => {
     currency: 'usd',
     product: products.id,
     unit_amount: body.unit_amount,
+    metadata: {
+      gigId: body.packageId,
+    },
   })
-
   return {
     products,
   }
