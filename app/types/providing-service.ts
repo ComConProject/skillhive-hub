@@ -1,5 +1,14 @@
+import type { Term } from './term'
 import type { Database } from '~/database.types'
 
-export type ProvidingService = Database['public']['Tables']['providing_service']['Row']
+type OriginPricing = Database['public']['Tables']['pricing']['Row']
 
-export type Pricing = Database['public']['Tables']['pricing']['Row']
+type OriginProvidingService = Database['public']['Tables']['providing_service']['Row']
+
+export interface ProvidingService extends Omit<OriginProvidingService, 'delivery_format'> {
+  term: Term | null
+}
+
+export interface Pricing extends OriginPricing {
+  term: Term
+}

@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import type { InferType } from 'yup'
 import { TermGroup } from '../../constants'
-import type { Pricing, Term } from '@/types'
+import type { Term } from '@/types'
 import type { FormSubmitEvent } from '#ui/types'
 
 const { t } = useI18n()
 
 const { supabase } = useCustomSupabase()
 const { deliveryTimes, pagesOptions, revisions: revisionsOptions, state, schema, getTypes } = useGig()
-const { subcategories, getSubcategory, onSubmit, loading: creating } = useInlineGig()
+const { subcategories, getSubcategory, onSubmit, loading: creating, onUpload } = useInlineGig()
 const toast = useToast()
+const { handleUpload, filePaths } = useUpload()
 // define type
 type GigSchema = InferType<typeof schema>
 
@@ -55,6 +56,15 @@ function useInlineGig() {
     packageTypes.value.premium = data.find(i => i.name === 'premium')?.id as number
   }
 
+  async function onUpload(e: FileList) {
+    Array.from(e).forEach(async (file) => {
+      const path = await handleUpload(file)
+      if (path) {
+        filePaths.value.push(path)
+      }
+    })
+  }
+
   async function onSubmit(e: FormSubmitEvent<GigSchema>) {
     loading.value = true
     toast.add({
@@ -81,6 +91,9 @@ function useInlineGig() {
           ...e.data.premium,
           categoryId: e.data.categoryId,
           subcategoryId: e.data.subCategoryId,
+        },
+        images: {
+          filesPaths: filePaths.value,
         },
       },
     }).select()
@@ -147,7 +160,7 @@ function useInlineGig() {
     fetchTypes()
   })
 
-  return { subcategories, getSubcategory, onSubmit, loading }
+  return { subcategories, getSubcategory, onSubmit, loading, onUpload }
 }
 </script>
 
@@ -352,10 +365,10 @@ function useInlineGig() {
           </section>
           <section v-if="step === 3" key="3">
             <h1 class="mb-2 text-xl font-semibold">
-              {{ $t('briefly_description') }}
+              {{ $t('gig.briefly_description') }}
             </h1>
             <div>
-              <UTextarea :rows="10" placeholder="Briefly Describe Your Gig" />
+              <UTextarea :rows="10" :placeholder="$t('gig.briefly_description')" />
             </div>
             <UDivider class="my-2" />
 
@@ -363,8 +376,7 @@ function useInlineGig() {
               {{ $t('upload_images') }}
             </h1>
             <div class="flex gap-1">
-              <UInput type="file" class="flex-1" multiple />
-              <UButton>{{ $t('upload') }}</UButton>
+              <UInput type="file" class="flex-1" multiple @change="onUpload" />
             </div>
           </section>
         </TransitionGroup>

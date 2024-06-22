@@ -1,85 +1,47 @@
 <script setup lang="ts">
+import { _xl } from '#tailwind-config/theme/backdropBlur'
+import type { ProvidingService } from '~/types'
+
 const { username } = useRoute('username-manage-gig___lo').params
 
-const columns = ref([
-  {
-    key: 'id',
-    label: 'ID',
-  },
-  {
-    key: 'title',
-    label: 'Title',
-  },
-  {
-    key: 'clicks',
-    label: 'Clicks',
-  },
-  {
-    key: 'orders',
-    label: 'Orders',
-  },
-  {
-    key: 'revenue',
-    label: 'Revenue',
-  },
-])
+const { supabase } = useCustomSupabase()
 
-const data = ref([
-  {
-    id: 1,
-    title: 'I will design wordpress, wix, squarespace and webflow websites',
-    clicks: 0,
-    orders: 0,
-    revenue: 0,
-  },
-  {
-    id: 2,
-    title: 'I will design a creative and unique website',
-    clicks: 0,
-    orders: 0,
-    revenue: 0,
-  },
-  {
-    id: 3,
-    title: 'I will design awesome website or landing page',
-    clicks: 0,
-    orders: 0,
-    revenue: 0,
-  },
-  {
-    id: 4,
-    title: 'I will build responsive wordpress website design',
-    clicks: 0,
-    orders: 0,
-    revenue: 0,
-  },
-  {
-    id: 5,
-    title: 'I will create a one of a kind design for your website',
-    clicks: 0,
-    orders: 0,
-    revenue: 0,
-  },
-  {
-    id: 6,
-    title: 'I will create a customized website design',
-    clicks: 0,
-    orders: 0,
-    revenue: 0,
-  },
-  {
-    id: 7,
-    title: 'I will do figma design, figma website, figma design website, website ui, website ui ux',
-    clicks: 0,
-    orders: 0,
-    revenue: 0,
-  },
-])
-
+const gigs = shallowRef<ProvidingService[]>([])
 const page = ref(1)
 const pageCount = ref(5)
 
-const rows = computed(() => data.value.slice((page.value - 1) * pageCount.value, page.value * pageCount.value))
+function getFromAndTo() {
+  const itemPerPage = 10
+  const from = (page.value - 1) * itemPerPage
+  const to = page.value * itemPerPage - 1
+  return { from, to }
+}
+
+async function getGigs() {
+  const { from, to } = getFromAndTo()
+  const { data, error, count } = await supabase.from('providing_service').select(`
+  *,
+  term(*)
+  `, { count: 'exact' }).range(from, to)
+  if (error) {
+    throw new Error(`[getGigs]: error ${error}`)
+  }
+
+  if (data?.length === 0) {
+    throw new Error('[getGigs]: no data')
+  }
+
+  if (!count) {
+    throw new Error('[getGigs]: no count')
+  }
+
+  gigs.value = data
+  pageCount.value = count
+}
+
+onMounted(() => {
+  getGigs()
+})
 </script>
 
 <template>
@@ -87,15 +49,15 @@ const rows = computed(() => data.value.slice((page.value - 1) * pageCount.value,
     <div class="flex items-center">
       <div class="space-y-2">
         <h1 class="text-4xl font-semibold">
-          Gigs
+          {{ $t('gig.gig') }}
         </h1>
         <p class="text-muted-foreground">
-          Manage, create and edit your gigs and offers.
+          {{ $t('gig.manage_create_edit') }}.
         </p>
       </div>
-      <UButton class="ml-auto">
+      <UButton class="ml-auto" icon="i-ph-plus">
         <NuxtLinkLocale :to="`/${username}/manage-gig/create`">
-          Create
+          {{ $t('form.add') }}
         </NuxtLinkLocale>
       </UButton>
     </div>
@@ -103,9 +65,51 @@ const rows = computed(() => data.value.slice((page.value - 1) * pageCount.value,
     <div class="flex max-w-md mb-4">
       <UInput icon="i-ph-magnifying-glass" class="w-full" placeholder="Search..." />
     </div>
-    <UTable :rows="rows" :columns="columns" />
+    <div v-if="gigs.length" class="relative overflow-x-auto">
+      <table class="min-w-full table-fixed divide-y divide-gray-300 dark:divide-gray-700">
+        <thead class="relative ">
+          <tr>
+            <th class="text-left px-4 py-3.5 text-gray-900 dark:text-white font-semibold text-sm">
+              Id
+            </th>
+            <th class="text-left px-4 py-3.5 text-gray-900 dark:text-white font-semibold text-sm">
+              Title
+            </th>
+            <th class="text-left px-4 py-3.5 text-gray-900 dark:text-white font-semibold text-sm">
+              Click
+            </th>
+            <th class="text-left px-4 py-3.5 text-gray-900 dark:text-white font-semibold text-sm">
+              Orders
+            </th>
+            <th class="text-left px-4 py-3.5 text-gray-900 dark:text-white font-semibold text-sm">
+              Revenue
+            </th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-200 dark:divide-gray-800">
+          <tr v-for="(gig, idx) in gigs" :key="gig.id" class="hover:bg-gray-50 dark:hover:bg-gray-800/50 cursor-pointer">
+            <td class="whitespace-nowrap px-4 py-4 dark:text-gray-400 text-sm">
+              {{ idx + 1 }}
+            </td>
+            <td class="whitespace-nowrap px-4 py-4 dark:text-gray-400 text-sm">
+              <div>{{ gig.title }}</div>
+              <small>{{ gig.description }}</small>
+            </td>
+            <td class="whitespace-nowrap px-4 py-4 dark:text-gray-400 text-sm">
+              0
+            </td>
+            <td class="whitespace-nowrap px-4 py-4 dark:text-gray-400 text-sm">
+              0
+            </td>
+            <td class="whitespace-nowrap px-4 py-4 dark:text-gray-400 text-sm">
+              0
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
     <div class="flex justify-end px-3 py-3.5 border-t border-gray-200 dark:border-gray-700">
-      <UPagination v-model="page" :page-count="pageCount" :total="data.length" />
+      <UPagination v-model="page" :page-count="pageCount" :total="gigs.length" />
     </div>
   </div>
 </template>
