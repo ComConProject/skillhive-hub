@@ -134,6 +134,42 @@ export function useGig() {
     },
   }))
 
+  function resetState() {
+    state.value = {
+      categoryId: undefined,
+      title: undefined,
+      description: undefined,
+      subCategoryId: undefined,
+      basic: {
+        deliveryTime: undefined,
+        title: undefined,
+        description: undefined,
+        page: undefined,
+        customDesign: undefined,
+        price: undefined,
+        revisions: undefined,
+      },
+      standard: {
+        deliveryTime: undefined,
+        page: undefined,
+        title: undefined,
+        description: undefined,
+        customDesign: undefined,
+        price: undefined,
+        revisions: undefined,
+      },
+      premium: {
+        deliveryTime: undefined,
+        page: undefined,
+        title: undefined,
+        description: undefined,
+        customDesign: undefined,
+        price: undefined,
+        revisions: undefined,
+      },
+    }
+  }
+
   async function getTypes() {
     try {
       const types = await fetchTerms(TermGroup.PACKAGE_TYPE)
@@ -152,5 +188,6 @@ export function useGig() {
     schema,
     state,
     getTypes,
+    resetState,
   }
 }

@@ -27,16 +27,10 @@ async function getGigs() {
     throw new Error(`[getGigs]: error ${error}`)
   }
 
-  if (data?.length === 0) {
-    throw new Error('[getGigs]: no data')
-  }
-
-  if (!count) {
-    throw new Error('[getGigs]: no count')
-  }
-
   gigs.value = data
-  pageCount.value = count
+  if (count) {
+    pageCount.value = count
+  }
 }
 
 onMounted(() => {
@@ -62,54 +56,69 @@ onMounted(() => {
       </NuxtLinkLocale>
     </div>
     <UDivider class="my-6" />
-    <div class="flex max-w-md mb-4">
-      <UInput icon="i-ph-magnifying-glass" class="w-full" placeholder="Search..." />
-    </div>
-    <div v-if="gigs.length" class="relative overflow-x-auto">
-      <table class="min-w-full table-fixed divide-y divide-gray-300 dark:divide-gray-700">
-        <thead class="relative ">
-          <tr>
-            <th class="text-left px-4 py-3.5 text-gray-900 dark:text-white font-semibold text-sm">
-              Id
-            </th>
-            <th class="text-left px-4 py-3.5 text-gray-900 dark:text-white font-semibold text-sm">
-              Title
-            </th>
-            <th class="text-left px-4 py-3.5 text-gray-900 dark:text-white font-semibold text-sm">
-              Click
-            </th>
-            <th class="text-left px-4 py-3.5 text-gray-900 dark:text-white font-semibold text-sm">
-              Orders
-            </th>
-            <th class="text-left px-4 py-3.5 text-gray-900 dark:text-white font-semibold text-sm">
-              Revenue
-            </th>
-          </tr>
-        </thead>
-        <tbody class="divide-y divide-gray-200 dark:divide-gray-800">
-          <tr v-for="(gig, idx) in gigs" :key="gig.id" class="hover:bg-gray-50 dark:hover:bg-gray-800/50 cursor-pointer">
-            <td class="whitespace-nowrap px-4 py-4 dark:text-gray-400 text-sm">
-              {{ idx + 1 }}
-            </td>
-            <td class="whitespace-nowrap px-4 py-4 dark:text-gray-400 text-sm">
-              <div>{{ gig.title }}</div>
-              <small>{{ gig.description }}</small>
-            </td>
-            <td class="whitespace-nowrap px-4 py-4 dark:text-gray-400 text-sm">
-              0
-            </td>
-            <td class="whitespace-nowrap px-4 py-4 dark:text-gray-400 text-sm">
-              0
-            </td>
-            <td class="whitespace-nowrap px-4 py-4 dark:text-gray-400 text-sm">
-              0
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="flex justify-end px-3 py-3.5 border-t border-gray-200 dark:border-gray-700">
-      <UPagination v-model="page" :page-count="pageCount" :total="gigs.length" />
+    <template v-if="gigs.length">
+      <div class="flex max-w-md mb-4">
+        <UInput icon="i-ph-magnifying-glass" class="w-full" placeholder="Search..." />
+      </div>
+      <div class="relative overflow-x-auto">
+        <table class="min-w-full table-fixed divide-y divide-gray-300 dark:divide-gray-700">
+          <thead class="relative ">
+            <tr>
+              <th class="text-left px-4 py-3.5 text-gray-900 dark:text-white font-semibold text-sm">
+                Id
+              </th>
+              <th class="text-left px-4 py-3.5 text-gray-900 dark:text-white font-semibold text-sm">
+                Title
+              </th>
+              <th class="text-left px-4 py-3.5 text-gray-900 dark:text-white font-semibold text-sm">
+                Click
+              </th>
+              <th class="text-left px-4 py-3.5 text-gray-900 dark:text-white font-semibold text-sm">
+                Orders
+              </th>
+              <th class="text-left px-4 py-3.5 text-gray-900 dark:text-white font-semibold text-sm">
+                Revenue
+              </th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200 dark:divide-gray-800">
+            <tr v-for="(gig, idx) in gigs" :key="gig.id" class="hover:bg-gray-50 dark:hover:bg-gray-800/50 cursor-pointer">
+              <td class="whitespace-nowrap px-4 py-4 dark:text-gray-400 text-sm">
+                {{ idx + 1 }}
+              </td>
+              <td class="whitespace-nowrap px-4 py-4 dark:text-gray-400 text-sm">
+                <div>{{ gig.title }}</div>
+                <small>{{ gig.description }}</small>
+              </td>
+              <td class="whitespace-nowrap px-4 py-4 dark:text-gray-400 text-sm">
+                0
+              </td>
+              <td class="whitespace-nowrap px-4 py-4 dark:text-gray-400 text-sm">
+                0
+              </td>
+              <td class="whitespace-nowrap px-4 py-4 dark:text-gray-400 text-sm">
+                0
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="flex justify-end px-3 py-3.5 border-t border-gray-200 dark:border-gray-700">
+        <UPagination v-model="page" :page-count="pageCount" :total="gigs.length" />
+      </div>
+    </template>
+    <div v-else>
+      <div class="flex flex-col items-center justify-center gap-4">
+        <NuxtImg src="/empty-package.svg" alt="Empty" width="300" height="300" />
+        <p class="text-lg font-semibold">
+          {{ $t('no_data') }}
+        </p>
+        <NuxtLinkLocale :to="`/${username}/manage-gig/create`">
+          <UButton size="xl" icon="i-ph-plus">
+            {{ $t('form.add') }}
+          </UButton>
+        </NuxtLinkLocale>
+      </div>
     </div>
   </div>
 </template>

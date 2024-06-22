@@ -19,7 +19,7 @@ function handleClick() {
 </script>
 
 <template>
-  <div class="relative bg-white p-3 space-y-2">
+  <div class="relative bg-white  dark:bg-slate-800 p-3 space-y-2">
     <h3 class="font-bold">
       {{ seller }}
     </h3>

@@ -41,6 +41,41 @@ export type Database = {
           },
         ]
       }
+      favorite: {
+        Row: {
+          created_at: string
+          id: number
+          is_favorite: boolean
+          service_id: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          is_favorite?: boolean
+          service_id: number
+          updated_at?: string
+          user_id?: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          is_favorite?: boolean
+          service_id?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "favorite_service_id_fkey"
+            columns: ["service_id"]
+            isOneToOne: false
+            referencedRelation: "providing_service"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       freelancer: {
         Row: {
           created_at: string
@@ -406,6 +441,13 @@ export type Database = {
             columns: ["term_id"]
             isOneToOne: false
             referencedRelation: "term"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "providing_service_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
             referencedColumns: ["id"]
           },
         ]

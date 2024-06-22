@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import type { InferType } from 'yup'
 import { TermGroup } from '../../constants'
-import type { Term } from '@/types'
+import type { Freelancer, Term } from '@/types'
 import type { FormSubmitEvent } from '#ui/types'
 
 const { t } = useI18n()
 
 const { supabase } = useCustomSupabase()
-const { deliveryTimes, pagesOptions, revisions: revisionsOptions, state, schema, getTypes } = useGig()
+const user = useSupabaseUser()
+const { deliveryTimes, pagesOptions, revisions: revisionsOptions, state, schema, getTypes, resetState } = useGig()
 const { subcategories, getSubcategory, onSubmit, loading: creating, onUpload } = useInlineGig()
 const toast = useToast()
 const { handleUpload, filePaths } = useUpload()
@@ -34,6 +35,24 @@ function useInlineGig() {
       throw new Error(`[getSubcategory] ${error.message}`)
 
     subcategories.value = data
+  }
+
+  const freelancer = shallowRef<Freelancer>()
+
+  async function getSeller() {
+    if (!user.value) {
+      throw new Error(`[user] not found`)
+    }
+
+    const { data, error } = await supabase.from('freelancer').select('*').eq('user_id', user.value.id)
+
+    if (error) {
+      throw new Error(`[getSeller] ${error.message}`)
+    }
+
+    if (data) {
+      freelancer.value = data[0]
+    }
   }
 
   const packageTypes = shallowRef<{
@@ -94,6 +113,12 @@ function useInlineGig() {
         },
         images: {
           filesPaths: filePaths.value,
+        },
+        owner: {
+          id: freelancer.value?.id,
+          fullname: `${freelancer.value?.firstname} ${freelancer.value?.lastname}`,
+          username: freelancer.value?.username,
+          profileUrl: `${freelancer.value?.profile_url}`,
         },
       },
     }).select('*')
@@ -185,11 +210,14 @@ function useInlineGig() {
       icon: 'i-carbon-checkmark',
     })
     loading.value = false
+    filePaths.value = []
+    resetState()
     useRouter().back()
   }
 
   onMounted(() => {
     fetchTypes()
+    getSeller()
   })
 
   return { subcategories, getSubcategory, onSubmit, loading, onUpload }

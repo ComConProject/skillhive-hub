@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Database } from '~~/database.types'
+import type { Freelancer } from '~/types'
 
 const user = useSupabaseUser()
 const { supabase } = useCustomSupabase()
@@ -26,7 +26,7 @@ const dropdownItems = [
 ]
 // query if user have a seller account
 function useInlineSeller() {
-  const seller = shallowRef<Database['public']['Tables']['freelancer']['Row']>()
+  const seller = shallowRef<Freelancer>()
 
   async function getSeller() {
     if (!user.value)
@@ -101,12 +101,12 @@ async function signOut() {
         <li>
           <NuxtLinkLocale v-if="!seller" to="/seller">
             <UButton color="gray">
-              Become a seller
+              {{ $t('become_a_seller') }}
             </UButton>
           </NuxtLinkLocale>
           <NuxtLinkLocale v-else :to="`/${seller.username}/manage-gig/`">
             <UButton color="gray">
-              Manage Gig
+              {{ $t('gig.manage') }}
             </UButton>
           </NuxtLinkLocale>
         </li>
@@ -126,7 +126,7 @@ async function signOut() {
             />
           </UDropdown>
           <UButton v-else variant="ghost" @click="() => $router.push('/signin')">
-            Join
+            {{ $t('auth.sign_in') }}
           </UButton>
         </li>
       </ul>
