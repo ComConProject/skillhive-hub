@@ -406,6 +406,7 @@ export type Database = {
           created_at: string
           delivery_format: Json | null
           description: string | null
+          freelancer_id: number | null
           id: number
           service_duration: string | null
           term_id: number | null
@@ -417,6 +418,7 @@ export type Database = {
           created_at?: string
           delivery_format?: Json | null
           description?: string | null
+          freelancer_id?: number | null
           id?: number
           service_duration?: string | null
           term_id?: number | null
@@ -428,6 +430,7 @@ export type Database = {
           created_at?: string
           delivery_format?: Json | null
           description?: string | null
+          freelancer_id?: number | null
           id?: number
           service_duration?: string | null
           term_id?: number | null
@@ -436,6 +439,13 @@ export type Database = {
           user_id?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "providing_service_freelancer_id_fkey"
+            columns: ["freelancer_id"]
+            isOneToOne: false
+            referencedRelation: "freelancer"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "providing_service_term_id_fkey"
             columns: ["term_id"]
@@ -475,33 +485,36 @@ export type Database = {
       }
       rating: {
         Row: {
-          buyer_id: string | null
+          buyer_id: string
           created_at: string
           description: string | null
-          freelancer_id: number | null
+          freelancer_id: number
           id: number
-          picture: string | null
-          star: number | null
+          picture: Json | null
+          service_id: number
+          star: number
           updated_at: string | null
         }
         Insert: {
-          buyer_id?: string | null
+          buyer_id: string
           created_at?: string
           description?: string | null
-          freelancer_id?: number | null
+          freelancer_id: number
           id?: number
-          picture?: string | null
-          star?: number | null
+          picture?: Json | null
+          service_id: number
+          star: number
           updated_at?: string | null
         }
         Update: {
-          buyer_id?: string | null
+          buyer_id?: string
           created_at?: string
           description?: string | null
-          freelancer_id?: number | null
+          freelancer_id?: number
           id?: number
-          picture?: string | null
-          star?: number | null
+          picture?: Json | null
+          service_id?: number
+          star?: number
           updated_at?: string | null
         }
         Relationships: [
@@ -517,6 +530,13 @@ export type Database = {
             columns: ["freelancer_id"]
             isOneToOne: false
             referencedRelation: "freelancer"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "rating_servide_id_fkey"
+            columns: ["service_id"]
+            isOneToOne: false
+            referencedRelation: "providing_service"
             referencedColumns: ["id"]
           },
         ]

@@ -20,8 +20,13 @@ export function useUpload() {
     return data.path
   }
 
+  function getAvatarUrl(path: string) {
+    return supabase.storage.from('default').getPublicUrl(path).data.publicUrl
+  }
+
   return {
     handleUpload,
     filePaths,
+    getAvatarUrl,
   }
 }

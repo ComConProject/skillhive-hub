@@ -1,5 +1,12 @@
 <script setup lang="ts">
+import type { ProvidingService } from '~/types'
 
+interface Props {
+  category: string
+  subcategory: string
+}
+
+defineProps<Props>()
 </script>
 
 <template>
@@ -23,18 +30,18 @@
       /
     </p>
     <p className="cursor-default">
-      Web Development
+      {{ category }}
     </p>
     <p className="text-muted-foreground cursor-default">
       /
     </p>
     <div className="font-medium cursor-pointer">
-      Web Design
+      {{ subcategory }}
     </div>
-    <UButton>
-      <NuxtLinkLocale to="">
-        Edit gig
-      </NuxtLinkLocale>
-    </UButton>
+    <NuxtLinkLocale to="">
+      <UButton>
+        {{ $t('form.edit') }}
+      </UButton>
+    </NuxtLinkLocale>
   </div>
 </template>

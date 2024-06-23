@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import type { Pricing, ProvidingService } from '~/types'
+import type { Pricing, ProvidingService, Rating } from '~/types'
 
 const user = useSupabaseUser()
 const { d } = useI18n()
 const { supabase } = useCustomSupabase()
 
-function formatGigForCard(gigs: Pricing[]) {
+function formatGigForCard(gigs: Pricing[], rating: Rating[]) {
   const formattedGigs = gigs.map((gig) => {
     return {
-      id: gig.id,
+      id: gig.service_id as number,
       isFavorite: false,
       title: `${gig.providing_service?.title}`,
       seller: `${gig.providing_service?.delivery_format.owner.fullname}`,
@@ -17,11 +17,13 @@ function formatGigForCard(gigs: Pricing[]) {
       disabled: false,
       offer: `${gig.price}`,
       ownerLabel: `${gig.providing_service?.description}`,
+      reviews: rating.length ? rating.filter(r => r.service_id === gig.service_id).map(r => r.star) : [],
     }
   })
   return formattedGigs
 }
 const gigs = shallowRef<Pricing[]>([])
+const rating = shallowRef<Rating[]>([])
 async function getGigsByPricing() {
   const { data, error } = await supabase.from('pricing').select('*, providing_service(*)').eq('type_id', 41)
   if (error) {
@@ -30,10 +32,18 @@ async function getGigsByPricing() {
 
   if (data) {
     gigs.value = data
+    const { data: ratingData, error } = await supabase.from('rating').select('*').eq('service_id', gigs.value[0]?.service_id as number)
+
+    if (error) {
+      console.error(error.message)
+    }
+    if (ratingData) {
+      rating.value = ratingData
+    }
   }
 }
 
-const formattedGigs = computed(() => formatGigForCard(gigs.value))
+const formattedGigs = computed(() => formatGigForCard(gigs.value, rating.value))
 
 onMounted(() => {
   getGigsByPricing()

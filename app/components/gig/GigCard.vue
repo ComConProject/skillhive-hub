@@ -50,7 +50,7 @@ withDefaults(defineProps<Props>(), {
           :created-at-label="createdAtLabel"
           :disabled="disabled"
           :offer="offer"
-          :reviews="[1, 2, 3, 4]"
+          :reviews="reviews || []"
           :owner-label="ownerLabel"
         />
       </div>

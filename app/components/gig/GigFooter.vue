@@ -11,11 +11,19 @@ interface FooterProps {
   seller: string
 };
 
-defineProps<FooterProps>()
+const props = defineProps<FooterProps>()
 
 function handleClick() {
 
 }
+
+const averageReviews = computed(() => {
+  if (!props.reviews.length) {
+    return 0
+  }
+
+  return props.reviews.reduce((a, b) => a + b, 0) / props.reviews.length
+})
 </script>
 
 <template>
@@ -26,20 +34,17 @@ function handleClick() {
     <p class="text-[14px] font-medium max-w-[calc(100%-20px)]">
       {{ title }}
     </p>
-    <div class="flex gap-x-1.5 text-md font-normal">
-      <Icon name="line-md:star" class="font-semibold" />
+    <div class="flex gap-x-1.5 text-md items-center font-normal">
+      <Icon name="line-md:star-alt-filled" class="font-semibold" size="21" />
       <p class="underline">
-        4.9
-      </p>
-      <p class="font-normal">
-        200
+        {{ averageReviews }}
       </p>
       (<p class="font-normal">
-        0
+        {{ reviews.length }}
       </p>)
     </div>
     <p class="font-semibold">
-      From ${{ offer }}
+      {{ $t('gig.start_at') }} ${{ offer }}
     </p>
     <p class="opacity-0 group-hover:opacity-100 transition-opacity text-[11px] text-muted-foreground truncate">
       <span>{{ ownerLabel }}</span>, <span>{{ $d(new Date()) }}</span>

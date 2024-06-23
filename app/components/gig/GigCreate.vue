@@ -121,6 +121,7 @@ function useInlineGig() {
           profileUrl: `${freelancer.value?.profile_url}`,
         },
       },
+      freelancer_id: freelancer.value?.id,
     }).select('*')
     if (error?.message) {
       loading.value = false
