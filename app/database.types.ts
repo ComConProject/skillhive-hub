@@ -82,6 +82,7 @@ export type Database = {
           description: string | null
           email: string | null
           firstname: string
+          freelancer_role: string
           id: number
           is_available: boolean | null
           lastname: string
@@ -90,12 +91,14 @@ export type Database = {
           updated_at: string | null
           user_id: string | null
           username: string | null
+          village_id: number
         }
         Insert: {
           created_at?: string
           description?: string | null
           email?: string | null
           firstname: string
+          freelancer_role: string
           id?: number
           is_available?: boolean | null
           lastname: string
@@ -104,12 +107,14 @@ export type Database = {
           updated_at?: string | null
           user_id?: string | null
           username?: string | null
+          village_id: number
         }
         Update: {
           created_at?: string
           description?: string | null
           email?: string | null
           firstname?: string
+          freelancer_role?: string
           id?: number
           is_available?: boolean | null
           lastname?: string
@@ -118,8 +123,17 @@ export type Database = {
           updated_at?: string | null
           user_id?: string | null
           username?: string | null
+          village_id?: number
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "freelancer_village_id_fkey"
+            columns: ["village_id"]
+            isOneToOne: false
+            referencedRelation: "villages"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       freelancer_occupation: {
         Row: {
@@ -168,7 +182,7 @@ export type Database = {
           created_at: string
           freelancer_id: number | null
           id: number
-          name: string | null
+          name: string
           term_id: number | null
           updated_at: string | null
         }
@@ -176,7 +190,7 @@ export type Database = {
           created_at?: string
           freelancer_id?: number | null
           id?: number
-          name?: string | null
+          name: string
           term_id?: number | null
           updated_at?: string | null
         }
@@ -184,7 +198,7 @@ export type Database = {
           created_at?: string
           freelancer_id?: number | null
           id?: number
-          name?: string | null
+          name?: string
           term_id?: number | null
           updated_at?: string | null
         }

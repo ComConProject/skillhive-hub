@@ -140,7 +140,8 @@
     "other": "ຂໍ້ມູນອື່ນໆ",
     "success": "ສຳເລັດ",
     "create": "ສ້າງ",
-    "inserting": "ກຳລັງສ້າງ"
+    "inserting": "ກຳລັງສ້າງ",
+    "select_at_least_two": "ເລືອກຢ່າງໜ້ອຍສອງລາຍການ"
   },
   "next": "ຕໍ່ໄປ",
   "previous": "ກັບຄືນ",
@@ -287,5 +288,16 @@
     "manage_create_edit": "ຈັດການ, ເພີ່ມ ແລະ ແກ້ໄຂການໃຫ້ບໍລິການຂອງທ່ານ",
     "manage": "ຈັດການການໃຫ້ບໍລິການຂອງທ່ານ",
     "start_at": "ເລີ່ມຕົ້ນທີ່"
-  }
+  },
+  "contact_me": "ຕິດຕ່ໍຂ້ອຍ",
+  "seller": {
+    "create_your_profile": "ສ້າງຂໍ້ມູນສ່ວນຕົວ",
+    "professional_information": "ຂໍ້ມູນດ້ານວິຊາຊີບ",
+    "role": "ອາຊີບ"
+  },
+  "personal_website": "ເວັບໄຊ້ສ່ວນຕົວ",
+  "security": "ຄວາມປອດໄພ",
+  "from": "ຈາກ",
+  "last_delivery": "",
+  "joined": "ເຂົ້າຮ່ວມ"
 }

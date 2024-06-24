@@ -1,4 +1,23 @@
 <script setup lang="ts">
+import type { Language } from '~/types'
+
+interface Props {
+  role?: string
+  fullname: string
+  profileUrl?: string | null
+  averageRating?: number
+  totalRating?: number
+  description?: string | null
+  location?: string | null
+  joined?: Date | null
+  lastDelivery?: Date | null
+  languages?: Language[] | null
+}
+withDefaults(defineProps<Props>(), {
+  averageRating: 0,
+  totalRating: 0,
+  profileUrl: null,
+})
 const user = useSupabaseUser()
 </script>
 
@@ -16,62 +35,66 @@ const user = useSupabaseUser()
             </p>
           </NuxtLinkLocale>
           <p class="text-md">
-            Software Engineer
+            {{ role }}
           </p>
           <div class="flex space-x-5">
             <div class="flex space-x-1.5">
-              <Icon name="line-md:star" class="w-5 h-5" />
+              <Icon name="line-md:star-alt-filled" class="w-5 h-5" />
               <p class="font-semibold">
-                4.9
+                {{ averageRating }}
               </p>
               <div class="flex">
                 (<p class="underline">
-                  200
+                  {{ totalRating }}
                 </p>)
               </div>
-            </div>
-            <div class="bg-yellow-100 text-red-900 font-semibold p-1">
-              tag
             </div>
           </div>
         </div>
       </div>
-      <UButton>
-        Contact me
-      </UButton>
+      <NuxtLinkLocale to="">
+        <UButton>
+          {{ $t('contact') }}
+        </UButton>
+      </NuxtLinkLocale>
       <div class="border border-black/20 p-4 space-y-3 rounded-2xl">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-y-4">
           <div>
             <p class="font-semibold">
-              From
+              {{ $t('from') }}
             </p>
-            <p>1428 Gofno Grove</p>
+            <p>{{ location }}</p>
           </div>
           <div>
             <p class="font-semibold">
-              Joined
+              {{ $t('joined') }}
             </p>
-            <p>11/02/2024 03:43:15</p>
+            <p>{{ joined ? joined.toDateString() : '-' }}</p>
           </div>
 
-          <div>
+          <!-- <div>
             <p class="font-semibold">
-              Last delivery
+              {{ $t('last_delivery') }}
             </p>
             <p>
-              11/02/2024 03:43:15
+              {{ lastDelivery || '-' }}
             </p>
-          </div>
+          </div> -->
           <div>
             <p class="font-semibold">
-              Languages
+              {{ $t('language') }}
             </p>
-            <p>English, Lao</p>
+            <p v-if="languages">
+              <span v-for="item in languages" :key="item.id">
+                {{ item.name }}
+              </span>
+              <span v-if="languages.length > 1">,</span>
+            </p>
           </div>
         </div>
         <UDivider />
         <p>
-          I'm a professional UI/UX engineer and Web developer. I have over 5 years of experience in the web development industry. I make designs with great user experience and modern techniques. I trust my skills and hope you will get the best designs. I love to work and want to make my clients happy.
+          {{ description }}
         </p>
       </div>
     </div>

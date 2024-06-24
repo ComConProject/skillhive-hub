@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type InferType, object, string } from 'yup'
+import { type InferType, number, object, string } from 'yup'
 import { v4 as uuid } from 'uuid'
 import { TermGroup } from '../../constants'
 import type { FormSubmitEvent } from '#ui/types'
@@ -9,8 +9,13 @@ const { supabase } = useCustomSupabase()
 const user = useSupabaseUser()
 const { step, languages, handleUpload, handleCreateLanguage, onSubmit, schema, state, formatTerms, levelId, occupations, skillLevel, skills, skillsLevels, subOccupations, handleCreateSkill, handleCreateOccupation } = useInlineForm()
 const toast = useToast()
-
+const showModal = ref(false)
+const locationLabel = ref('')
 const loading = ref(false)
+
+function handleSelectLocation(selectedItem: any) {
+  locationLabel.value = `${selectedItem.village}, ${selectedItem.district}, ${selectedItem.province}`
+}
 
 function useInlineForm() {
   const { terms, fetchTerms } = useTerm()
@@ -26,6 +31,8 @@ function useInlineForm() {
     language: string().notRequired(),
     occupation: string().notRequired(),
     personalWebsite: string().notRequired(),
+    role: string().required(),
+    villageId: number().required(),
   })
 
 type Schema = InferType<typeof schema>
@@ -42,6 +49,8 @@ const state = useState('seller-form-state', () => ({
   language: undefined,
   occupation: undefined,
   personalWebsite: undefined,
+  role: undefined,
+  villageId: undefined,
 }))
 
 const step = ref(1)
@@ -109,6 +118,8 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     username: event.data.username,
     description: event.data.description,
     profile_url: event.data.profile,
+    freelancer_role: event.data.role,
+    village_id: event.data.villageId,
   }).select()
   if (error) {
     loading.value = false
@@ -131,7 +142,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 
   // create language
   const languageObjs = languages.value.map((i) => {
-    return { name: i.levelName, term_id: i.levelId, freelancer_id: freelancerId }
+    return { name: i.name, term_id: i.levelId, freelancer_id: freelancerId }
   })
   const { error: languageError } = await supabase.from('language').insert(languageObjs)
   if (languageError) {
@@ -272,13 +283,13 @@ if (user.value?.email)
 
 <template>
   <div>
-    <UCard class="mx-auto max-w-6xl">
+    <UCard class="mx-auto max-w-3xl">
       <UForm :schema="schema" :state="state" @submit="onSubmit">
         <TransitionGroup name="slide-left">
           <section v-show="step === 1" key="1" class="flex flex-col gap-2">
             <!-- step -->
             <div class=" text-3xl col-span-1 font-bold text-slate-800 mb-4">
-              Create your profile
+              {{ $t('seller.create_your_profile') }}
             </div>
             <UFormGroup :label="$t('firstname')" name="firstname" required>
               <UInput v-model="state.firstname" placeholder="Please input your first name" />
@@ -288,6 +299,14 @@ if (user.value?.email)
             </UFormGroup>
             <UFormGroup :label="$t('username')" name="username" required>
               <UInput v-model="state.username" placeholder="Please input your display name" />
+            </UFormGroup>
+
+            <UFormGroup
+              :label="$t('address')" name="villageId" required class="max-w-sm"
+            >
+              <UButton color="gray" block @click="showModal = true">
+                {{ locationLabel || $t('select') }}
+              </UButton>
             </UFormGroup>
             <UFormGroup :label="$t('description')" name="description">
               <UTextarea v-model="state.description" placeholder="Please input your description" />
@@ -337,15 +356,22 @@ if (user.value?.email)
           </section>
           <section v-show="step === 2" key="2" class="grid grid-cols-2 gap-2">
             <div class=" text-3xl col-span-2 font-bold text-slate-800 mb-4">
-              Professional Information
+              {{ $t('seller.professional_information') }}
             </div>
-            <UFormGroup :label="$t('occupation')" name="occupation">
+            <UFormGroup :label="$t('seller.role')" name="role" class="col-span-2">
+              <UInput
+                v-model="state.role"
+                type="text"
+                :placeholder="$t('seller.role')"
+              />
+            </UFormGroup>
+            <UFormGroup :label="$t('occupation')" name="occupation" class="col-span-2">
               <USelectMenu
                 v-model="state.occupation"
                 :options="occupations" value-attribute="id" option-attribute="name" placeholder="Please input your occupation" @change="handleCreateOccupation(state.occupation as any)"
               />
             </UFormGroup>
-            <UFormGroup class="col-span-2" label="Select at least 2" name="subOccupations">
+            <UFormGroup class="col-span-2" :label="$t('form.select_at_least_two')" name="subOccupations">
               <div>
                 <ul class="grid grid-cols-4 gap-2">
                   <li v-for="(i, idx) in subOccupations" :key="idx">
@@ -392,13 +418,13 @@ if (user.value?.email)
                 </tbody>
               </table>
             </div>
-            <UFormGroup label="Personal Website" name="personalWebsite">
+            <UFormGroup :label="$t('personal_website')" name="personalWebsite" class="col-span-2">
               <UInput v-model="state.personalWebsite" type="url" placeholder="your personal website" />
             </UFormGroup>
           </section>
           <section v-show="step === 3" key="3">
             <div class=" text-3xl col-span-2 font-bold text-slate-800 mb-4">
-              Security
+              {{ $t('security') }}
             </div>
             <UFormGroup :label="$t('email')" name="email" required>
               <UInput v-model="state.email" type="email" placeholder="Please input your email" />
@@ -424,5 +450,6 @@ if (user.value?.email)
         </div>
       </UForm>
     </UCard>
+    <LocationSelect v-model:village="state.villageId" v-model:show="showModal" @set-location="handleSelectLocation" />
   </div>
 </template>

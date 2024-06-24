@@ -10,11 +10,11 @@ export interface Province extends IBase {
 }
 
 export interface District extends IBase {
-  prov_id?: number
-  provinces: Province | null
+  prov_id?: number | null
+  provinces?: Province | null
 }
 
 export interface Village extends IBase {
-  dist_id?: number
-  districts: District | null
+  dist_id?: number | null
+  districts?: District | null
 }

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 interface Props {
-  description?: string
+  description?: string | null
 }
 
 withDefaults(defineProps<Props>(), {
@@ -11,7 +11,7 @@ withDefaults(defineProps<Props>(), {
 <template>
   <div class="w-full">
     <div class="text-xl font-bold text-slate-800 mb-4">
-      Description
+      {{ $t('gig.briefly_description') }}
     </div>
     <p>
       {{ description }}
