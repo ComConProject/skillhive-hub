@@ -6,7 +6,7 @@ const { locale } = useI18n()
   <Html :lang="locale">
     <Body
       :class="locale"
-      class="bg-slate-50 container text-slate-800 antialiased transition-colors duration-300 dark:bg-slate-900 dark:text-slate-200 mx-auto"
+      class="bg-slate-50 lg:px-2 container text-slate-800 antialiased transition-colors duration-300 dark:bg-slate-900 dark:text-slate-200 mx-auto"
     >
       <NuxtLayout>
         <NuxtPage />
