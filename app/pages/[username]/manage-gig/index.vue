@@ -68,16 +68,16 @@ onMounted(() => {
                 Id
               </th>
               <th class="text-left px-4 py-3.5 text-gray-900 dark:text-white font-semibold text-sm">
-                Title
+                {{ $t('title') }}
               </th>
               <th class="text-left px-4 py-3.5 text-gray-900 dark:text-white font-semibold text-sm">
-                Click
+                {{ $t('gig.click') }}
               </th>
               <th class="text-left px-4 py-3.5 text-gray-900 dark:text-white font-semibold text-sm">
-                Orders
+                {{ $t('gig.orders') }}
               </th>
               <th class="text-left px-4 py-3.5 text-gray-900 dark:text-white font-semibold text-sm">
-                Revenue
+                {{ $t('gig.revenue') }}
               </th>
             </tr>
           </thead>

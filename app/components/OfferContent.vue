@@ -40,15 +40,15 @@ defineProps<Props>()
     </div>
     <div v-if="isOwner === false" class="flex gap-2">
       <UButton>
-        Order Now
+        {{ $t('offer.order') }}
       </UButton>
       <UButton variant="outline">
-        Send Message
+        {{ $t('offer.send_message') }}
       </UButton>
     </div>
     <UButton v-else>
       <NuxtLinkLocale>
-        Edit
+        {{ $t('form.edit') }}
       </NuxtLinkLocale>
     </UButton>
   </div>

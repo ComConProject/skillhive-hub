@@ -5,7 +5,7 @@
 <template>
   <div className="h-full flex flex-col items-center justify-center">
     <NuxtImg
-      src="/empty-inbox.svg"
+      src="/empty.svg"
       alt="Empty"
       width="340"
       height="340"

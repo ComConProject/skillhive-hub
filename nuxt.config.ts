@@ -2,7 +2,7 @@ import process from 'node:process'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  devtools: { enabled: true },
+  devtools: { enabled: false },
   future: { compatibilityVersion: 4 },
   ssr: false,
   css: ['@/assets/css/main.css'],
