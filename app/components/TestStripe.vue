@@ -25,6 +25,19 @@ const data = [
   },
 ]
 
+async function getAllPrices() {
+  try {
+    const { prices } = await $fetch('/api/prices', {
+      method: 'GET',
+    })
+
+    console.log(prices)
+  }
+  catch (error) {
+    throw new Error(`[getAllPrices] ${error}`)
+  }
+}
+
 async function createProduct() {
   try {
     data.forEach(async (product) => {
@@ -51,6 +64,9 @@ async function createProduct() {
     <h1>Hello</h1>
     <UButton @click="test">
       Get products
+    </UButton>
+    <UButton @click="getAllPrices">
+      Get Price
     </UButton>
     <UButton @click="createProduct">
       Create product

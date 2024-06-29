@@ -290,7 +290,9 @@
     "start_at": "ເລີ່ມຕົ້ນທີ່",
     "orders": "ຈຳນວນສັ່ງຊື້",
     "click": "ຈຳນວນເຂົ້າເບິ່ງ",
-    "revenue": "ລາຍຮັບ"
+    "revenue": "ລາຍຮັບ",
+    "delivery_day": "",
+    "days_delivery": "ມືໃນການຈັດສົ່ງ"
   },
   "contact_me": "ຕິດຕ່ໍຂ້ອຍ",
   "seller": {

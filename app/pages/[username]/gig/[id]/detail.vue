@@ -1,14 +1,16 @@
 <script setup lang="ts">
-import type { Language, ProvidingService, Rating, Village } from '~/types'
+import { PackageType } from '~/constants'
+import type { Language, ProvidingService, Rating, StripePrice, Village } from '~/types'
 
 const route = useRoute('username-gig-id-detail___lo')
 
 const { id } = route.params
+const { t } = useI18n()
 
 const { supabase } = useCustomSupabase()
 const { getAvatarUrl } = useUpload()
 const { term, fetchTermById } = useTerm()
-const { gig, avatarUrl, averageRating, reviews, languages } = useInlineGig()
+const { gig, avatarUrl, averageRating, reviews, languages, basicPricing, standardPricing, premiumPricing } = useInlineGig()
 const { fetchVillages } = useLocation()
 const village = shallowRef<Village>()
 function useInlineGig() {
@@ -27,6 +29,9 @@ function useInlineGig() {
       gig.value = data[0] as any
       console.log(gig.value)
       if (gig.value) {
+        // fetch products
+        await getAllPriceWithProducts()
+
         const villageData = await fetchVillages(`id.eq.${gig.value.freelancer?.village_id}`)
         village.value = villageData[0]
 
@@ -52,6 +57,60 @@ function useInlineGig() {
     }
     return stars.value.reduce((a, b) => a + b, 0) / stars.value.length
   })
+  const prices = shallowRef<StripePrice[]>([])
+  async function getAllPriceWithProducts() {
+    const stripeId = gig.value?.pricing.map(p => p.stripe_price_id)
+    if (stripeId) {
+      const priceItems = await Promise.all(
+        stripeId.map(async (id) => {
+          const { price } = await $fetch<any>(`/api/price/${id}`)
+          return price as StripePrice
+        }),
+      )
+      prices.value = priceItems
+      console.log(prices.value)
+    }
+  }
+
+  const formatPricing = computed(() => {
+    if (!gig.value)
+      return null
+    const formatForOffer = gig.value.pricing.map((p) => {
+      return {
+        id: `${p.id}`,
+        price: formatToDollars(prices.value.find(pp => pp.id === p.stripe_price_id)?.unit_amount || 0),
+        description: `${p.description}`,
+        deliveryDays: p.meta_data?.deliveryTime,
+        revisions: p.meta_data?.revisions,
+        revisionText: t('gig.revisions'),
+        title: `${p.package_name}`,
+        type: p.type_id,
+      }
+    })
+
+    return formatForOffer
+  })
+
+  const basicPricing = computed(() => {
+    if (!gig.value)
+      return null
+    const basicPricing = formatPricing.value?.find(p => p.type === PackageType.BASIC)
+    return basicPricing!
+  })
+
+  const standardPricing = computed(() => {
+    if (!gig.value)
+      return null
+    const standardPricing = formatPricing.value?.find(p => p.type === PackageType.STANDARD)
+    return standardPricing!
+  })
+
+  const premiumPricing = computed(() => {
+    if (!gig.value)
+      return null
+    const premiumPricing = formatPricing.value?.find(p => p.type === PackageType.PREMIUM)
+    return premiumPricing!
+  })
 
   onMounted(() => {
     getGig()
@@ -65,6 +124,10 @@ function useInlineGig() {
     getGig,
     avatarUrl,
     averageRating,
+    formatPricing,
+    basicPricing,
+    standardPricing,
+    premiumPricing,
   }
 }
 </script>
@@ -97,7 +160,10 @@ function useInlineGig() {
         />
         <ReviewAdd />
       </div>
-      <TheOffers />
+
+      <template v-if="basicPricing && standardPricing && premiumPricing">
+        <TheOffers :basic="basicPricing" :standard="standardPricing" :premium="premiumPricing" />
+      </template>
     </div>
   </div>
 </template>

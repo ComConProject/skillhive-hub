@@ -31,7 +31,7 @@ defineProps<Props>()
     <div className="flex flex-col font-semibold text-zinc-700 space-y-2">
       <div className="flex space-x-2">
         <Icon name="i-ph-alarm" />
-        <p>{{ offer.deliveryDays }} Days Delivery</p>
+        <p>{{ offer.deliveryDays }} {{ $t('gig.days_delivery') }}</p>
       </div>
       <div className="flex space-x-2">
         <Icon name="i-ph-arrows-clockwise" />

@@ -6,3 +6,9 @@ export enum TermGroup {
   SKILL_LEVEL = 5,
   PACKAGE_TYPE = 6,
 }
+
+export enum PackageType {
+  BASIC = 41,
+  STANDARD = 42,
+  PREMIUM = 43,
+}

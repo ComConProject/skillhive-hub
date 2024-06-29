@@ -4,7 +4,7 @@ export default defineEventHandler(async (event) => {
   const body = await readBody(event)
   const stripe = await useServerStripe(event)
 
-  const products = await stripe.products.create(
+  const product = await stripe.products.create(
     {
       name: body.name,
       active: true,
@@ -14,17 +14,17 @@ export default defineEventHandler(async (event) => {
       },
     },
   )
-
   // create a price
-  await stripe.prices.create({
+  const price = await stripe.prices.create({
     currency: 'usd',
-    product: products.id,
+    product: product.id,
     unit_amount: body.unit_amount,
     metadata: {
       gigId: body.packageId,
     },
   })
   return {
-    products,
+    product,
+    price,
   }
 })

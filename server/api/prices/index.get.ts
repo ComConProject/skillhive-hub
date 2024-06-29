@@ -2,15 +2,13 @@ import { useServerStripe } from '#stripe/server'
 
 export default defineEventHandler(async (event) => {
   const stripe = await useServerStripe(event)
-
-  const products = await stripe.products.list(
+  const prices = await stripe.prices.list(
     {
-      limit: 10,
-      expand: ['data.price'],
+      expand: ['data.product'],
     },
   )
 
   return {
-    products: products.data,
+    prices: prices.data,
   }
 })

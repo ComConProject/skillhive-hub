@@ -10,11 +10,13 @@ export interface ProvidingService extends Omit<OriginProvidingService, 'delivery
   term?: Term | null
   delivery_format: any
   freelancer?: Freelancer | null
+  pricing: Pricing[]
 }
 
-export interface Pricing extends OriginPricing {
+export interface Pricing extends Omit<OriginPricing, 'meta_data'> {
   term?: Term | null
   providing_service?: ProvidingService | null
+  meta_data: any
 }
 
 export type Rating = Database['public']['Tables']['rating']['Row']

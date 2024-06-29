@@ -368,6 +368,7 @@ export type Database = {
           package_name: string | null
           price: number | null
           service_id: number | null
+          stripe_price_id: string | null
           type_id: number | null
           updated_at: string | null
           user_id: string | null
@@ -381,6 +382,7 @@ export type Database = {
           package_name?: string | null
           price?: number | null
           service_id?: number | null
+          stripe_price_id?: string | null
           type_id?: number | null
           updated_at?: string | null
           user_id?: string | null
@@ -394,6 +396,7 @@ export type Database = {
           package_name?: string | null
           price?: number | null
           service_id?: number | null
+          stripe_price_id?: string | null
           type_id?: number | null
           updated_at?: string | null
           user_id?: string | null

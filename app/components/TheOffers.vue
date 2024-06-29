@@ -1,44 +1,30 @@
 <script setup lang="ts">
+interface Offer {
+  id: string
+  price: number
+  description: string
+  deliveryDays: number
+  revisions: number
+  revisionText: string
+  title: string
+  type?: number | null
+}
+defineProps<{
+  basic: Offer
+  standard: Offer
+  premium: Offer
+}>()
+const { t } = useI18n()
 const items = [{
-  label: 'Basic',
+  label: t('gig.basic'),
   key: 'basic',
 }, {
-  label: 'Standard',
+  label: t('gig.standard'),
   key: 'standard',
 }, {
-  label: 'Premium',
+  label: t('gig.premium'),
   key: 'premium',
 }]
-
-const offer = {
-  basic: {
-    id: '1',
-    title: 'Basic',
-    price: 10,
-    description: 'Basic description',
-    deliveryDays: 5,
-    revisions: 10,
-    revisionText: 'revisions',
-  },
-  standard: {
-    id: '2',
-    title: 'Standard',
-    price: 20,
-    description: 'Standard description',
-    deliveryDays: 10,
-    revisions: 20,
-    revisionText: 'revisions',
-  },
-  premium: {
-    id: '3',
-    title: 'Premium',
-    price: 30,
-    description: 'Premium description',
-    deliveryDays: 15,
-    revisions: 30,
-    revisionText: 'revisions',
-  },
-}
 </script>
 
 <template>
@@ -47,13 +33,13 @@ const offer = {
       <UTabs class="w-full sm:w-[400px]" :items="items">
         <template #item="{ item }">
           <section v-if="item.key === 'basic'">
-            <OfferContent :offer="offer.basic" :is-owner="false" />
+            <OfferContent :offer="basic" :is-owner="false" />
           </section>
           <section v-if="item.key === 'standard'">
-            <OfferContent :offer="offer.standard" :is-owner="false" />
+            <OfferContent :offer="standard" :is-owner="false" />
           </section>
           <section v-if="item.key === 'premium'">
-            <OfferContent :offer="offer.premium" :is-owner="false" />
+            <OfferContent :offer="premium" :is-owner="false" />
           </section>
         </template>
       </UTabs>

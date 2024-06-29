@@ -4,6 +4,12 @@ import { TermGroup } from '../../constants'
 import type { Freelancer, Term } from '@/types'
 import type { FormSubmitEvent } from '#ui/types'
 
+enum PriceType {
+  BASIC = 'basic',
+  STANDARD = 'standard',
+  PREMIUM = 'premium',
+}
+
 const { t } = useI18n()
 
 const { supabase } = useCustomSupabase()
@@ -136,6 +142,47 @@ function useInlineGig() {
     // insert pricing
     const serviceId = serviceData[0]?.id as number
 
+    const objsStripe = [
+      {
+        name: e.data.basic.title,
+        description: e.data.basic.description,
+        unit_amount: e.data.basic.price,
+        packageId: PriceType.BASIC,
+      },
+      {
+        name: e.data.standard.title,
+        description: e.data.standard.description,
+        unit_amount: e.data.standard.price,
+        packageId: PriceType.STANDARD,
+      },
+      {
+        name: e.data.premium.title,
+        description: e.data.premium.description,
+        unit_amount: e.data.premium.price,
+        packageId: PriceType.PREMIUM,
+      },
+    ]
+
+    const stripeItems = await Promise.all(
+      objsStripe.map(async (item) => {
+        const { price } = await $fetch('/api/products', {
+          method: 'POST',
+          body: {
+            name: item.name,
+            description: item.description,
+            unit_amount: (item.unit_amount || 0) * 100,
+            packageId: `${serviceId}-${item.packageId}`,
+          },
+        })
+        return {
+          id: price.id,
+          type: item.packageId as PriceType,
+        }
+      }),
+    )
+    const basicId = stripeItems.find(i => i.type === PriceType.BASIC)?.id
+    const standardId = stripeItems.find(i => i.type === PriceType.STANDARD)?.id
+    const premiumId = stripeItems.find(i => i.type === PriceType.PREMIUM)?.id
     const objPricing = [
       {
         service_id: serviceId,
@@ -147,6 +194,7 @@ function useInlineGig() {
         meta_data: {
           ...e.data.basic,
         },
+        stripe_price_id: basicId,
       },
       {
         service_id: serviceId,
@@ -158,6 +206,7 @@ function useInlineGig() {
         meta_data: {
           ...e.data.standard,
         },
+        stripe_price_id: standardId,
       },
       {
         service_id: serviceId,
@@ -169,6 +218,7 @@ function useInlineGig() {
         meta_data: {
           ...e.data.premium,
         },
+        stripe_price_id: premiumId,
       },
     ]
 
@@ -183,27 +233,16 @@ function useInlineGig() {
       loading.value = false
       throw new Error(`[onSubmit] pricing table`)
     }
-    const objsStripe = pricingData.map((item) => {
-      return {
-        ...item,
-      }
-    })
-    if (!objsStripe) {
-      loading.value = false
-      throw new Error(`[onSubmit] pricing table`)
-    }
+    // const objsStripe = pricingData.map((item) => {
+    //   return {
+    //     ...item,
+    //   }
+    // })
+    // if (!objsStripe) {
+    //   loading.value = false
+    //   throw new Error(`[onSubmit] pricing table`)
+    // }
     // insert pricing into stripe
-    objsStripe.forEach(async (item) => {
-      await $fetch<any>('/api/products', {
-        method: 'POST',
-        body: {
-          name: item.package_name,
-          description: item.description,
-          unit_amount: (item.price || 0) * 100,
-          packageId: item.id,
-        },
-      })
-    })
 
     toast.add({
       title: t('form.success'),
