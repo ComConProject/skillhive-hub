@@ -8,6 +8,8 @@ interface Offer {
   revisionText: string
   title: string
   type?: number | null
+  stripePriceId: string
+  gigId: string
 }
 defineProps<{
   basic: Offer

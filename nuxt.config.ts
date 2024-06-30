@@ -19,8 +19,13 @@ export default defineNuxtConfig({
     stripe: {
       key: process.env.STRIPE_SECRET_KEY,
     },
+    stripeWebhookKey: process.env.STRIPE_WEBHOOK_KEY,
     supabaseUrl: process.env.SUPABASE_URL,
     supabaseKey: process.env.SUPABASE_KEY,
+    public: {
+      publicUrl: process.env.NUXT_PUBLIC_URL,
+      baseUrl: process.env.NUXT_BASE_URL,
+    },
   },
   supabase: {
     redirectOptions: {

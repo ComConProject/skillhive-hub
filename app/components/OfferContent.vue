@@ -7,14 +7,37 @@ interface Offer {
   revisions: number
   revisionText: string
   title: string
+  stripePriceId: string
+  gigId: string
 }
 
 interface Props {
   offer: Offer
   isOwner: boolean
 }
-
-defineProps<Props>()
+const props = defineProps<Props>()
+const user = useSupabaseUser()
+const loading = ref(false)
+async function createCheckoutSession() {
+  loading.value = true
+  const body = {
+    priceId: props.offer.stripePriceId,
+    pricingId: props.offer.id,
+    userId: user.value?.id,
+    email: user.value?.email,
+    gigId: props.offer.gigId,
+    totalPrice: props.offer.price,
+  }
+  const { url } = await $fetch<any>('/api/checkout', {
+    method: 'POST',
+    body,
+  })
+  if (url) {
+    window.location.href = url
+    loading.value = false
+  }
+  loading.value = false
+}
 </script>
 
 <template>
@@ -24,7 +47,7 @@ defineProps<Props>()
         {{ offer.title }}
       </h1>
       <p className="ml-auto text-2xl">
-        ${{ offer.price }}
+        ${{ formatToDollars(offer.price) }}
       </p>
     </div>
     <p>{{ offer.description }}</p>
@@ -39,7 +62,7 @@ defineProps<Props>()
       </div>
     </div>
     <div v-if="isOwner === false" class="flex gap-2">
-      <UButton>
+      <UButton :loading="loading" @click="createCheckoutSession">
         {{ $t('offer.order') }}
       </UButton>
       <UButton variant="outline">

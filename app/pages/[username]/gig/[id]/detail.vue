@@ -78,13 +78,15 @@ function useInlineGig() {
     const formatForOffer = gig.value.pricing.map((p) => {
       return {
         id: `${p.id}`,
-        price: formatToDollars(prices.value.find(pp => pp.id === p.stripe_price_id)?.unit_amount || 0),
+        price: prices.value.find(pp => pp.id === p.stripe_price_id)?.unit_amount || 0,
         description: `${p.description}`,
         deliveryDays: p.meta_data?.deliveryTime,
         revisions: p.meta_data?.revisions,
         revisionText: t('gig.revisions'),
         title: `${p.package_name}`,
         type: p.type_id,
+        stripePriceId: `${p.stripe_price_id}`,
+        gigId: `${p.service_id}`,
       }
     })
 

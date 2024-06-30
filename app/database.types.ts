@@ -246,6 +246,7 @@ export type Database = {
           created_at: string
           detail: string
           id: number
+          metadata: Json | null
           on_date: string
           price: number
           pricing_id: number
@@ -256,6 +257,7 @@ export type Database = {
           created_at?: string
           detail: string
           id?: number
+          metadata?: Json | null
           on_date: string
           price: number
           pricing_id: number
@@ -266,6 +268,7 @@ export type Database = {
           created_at?: string
           detail?: string
           id?: number
+          metadata?: Json | null
           on_date?: string
           price?: number
           pricing_id?: number
@@ -279,6 +282,7 @@ export type Database = {
           created_at: string
           description: string | null
           id: number
+          metadata: Json | null
           method: string | null
           on_date: string | null
           order_id: number | null
@@ -291,6 +295,7 @@ export type Database = {
           created_at?: string
           description?: string | null
           id?: number
+          metadata?: Json | null
           method?: string | null
           on_date?: string | null
           order_id?: number | null
@@ -303,6 +308,7 @@ export type Database = {
           created_at?: string
           description?: string | null
           id?: number
+          metadata?: Json | null
           method?: string | null
           on_date?: string | null
           order_id?: number | null
@@ -595,6 +601,27 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      stripe_webhook: {
+        Row: {
+          created_at: string
+          data: Json | null
+          id: number
+          receipt_email: string | null
+        }
+        Insert: {
+          created_at?: string
+          data?: Json | null
+          id?: number
+          receipt_email?: string | null
+        }
+        Update: {
+          created_at?: string
+          data?: Json | null
+          id?: number
+          receipt_email?: string | null
+        }
+        Relationships: []
       }
       term: {
         Row: {

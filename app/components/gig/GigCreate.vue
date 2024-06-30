@@ -82,12 +82,12 @@ function useInlineGig() {
   }
 
   async function onUpload(e: FileList) {
-    Array.from(e).forEach(async (file) => {
+    for (const file of Array.from(e)) {
       const path = await handleUpload(file)
       if (path) {
         filePaths.value.push(path)
       }
-    })
+    }
   }
 
   async function onSubmit(e: FormSubmitEvent<GigSchema>) {
