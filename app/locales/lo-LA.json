@@ -309,5 +309,7 @@
   "offer": {
     "send_message": "ສົ່ງຂໍ້ຄວາມ",
     "order": "ສັ່ງຊື່"
-  }
+  },
+  "successful_purchase": "ຊຳລະສຳເລັດແລ້ວ",
+  "go_to_orders": "ໄປໜ້າການສັ່ງຊື່"
 }
