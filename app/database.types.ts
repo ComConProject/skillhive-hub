@@ -242,7 +242,7 @@ export type Database = {
       }
       order: {
         Row: {
-          buyer_id: number
+          buyer_id: string | null
           created_at: string
           detail: string
           id: number
@@ -253,7 +253,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
-          buyer_id: number
+          buyer_id?: string | null
           created_at?: string
           detail: string
           id?: number
@@ -264,7 +264,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
-          buyer_id?: number
+          buyer_id?: string | null
           created_at?: string
           detail?: string
           id?: number
@@ -274,7 +274,15 @@ export type Database = {
           pricing_id?: number
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "order_pricing_id_fkey"
+            columns: ["pricing_id"]
+            isOneToOne: false
+            referencedRelation: "pricing"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       payment: {
         Row: {
@@ -570,7 +578,7 @@ export type Database = {
           description: string | null
           freelancer_id: number | null
           id: number
-          level: string | null
+          level_id: number
           name: string | null
           updated_at: string | null
         }
@@ -579,7 +587,7 @@ export type Database = {
           description?: string | null
           freelancer_id?: number | null
           id?: number
-          level?: string | null
+          level_id: number
           name?: string | null
           updated_at?: string | null
         }
@@ -588,7 +596,7 @@ export type Database = {
           description?: string | null
           freelancer_id?: number | null
           id?: number
-          level?: string | null
+          level_id?: number
           name?: string | null
           updated_at?: string | null
         }
@@ -598,6 +606,13 @@ export type Database = {
             columns: ["freelancer_id"]
             isOneToOne: false
             referencedRelation: "freelancer"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "skill_level_id_fkey"
+            columns: ["level_id"]
+            isOneToOne: false
+            referencedRelation: "term"
             referencedColumns: ["id"]
           },
         ]

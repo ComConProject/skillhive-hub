@@ -8,6 +8,8 @@ interface Props {
 }
 
 defineProps<Props>()
+
+const { username } = useRoute('username-gig-id-detail___lo').params
 </script>
 
 <template>
@@ -17,7 +19,7 @@ defineProps<Props>()
     </NuxtLinkLocale>
     <div class="w-[300px] flex flex-col justify-between gap-y-2">
       <div class="flex items-center">
-        <NuxtLinkLocale to="">
+        <NuxtLinkLocale :to="`/${username}/seller`">
           <p class="font-bold text-lg">
             {{ name }}
           </p>

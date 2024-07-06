@@ -174,7 +174,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 
   // create skill
   const skillObjs = skills.value.map((i) => {
-    return { name: i.name, level: `${i.levelId}`, freelancer_id: freelancerId, description: i.levelName }
+    return { name: i.name, level_id: i.levelId, freelancer_id: freelancerId, description: i.levelName }
   })
   const { error: skillError } = await supabase.from('skill').insert(skillObjs)
   if (skillError) {

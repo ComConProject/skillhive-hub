@@ -10,7 +10,7 @@ export interface ProvidingService extends Omit<OriginProvidingService, 'delivery
   term?: Term | null
   delivery_format: any
   freelancer?: Freelancer | null
-  pricing: Pricing[]
+  pricing?: Pricing[]
 }
 
 export interface Pricing extends Omit<OriginPricing, 'meta_data'> {
