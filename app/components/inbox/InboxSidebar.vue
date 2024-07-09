@@ -1,5 +1,9 @@
 <script setup lang="ts">
+const { id } = useRoute('inbox-id___lo').params
 
+const idRef = computed(() => {
+  return id
+})
 </script>
 
 <template>
@@ -11,6 +15,6 @@
         </span>
       </div> -->
     </NuxtLinkLocale>
-    <InboxConversationList />
+    <InboxConversationList :id="idRef" />
   </div>
 </template>

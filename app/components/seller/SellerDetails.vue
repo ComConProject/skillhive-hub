@@ -12,12 +12,24 @@ interface Props {
   joined?: Date | null
   lastDelivery?: Date | null
   languages?: Language[] | null
+  freelancerId?: number
 }
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
   averageRating: 0,
   totalRating: 0,
   profileUrl: null,
 })
+
+const { createDirectChatRoom } = useMessage()
+const user = useSupabaseUser()
+
+async function handleChat() {
+  const data = await createDirectChatRoom(props.freelancerId!, user.value!.id)
+
+  if (data) {
+    navigateTo(`/inbox/${user.value?.id}/`)
+  }
+}
 </script>
 
 <template>
@@ -51,11 +63,9 @@ withDefaults(defineProps<Props>(), {
           </div>
         </div>
       </div>
-      <NuxtLinkLocale to="">
-        <UButton>
-          {{ $t('contact') }}
-        </UButton>
-      </NuxtLinkLocale>
+      <UButton @click="handleChat">
+        {{ $t('contact') }}
+      </UButton>
       <div class="border border-black/20 p-4 space-y-3 rounded-2xl">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-y-4">
           <div>

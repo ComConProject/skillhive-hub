@@ -10,7 +10,7 @@ interface Offer {
   type?: number | null
   stripePriceId: string
   gigId: string
-  freelancerId: string | number
+  freelancerId: string | number | null
 }
 defineProps<{
   basic: Offer

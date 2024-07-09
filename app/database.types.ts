@@ -9,6 +9,60 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      chat_rooms: {
+        Row: {
+          created_at: string | null
+          id: string
+          room_name: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          room_name: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          room_name?: string
+        }
+        Relationships: []
+      }
+      direct_chat_rooms: {
+        Row: {
+          buyer_id: string | null
+          created_at: string | null
+          id: string
+          seller_id: number | null
+        }
+        Insert: {
+          buyer_id?: string | null
+          created_at?: string | null
+          id?: string
+          seller_id?: number | null
+        }
+        Update: {
+          buyer_id?: string | null
+          created_at?: string | null
+          id?: string
+          seller_id?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "direct_chat_rooms_buyer_id_fkey"
+            columns: ["buyer_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "direct_chat_rooms_seller_id_fkey"
+            columns: ["seller_id"]
+            isOneToOne: false
+            referencedRelation: "freelancer"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       districts: {
         Row: {
           en: string
@@ -221,24 +275,52 @@ export type Database = {
       }
       messages: {
         Row: {
-          created_at: string
-          id: number
-          message: string | null
+          content: string
+          created_at: string | null
+          direct_chat_id: string | null
+          id: string
+          room_id: string | null
           user_id: string | null
         }
         Insert: {
-          created_at?: string
-          id?: number
-          message?: string | null
+          content: string
+          created_at?: string | null
+          direct_chat_id?: string | null
+          id?: string
+          room_id?: string | null
           user_id?: string | null
         }
         Update: {
-          created_at?: string
-          id?: number
-          message?: string | null
+          content?: string
+          created_at?: string | null
+          direct_chat_id?: string | null
+          id?: string
+          room_id?: string | null
           user_id?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "messages_direct_chat_id_fkey"
+            columns: ["direct_chat_id"]
+            isOneToOne: false
+            referencedRelation: "direct_chat_rooms"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "messages_room_id_fkey"
+            columns: ["room_id"]
+            isOneToOne: false
+            referencedRelation: "chat_rooms"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "messages_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       order: {
         Row: {
@@ -766,6 +848,39 @@ export type Database = {
           user_email?: string | null
         }
         Relationships: []
+      }
+      user_chat_rooms: {
+        Row: {
+          joined_at: string | null
+          room_id: string
+          user_id: string
+        }
+        Insert: {
+          joined_at?: string | null
+          room_id: string
+          user_id: string
+        }
+        Update: {
+          joined_at?: string | null
+          room_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_chat_rooms_room_id_fkey"
+            columns: ["room_id"]
+            isOneToOne: false
+            referencedRelation: "chat_rooms"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_chat_rooms_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       villages: {
         Row: {

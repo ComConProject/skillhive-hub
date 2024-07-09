@@ -14,7 +14,7 @@ function formatGigForCard(gigs: ProvidingService[], rating: Rating[]) {
       title: `${gig?.title}`,
       seller: `${gig?.delivery_format.owner.fullname}`,
       img: 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      createdAtLabel: d(new Date(gig.created_at), 'short'),
+      createdAtLabel: d(new Date(gig.created_at)),
       disabled: false,
       offer: `${gig.pricing?.find(i => i.term?.id === PackageType.BASIC)?.price || 0}`,
       ownerLabel: `${gig?.description}`,

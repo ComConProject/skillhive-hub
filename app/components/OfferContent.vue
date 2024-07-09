@@ -9,7 +9,7 @@ interface Offer {
   title: string
   stripePriceId: string
   gigId: string
-  freelancerId: string | number
+  freelancerId: string | number | null
 }
 
 interface Props {

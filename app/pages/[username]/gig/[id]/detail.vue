@@ -90,7 +90,7 @@ function useInlineGig() {
         type: p.type_id,
         stripePriceId: `${p.stripe_price_id}`,
         gigId: `${p.service_id}`,
-        freelancerId: gig.value?.freelancer_id,
+        freelancerId: gig.value!.freelancer_id,
       }
     })
     return formatForOffer
@@ -162,6 +162,7 @@ function useInlineGig() {
           :location="`${village?.lo}, ${village?.districts?.lo}, ${village?.districts?.provinces?.lo}`"
           :description="gig.freelancer?.description"
           :languages="languages"
+          :freelancer-id="gig.freelancer_id!"
         />
         <ReviewAdd />
       </div>

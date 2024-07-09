@@ -1,27 +1,29 @@
 <script setup lang="ts">
-const conversations = shallowRef([
-  {
-    id: 1,
-    title: 'Sarah Copeland',
-    lastMessage: 'Hello, how are you today?',
-    lastMessageTime: '10:00 AM',
-    isSelect: true,
-  },
-  {
-    id: 2,
-    title: 'Lillie Burns',
-    lastMessage: 'Hey, what are you up to today?',
-    lastMessageTime: '10:00 AM',
-    isSelect: false,
-  },
-  {
-    id: 3,
-    title: 'Nora Phillips',
-    lastMessage: 'Hey, Can we meet today?',
-    lastMessageTime: '10:00 AM',
-    isSelect: false,
-  },
-])
+import type { DirectChatAndMessage } from '~/types'
+
+const props = defineProps<{
+  id?: string
+}>()
+
+const { fetchConversations } = useMessage()
+
+const conversations = shallowRef<DirectChatAndMessage[]>([])
+async function fetchChats() {
+  if (!props.id)
+    return
+  const data = await fetchConversations(props.id)
+
+  if (data) {
+    conversations.value = data
+  }
+}
+
+watchEffect(() => {
+  if (props.id) {
+    fetchChats()
+    console.log(props.id)
+  }
+})
 </script>
 
 <template>
@@ -36,23 +38,21 @@ const conversations = shallowRef([
     <div class="w-full">
       <ul class="flex flex-col gap-y-1">
         <li
-          v-for="i in conversations" :key="i.id" class="py-2 px-1 cursor-pointer hover:bg-slate-200 transition-all duration-150 rounded-lg"
-          :class="{
-            'bg-slate-200': i.isSelect,
-          }"
+          v-for="i in conversations" :key="i.chatRoom.id" class="py-2 px-1 cursor-pointer hover:bg-slate-200 transition-all duration-150 rounded-lg"
         >
           <div class="flex justify-between">
             <div>
               <p class="font-medium">
-                {{ i.title }}
+                {{ i.otherUserId }}
               </p>
               <small>
-                {{ i.lastMessage }}
+                {{ i.lastMessage.content }}
               </small>
             </div>
             <div>
               <small>
-                {{ i.lastMessageTime }}
+                <!-- {{ $d(new Date(i.lastMessage.created_at as string)) }} -->
+                {{ i.lastMessage.created_at }}
               </small>
             </div>
           </div>
