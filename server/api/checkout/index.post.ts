@@ -14,7 +14,8 @@ export default defineEventHandler(async (event) => {
       statusMessage: 'Missing priceId',
     })
   }
-
+  // random three string
+  const code = `${Math.random().toString(36).substring(2, 5).toLocaleUpperCase()}-${generateRandomNumber(6)}`
   // Insert to database
   const { data, error } = await client.from('order').insert({
     buyer_id: body.userId,
@@ -22,6 +23,10 @@ export default defineEventHandler(async (event) => {
     price: body.totalPrice,
     detail: `Purchase gig ${body.gigId} with price ${body.totalPrice}`,
     on_date: new Date().toISOString(),
+    code,
+    customer: body.customer,
+    customer_email: body.email,
+    freelancer_id: body.freelancerId,
   }).select('*').single()
 
   if (error) {
@@ -46,6 +51,7 @@ export default defineEventHandler(async (event) => {
       payment_method_types: ['card'],
       success_url: `${config.public.baseUrl}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${config.public.baseUrl}/cancel`,
+      customer_email: body.email,
       metadata: {
         gigId: body.gigId,
         userId: body.userId,

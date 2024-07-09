@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Order } from '~/types'
+import type { Freelancer, Order } from '~/types'
 
 const { supabase: db } = useCustomSupabase()
 
@@ -10,6 +10,18 @@ const { orders, loading, page, pageCount } = useInlineOrders()
 function useInlineOrders() {
   const orders = shallowRef<Order[]>([])
   const loading = shallowRef(false)
+
+  const freelancer = shallowRef<Freelancer>()
+  async function fetchFreelancer() {
+    const { data, error } = await db.from('freelancer').select('*').eq('user_id', `${user.value?.id}`).single()
+    if (error) {
+      throw new Error(`[fetchFreelancer] ${error.message}`)
+    }
+
+    if (data) {
+      freelancer.value = data
+    }
+  }
 
   const page = ref(1)
   const pageCount = ref(5)
@@ -22,8 +34,9 @@ function useInlineOrders() {
 
   async function fetchOrdersByUserId() {
     loading.value = true
+    await fetchFreelancer()
     const { from, to } = getFromAndTo()
-    const { data, error, count } = await db.from('order').select('*, payment(*), pricing(*), status:term(*)', { count: 'exact' }).range(from, to).eq('buyer_id', `${user.value?.id}`)
+    const { data, error, count } = await db.from('order').select('*, payment(*), pricing(*), status:term(*)', { count: 'exact' }).range(from, to).eq('freelancer_id', `${freelancer.value?.id}`)
 
     if (error) {
       loading.value = false
@@ -54,11 +67,13 @@ function useInlineOrders() {
 </script>
 
 <template>
-  <div>
-    <h1 class="mb-2 text-xl font-semibold">
-      {{ $t('my_orders') }}
+  <div class="space-y-3">
+    <h1 class="text-xl font-semibold">
+      {{ $t('order') }}
     </h1>
-    <OrderTable v-if="orders.length" :loading="loading" :orders="orders" />
+    <div class="h-full">
+      <SellerTable v-if="orders.length" :loading="loading" :orders="orders" />
+    </div>
     <div v-if="orders.length" class="flex justify-end border-gray-200 dark:border-gray-700">
       <UPagination v-model="page" :page-count="pageCount" :total="orders.length" />
     </div>

@@ -8,20 +8,20 @@ const { t } = useI18n()
 
 const dropdownItems = [
   [
-    // {
-    //   label: t('profile.profile'),
-    //   icon: 'i-line-md-account',
+    {
+      label: t('profile.profile'),
+      icon: 'i-line-md-account',
 
-    //   click: () => {
-    //     navigateTo(`/${user.value?.id}/seller/`)
-    //   },
-    // },
+      click: () => {
+        navigateTo(`/${user.value?.id}/seller/`)
+      },
+    },
     {
       label: t('order'),
       icon: 'i-heroicons-shopping-cart',
 
       click: () => {
-        navigateTo('/orders')
+        navigateTo(`/${user.value?.id}/manage-gig/order`)
       },
     },
   ],
@@ -76,17 +76,11 @@ async function signOut() {
   <div class="border-b pb-4 border-slate-100 dark:border-slate-700">
     <section class="flex items-center justify-between gap-4">
       <div class="flex items-center gap-3">
-        <NuxtLinkLocale to="/">
+        <NuxtLinkLocale :to="`/${seller?.username}/manage-gig/`">
           <h1 class="font-semibold text-lg">
             Skillhive
           </h1>
         </NuxtLinkLocale>
-        <div class="w-96">
-          <UInput :placeholder="$t('what_service_are_you_looking_for_today')" trailing-icon="i-heroicons-magnifying-glass" />
-        </div>
-        <div>
-          <TheCategory />
-        </div>
       </div>
       <ul class="flex items-center gap-3">
         <li>
@@ -112,14 +106,9 @@ async function signOut() {
           </UTooltip>
         </li>
         <li>
-          <NuxtLinkLocale v-if="!seller" to="/seller">
+          <NuxtLinkLocale to="/">
             <UButton color="gray">
-              {{ $t('become_a_seller') }}
-            </UButton>
-          </NuxtLinkLocale>
-          <NuxtLinkLocale v-else :to="`/${seller.username}/manage-gig/`">
-            <UButton color="gray">
-              {{ $t('gig.manage') }}
+              {{ $t('switch_to_buyer') }}
             </UButton>
           </NuxtLinkLocale>
         </li>

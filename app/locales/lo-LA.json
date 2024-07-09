@@ -219,6 +219,7 @@
     "not": "ຖ້າ​ຫາກ​ວ່າ​ທ່ານ​ບໍ່​ມີ​ບັນ​ຊີ​",
     "have": "ຖ້າມີບັນຊີ"
   },
+  "service": "ບໍລິການ",
   "sign_in_success": "ເຂົ້າສູ່ລະບົບສໍາເລັດ",
   "sign_in_failed": "ເຂົ້າສູ່ລະບົບບໍ່ສຳເລັດ",
   "please_try_again": "ກະລຸນາລອງໃຫມ່",
@@ -292,10 +293,12 @@
     "click": "ຈຳນວນເຂົ້າເບິ່ງ",
     "revenue": "ລາຍຮັບ",
     "delivery_day": "",
-    "days_delivery": "ມືໃນການຈັດສົ່ງ"
+    "days_delivery": "ມືໃນການຈັດສົ່ງ",
+    "status": "ສະຖານະການໃຫ້ບໍລິການ"
   },
   "contact_me": "ຕິດຕ່ໍຂ້ອຍ",
   "seller": {
+    "seller": "ຜູ້ໃຫ້ບໍລິການ",
     "create_your_profile": "ສ້າງຂໍ້ມູນສ່ວນຕົວ",
     "professional_information": "ຂໍ້ມູນດ້ານວິຊາຊີບ",
     "role": "ອາຊີບ"
@@ -311,6 +314,15 @@
     "order": "ສັ່ງຊື່"
   },
   "successful_purchase": "ຊຳລະສຳເລັດແລ້ວ",
-  "go_to_orders": "ໄປໜ້າການສັ່ງຊື່",
-  "about_me": "ກ່ຽວກັບຂ້ອຍ"
+  "go_to_orders": "ໄປໜ້າການສັ່ງຊື້",
+  "about_me": "ກ່ຽວກັບຂ້ອຍ",
+  "order": "ການສັ່ງຊື້",
+  "paid": "ຊຳລະແລ້ວ",
+  "payment_status": "ສະຖານະຊຳລະເງິນ",
+  "loading": "ກຳລັງໂຫລດ",
+  "my_orders": "ການສັ່ງຊື້ຂອງຂ້ອຍ",
+  "switch_to_buyer": "ປ່ຽນເປັນຜູ້ໃຊ້ບໍລິການ",
+  "customer": "ລູກຄ້າ",
+  "edit_status": "ແກ້ໄຂສະຖານະ",
+  "completed": "ສຳເລັດ"
 }

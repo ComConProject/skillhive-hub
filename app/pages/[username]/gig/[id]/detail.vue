@@ -5,6 +5,7 @@ import type { Language, ProvidingService, Rating, StripePrice, Village } from '~
 const route = useRoute('username-gig-id-detail___lo')
 
 const { id } = route.params
+const user = useSupabaseUser()
 const { t } = useI18n()
 
 const { supabase } = useCustomSupabase()
@@ -59,6 +60,9 @@ function useInlineGig() {
   })
   const prices = shallowRef<StripePrice[]>([])
   async function getAllPriceWithProducts() {
+    if (!gig.value?.pricing) {
+      return null
+    }
     const stripeId = gig.value?.pricing.map(p => p.stripe_price_id)
     if (stripeId) {
       const priceItems = await Promise.all(
@@ -68,12 +72,11 @@ function useInlineGig() {
         }),
       )
       prices.value = priceItems
-      console.log(prices.value)
     }
   }
 
   const formatPricing = computed(() => {
-    if (!gig.value)
+    if (!gig.value?.pricing)
       return null
     const formatForOffer = gig.value.pricing.map((p) => {
       return {
@@ -87,9 +90,9 @@ function useInlineGig() {
         type: p.type_id,
         stripePriceId: `${p.stripe_price_id}`,
         gigId: `${p.service_id}`,
+        freelancerId: gig.value?.freelancer_id,
       }
     })
-
     return formatForOffer
   })
 
@@ -135,15 +138,15 @@ function useInlineGig() {
 </script>
 
 <template>
-  <div v-if="gig">
-    <div class="flex flex-col sm:flex-row w-full sm:justify-center space-x-0 sm:space-x-3 lg:space-x-16">
+  <div>
+    <div v-if="gig" class="flex flex-col sm:flex-row w-full sm:justify-center space-x-0 sm:space-x-3 lg:space-x-16">
       <div class="w-full space-y-8 mb-2">
-        <GigDetailHeader :category="term?.name" :subcategory="gig.term?.name || ''" />
+        <GigDetailHeader :gig-id="gig.id" :show-edit="gig.freelancer?.user_id === user?.id" :category="term?.name" :subcategory="gig.term?.name || ''" />
         <h1 class="text-3xl font-bold break-words text-[#3F3F3F]">
           {{ gig.title }}
         </h1>
         <SellerDetail :avatar="avatarUrl" :name="`${gig.freelancer?.firstname} ${gig.freelancer?.lastname}`" :average-rating="averageRating" :total-rating="reviews.length" />
-        <GigImages />
+        <GigImages :items="gig.delivery_format.images.filesPaths" />
         <GigDescription :description="gig.description" />
         <!-- <UAlert icon="i-line-md-alert-square" title="Delivery preferences">
           <template #description>

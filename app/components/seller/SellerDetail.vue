@@ -29,10 +29,10 @@ const { username } = useRoute('username-gig-id-detail___lo').params
         <div class="flex gap-x-1 items-center">
           <Icon name="line-md:star-alt-filled" class="w-5 h-5" />
           <p class="font-semibold">
-            {{ averageRating }}
+            {{ averageRating || 0 }}
           </p>
           (<p class="underline">
-            {{ totalRating }}
+            {{ totalRating || 0 }}
           </p>)
         </div>
       </div>

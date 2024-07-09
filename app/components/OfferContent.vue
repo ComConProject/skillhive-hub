@@ -9,6 +9,7 @@ interface Offer {
   title: string
   stripePriceId: string
   gigId: string
+  freelancerId: string | number
 }
 
 interface Props {
@@ -27,6 +28,7 @@ async function createCheckoutSession() {
     email: user.value?.email,
     gigId: props.offer.gigId,
     totalPrice: props.offer.price,
+    customer: user.value?.user_metadata?.full_name || user.value?.email,
   }
   const { url } = await $fetch<any>('/api/checkout', {
     method: 'POST',

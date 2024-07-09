@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import type { ProvidingService } from '~/types'
-
 interface Props {
   category: string
   subcategory: string
+  showEdit?: boolean
+  gigId?: number
 }
-
 defineProps<Props>()
+const user = useSupabaseUser()
 </script>
 
 <template>
@@ -38,7 +38,7 @@ defineProps<Props>()
     <div className="font-medium cursor-pointer">
       {{ subcategory }}
     </div>
-    <NuxtLinkLocale to="">
+    <NuxtLinkLocale v-if="showEdit" :to="`/${user?.id}/manage-gig/${gigId}/edit`">
       <UButton>
         {{ $t('form.edit') }}
       </UButton>

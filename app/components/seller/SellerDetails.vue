@@ -18,7 +18,6 @@ withDefaults(defineProps<Props>(), {
   totalRating: 0,
   profileUrl: null,
 })
-const user = useSupabaseUser()
 </script>
 
 <template>
@@ -26,12 +25,12 @@ const user = useSupabaseUser()
     <div class="space-y-3">
       <div class="flex space-x-4">
         <NuxtLinkLocale to="">
-          <UAvatar size="lg" :src="user?.user_metadata.avatar_url" />
+          <UAvatar size="lg" :src="profileUrl || ''" />
         </NuxtLinkLocale>
         <div class="w-fit flex flex-col space-y-2">
           <NuxtLinkLocale to="">
             <p class="font-bold text-lg">
-              {{ user?.user_metadata.full_name || user?.email }}
+              {{ fullname || '' }}
             </p>
           </NuxtLinkLocale>
           <p class="text-md">

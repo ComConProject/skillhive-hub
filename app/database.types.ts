@@ -243,43 +243,72 @@ export type Database = {
       order: {
         Row: {
           buyer_id: string | null
+          code: string | null
           created_at: string
+          customer: string | null
+          customer_email: string | null
           detail: string
+          freelancer_id: number
           id: number
           metadata: Json | null
           on_date: string
           price: number
           pricing_id: number
+          status_id: number
           updated_at: string
         }
         Insert: {
           buyer_id?: string | null
+          code?: string | null
           created_at?: string
+          customer?: string | null
+          customer_email?: string | null
           detail: string
+          freelancer_id: number
           id?: number
           metadata?: Json | null
           on_date: string
           price: number
           pricing_id: number
+          status_id?: number
           updated_at?: string
         }
         Update: {
           buyer_id?: string | null
+          code?: string | null
           created_at?: string
+          customer?: string | null
+          customer_email?: string | null
           detail?: string
+          freelancer_id?: number
           id?: number
           metadata?: Json | null
           on_date?: string
           price?: number
           pricing_id?: number
+          status_id?: number
           updated_at?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "order_freelancer_id_fkey"
+            columns: ["freelancer_id"]
+            isOneToOne: false
+            referencedRelation: "freelancer"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "order_pricing_id_fkey"
             columns: ["pricing_id"]
             isOneToOne: false
             referencedRelation: "pricing"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "order_status_id_fkey"
+            columns: ["status_id"]
+            isOneToOne: false
+            referencedRelation: "term"
             referencedColumns: ["id"]
           },
         ]

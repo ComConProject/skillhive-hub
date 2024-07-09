@@ -1,9 +1,20 @@
 <script setup lang="ts">
-const items = [
-  'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-]
+interface Props {
+  items?: string[]
+}
 
-const carouselRef = ref()
+const props = withDefaults(defineProps<Props>(), {
+  items: () => ['https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'],
+})
+
+const images = computed(() => {
+  const items = props.items.map((item) => {
+    return getImageUrl(item)
+  })
+  return items
+})
+
+const carouselRef = ref<any>()
 
 onMounted(() => {
   setInterval(() => {
@@ -22,7 +33,7 @@ onMounted(() => {
   <UCarousel
     ref="carouselRef"
     v-slot="{ item }"
-    :items="items"
+    :items="images"
     :ui="{ item: 'basis-full' }"
     class="rounded-lg overflow-hidden"
     indicators

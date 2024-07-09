@@ -1,5 +1,5 @@
 <script setup lang="ts">
-
+navigateTo('/seller/add')
 </script>
 
 <template>
