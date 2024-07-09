@@ -47,13 +47,10 @@ export function useMessage() {
     try {
     // Determine if userId is a number or a string
       const isNumber = !Number.isNaN(Number(userId))
-      console.log(userId)
       // Build the appropriate filter condition
       const filterCondition = isNumber
         ? `seller_id.eq.${userId}`
         : `buyer_id.eq.${userId}`
-
-      console.log(filterCondition)
 
       // Fetch all direct chat rooms where the user is involved
       const { data: chatRooms, error: chatRoomError } = await db
@@ -95,7 +92,7 @@ export function useMessage() {
               otherUserId: isNumber ? chatRoom.buyer_id : chatRoom.seller_id,
             }
           }
-          catch (error) {
+          catch (error: any) {
             console.error(`Error fetching messages for chat room ${chatRoom.id}:`, error.message)
             return null // Handle error for individual chat room query
           }
