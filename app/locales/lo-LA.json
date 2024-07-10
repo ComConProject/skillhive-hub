@@ -324,5 +324,9 @@
   "switch_to_buyer": "ປ່ຽນເປັນຜູ້ໃຊ້ບໍລິການ",
   "customer": "ລູກຄ້າ",
   "edit_status": "ແກ້ໄຂສະຖານະ",
-  "completed": "ສຳເລັດ"
+  "completed": "ສຳເລັດ",
+  "send": "ສົ່ງ",
+  "review": {
+    "add": "ເພີ່ມການໃຫ້ຄຳເຫັນ"
+  }
 }

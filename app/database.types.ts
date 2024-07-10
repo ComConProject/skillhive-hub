@@ -30,21 +30,27 @@ export type Database = {
       direct_chat_rooms: {
         Row: {
           buyer_id: string | null
+          buyer_name: string | null
           created_at: string | null
           id: string
           seller_id: number | null
+          seller_name: string | null
         }
         Insert: {
           buyer_id?: string | null
+          buyer_name?: string | null
           created_at?: string | null
           id?: string
           seller_id?: number | null
+          seller_name?: string | null
         }
         Update: {
           buyer_id?: string | null
+          buyer_name?: string | null
           created_at?: string | null
           id?: string
           seller_id?: number | null
+          seller_name?: string | null
         }
         Relationships: [
           {
@@ -628,6 +634,7 @@ export type Database = {
       rating: {
         Row: {
           buyer_id: string
+          buyer_name: string | null
           created_at: string
           description: string | null
           freelancer_id: number
@@ -636,9 +643,11 @@ export type Database = {
           service_id: number
           star: number
           updated_at: string | null
+          user_id: string | null
         }
         Insert: {
           buyer_id: string
+          buyer_name?: string | null
           created_at?: string
           description?: string | null
           freelancer_id: number
@@ -647,9 +656,11 @@ export type Database = {
           service_id: number
           star: number
           updated_at?: string | null
+          user_id?: string | null
         }
         Update: {
           buyer_id?: string
+          buyer_name?: string | null
           created_at?: string
           description?: string | null
           freelancer_id?: number
@@ -658,6 +669,7 @@ export type Database = {
           service_id?: number
           star?: number
           updated_at?: string | null
+          user_id?: string | null
         }
         Relationships: [
           {
@@ -881,6 +893,27 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      users: {
+        Row: {
+          email: string | null
+          first_name: string | null
+          id: string
+          last_name: string | null
+        }
+        Insert: {
+          email?: string | null
+          first_name?: string | null
+          id: string
+          last_name?: string | null
+        }
+        Update: {
+          email?: string | null
+          first_name?: string | null
+          id?: string
+          last_name?: string | null
+        }
+        Relationships: []
       }
       villages: {
         Row: {

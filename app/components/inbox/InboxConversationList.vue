@@ -1,35 +1,23 @@
 <script setup lang="ts">
-import type { DirectChatAndMessage } from '~/types'
-
-const props = defineProps<{
+defineProps<{
   id?: string
 }>()
+const conversations = useConversations()
 
-const { fetchConversations } = useMessage()
+const search = ref('')
 
-const conversations = shallowRef<DirectChatAndMessage[]>([])
-async function fetchChats() {
-  if (!props.id)
-    return
-  const data = await fetchConversations(props.id)
+const filterConversations = computed(() => {
+  if (!search.value)
+    return conversations.value
 
-  if (data) {
-    conversations.value = data
-  }
-}
-
-watchEffect(() => {
-  if (props.id) {
-    fetchChats()
-    console.log(props.id)
-  }
+  return conversations.value.filter(i => i.otherUserId.toLocaleLowerCase().includes(search.value.toLocaleLowerCase()))
 })
 </script>
 
 <template>
   <div>
     <div class="pb-2">
-      <UInput :placeholder="$t('inbox.search_conversatons')" trailing-icon="i-carbon-search" />
+      <UInput v-model="search" :placeholder="$t('inbox.search_conversatons')" trailing-icon="i-carbon-search" />
     </div>
     <p class="text-xs text-slate-500">
       {{ $t('inbox.all_messages') }}
@@ -38,15 +26,15 @@ watchEffect(() => {
     <div class="w-full">
       <ul class="flex flex-col gap-y-1">
         <li
-          v-for="i in conversations" :key="i.chatRoom.id" class="py-2 px-1 cursor-pointer hover:bg-slate-200 transition-all duration-150 rounded-lg"
+          v-for="i in filterConversations" :key="i.chatRoom.id"
         >
-          <div class="flex justify-between">
+          <NuxtLinkLocale active-class="bg-slate-200 dark:bg-slate-800" class="py-2 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all duration-150 rounded-lg px-1 flex justify-between" :to="`/inbox/${id}/${i.chatRoom.id}?id=${i.otherUserId}`">
             <div>
               <p class="font-medium">
                 {{ i.otherUserId }}
               </p>
               <small>
-                {{ i.lastMessage.content }}
+                {{ i.lastMessage.content || 'no message yet' }}
               </small>
             </div>
             <div>
@@ -55,7 +43,7 @@ watchEffect(() => {
                 {{ i.lastMessage.created_at }}
               </small>
             </div>
-          </div>
+          </NuxtLinkLocale>
         </li>
       </ul>
     </div>

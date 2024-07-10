@@ -6,6 +6,8 @@ type OriginPricing = Database['public']['Tables']['pricing']['Row']
 
 type OriginProvidingService = Database['public']['Tables']['providing_service']['Row']
 
+type OriginalRating = Database['public']['Tables']['rating']['Row']
+
 export interface ProvidingService extends Omit<OriginProvidingService, 'delivery_format'> {
   term?: Term | null
   delivery_format: any
@@ -19,4 +21,7 @@ export interface Pricing extends Omit<OriginPricing, 'meta_data'> {
   meta_data: any
 }
 
-export type Rating = Database['public']['Tables']['rating']['Row']
+export interface Rating extends OriginalRating {
+  providing_service?: ProvidingService | null
+  freelancer?: Freelancer | null
+}

@@ -5,12 +5,12 @@
 <template>
   <div class="flex h-[100dvh] flex-col overflow-hidden">
     <nav class="py-4">
-      <TheNav class="hidden sm:block" />
+      <TheNav class="hidden sm:block px-1" />
     </nav>
     <!-- <section>
       <TheCategory />
     </section> -->
-    <main class="flex flex-1 flex-col overflow-auto gap-1">
+    <main class="flex flex-1 flex-col px-1 overflow-auto gap-1">
       <div class="flex-grow text-sm md:text-base">
         <slot />
       </div>
