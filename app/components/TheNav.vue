@@ -90,9 +90,7 @@ async function signOut() {
       </div>
       <ul class="flex items-center gap-3">
         <li>
-          <UTooltip :text="$t('notification')">
-            <UButton color="gray" variant="ghost" icon="i-heroicons-bell-20-solid" />
-          </UTooltip>
+          <TheNotification />
         </li>
         <li>
           <UTooltip :text="$t('inbox.inbox')">

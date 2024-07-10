@@ -6,11 +6,12 @@ const { id } = useRoute('inbox-id___lo').params
 const { fetchConversations } = useMessage()
 
 const conversations = useConversations()
+const chatId = useDirectChatId()
 async function fetchChats() {
   if (!id)
     return
   const data = await fetchConversations(id)
-
+  chatId.value = id
   if (data) {
     conversations.value = data
   }
@@ -26,7 +27,7 @@ watchEffect(() => {
 <template>
   <div className="h-full flex flex-col items-center justify-center">
     <NuxtImg
-      src="/empty.svg"
+      :src="conversations.length ? '/online_message.svg' : '/empty.svg'"
       alt="Empty"
       width="340"
       height="340"

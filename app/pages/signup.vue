@@ -82,7 +82,7 @@ async function signUp(provider?: 'google' | 'email') {
                 {{ $t('password') }}
               </p>
               <UInput
-                v-model:value="state.password"
+                v-model="state.password"
                 type="password"
                 :placeholder="$t('password')"
                 show-password-on="click"
@@ -98,7 +98,7 @@ async function signUp(provider?: 'google' | 'email') {
               block
               icon="i-heroicons-arrow-right-20-solid"
               trailing
-              @click="signUp"
+              @click="signUp('email')"
             >
               {{ $t('continue') }}
             </UButton>

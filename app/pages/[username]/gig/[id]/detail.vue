@@ -90,6 +90,8 @@ function useInlineGig() {
         stripePriceId: `${p.stripe_price_id}`,
         gigId: `${p.service_id}`,
         freelancerId: gig.value!.freelancer_id,
+        freelancerUuid: gig.value!.freelancer!.user_id!,
+        isOwner: user.value?.id === gig.value!.freelancer!.user_id!,
       }
     })
     return formatForOffer
@@ -167,7 +169,7 @@ function useInlineGig() {
       </div>
 
       <template v-if="basicPricing && standardPricing && premiumPricing">
-        <TheOffers :basic="basicPricing" :standard="standardPricing" :premium="premiumPricing" />
+        <TheOffers :basic="basicPricing" :standard="standardPricing" :premium="premiumPricing" :is-owner="user?.id === gig.freelancer?.user_id" />
       </template>
     </div>
   </div>

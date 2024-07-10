@@ -328,5 +328,16 @@
   "send": "ສົ່ງ",
   "review": {
     "add": "ເພີ່ມການໃຫ້ຄຳເຫັນ"
-  }
+  },
+  "all": "ທັງຫມົດ",
+  "notifications": {
+    "mark_all_as_read": "ຍືນຢັນອ່ານທັງໝົດ",
+    "already_read": "ອ່ານແລ້ວ",
+    "unread": "ຍັງບໍ່ອ່ານ",
+    "clear": "ລ້າງລາຍການ",
+    "read": "ອ່ານ",
+    "read_all": "ອ່ານທັງຫມົດ",
+    "no_notification": "ບໍ່ມີຂໍ້ມູນການແຈ້ງເຕືອນ"
+  },
+  "your_order_has_been_updated": "ຄຳສັ່ງຊື້ຂອງທ່ານໄດ້ຮັບການອັບເດດ"
 }

@@ -330,11 +330,11 @@ export type Database = {
       }
       notification: {
         Row: {
+          action_user_id: string | null
           created_at: string
           id: number
           is_read: boolean
           message: string | null
-          notified_user_id: string | null
           options: Json | null
           title: string | null
           type_app: string | null
@@ -342,11 +342,11 @@ export type Database = {
           user_id: string | null
         }
         Insert: {
+          action_user_id?: string | null
           created_at?: string
           id?: number
           is_read?: boolean
           message?: string | null
-          notified_user_id?: string | null
           options?: Json | null
           title?: string | null
           type_app?: string | null
@@ -354,11 +354,11 @@ export type Database = {
           user_id?: string | null
         }
         Update: {
+          action_user_id?: string | null
           created_at?: string
           id?: number
           is_read?: boolean
           message?: string | null
-          notified_user_id?: string | null
           options?: Json | null
           title?: string | null
           type_app?: string | null
@@ -376,6 +376,7 @@ export type Database = {
           customer_email: string | null
           detail: string
           freelancer_id: number
+          freelancer_uuid: string | null
           id: number
           metadata: Json | null
           on_date: string
@@ -392,6 +393,7 @@ export type Database = {
           customer_email?: string | null
           detail: string
           freelancer_id: number
+          freelancer_uuid?: string | null
           id?: number
           metadata?: Json | null
           on_date: string
@@ -408,6 +410,7 @@ export type Database = {
           customer_email?: string | null
           detail?: string
           freelancer_id?: number
+          freelancer_uuid?: string | null
           id?: number
           metadata?: Json | null
           on_date?: string

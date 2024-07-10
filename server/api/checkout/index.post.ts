@@ -27,6 +27,7 @@ export default defineEventHandler(async (event) => {
     customer: body.customer,
     customer_email: body.email,
     freelancer_id: body.freelancerId,
+    freelancer_uuid: body.freelancerUuid,
   }).select('*').single()
 
   if (error) {
@@ -38,6 +39,18 @@ export default defineEventHandler(async (event) => {
   }
 
   const order = data
+
+  // insert notification for buyer
+  const notification = {
+    type_app: 'order',
+    title: 'ການສັ່ງຊື້',
+    message: `ການບໍລີການຂອງທ່ານໄດ້ຖືກຊື້`,
+    url: `/${order?.freelancer_id}/manage-gig/order`,
+    action_user_id: order?.freelancer_uuid,
+    is_read: false,
+  }
+
+  await client.from('notification').insert(notification)
 
   try {
     const session = await stripe.checkout.sessions.create({
@@ -62,7 +75,7 @@ export default defineEventHandler(async (event) => {
       },
     })
 
-    console.log('Stripe session created:', session)
+    // console.log('Stripe session created:', session)
 
     return {
       url: session.url,

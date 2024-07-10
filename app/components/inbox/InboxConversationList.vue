@@ -1,9 +1,6 @@
 <script setup lang="ts">
-defineProps<{
-  id?: string
-}>()
 const conversations = useConversations()
-
+const id = useDirectChatId()
 const search = ref('')
 
 const filterConversations = computed(() => {
@@ -40,7 +37,7 @@ const filterConversations = computed(() => {
             <div>
               <small>
                 <!-- {{ $d(new Date(i.lastMessage.created_at as string)) }} -->
-                {{ i.lastMessage.created_at }}
+                {{ $d(new Date(i.lastMessage.created_at || '')) }}, {{ new Date(i.lastMessage.created_at || '').toLocaleTimeString() }}
               </small>
             </div>
           </NuxtLinkLocale>

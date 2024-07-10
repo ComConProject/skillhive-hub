@@ -11,11 +11,13 @@ interface Offer {
   stripePriceId: string
   gigId: string
   freelancerId: string | number | null
+  freelancerUuid: string | null
 }
 defineProps<{
   basic: Offer
   standard: Offer
   premium: Offer
+  isOwner: boolean
 }>()
 const { t } = useI18n()
 const items = [{
@@ -36,13 +38,13 @@ const items = [{
       <UTabs class="w-full sm:w-[400px]" :items="items">
         <template #item="{ item }">
           <section v-if="item.key === 'basic'">
-            <OfferContent :offer="basic" :is-owner="false" />
+            <OfferContent :offer="basic" :is-owner="isOwner" />
           </section>
           <section v-if="item.key === 'standard'">
-            <OfferContent :offer="standard" :is-owner="false" />
+            <OfferContent :offer="standard" :is-owner="isOwner" />
           </section>
           <section v-if="item.key === 'premium'">
-            <OfferContent :offer="premium" :is-owner="false" />
+            <OfferContent :offer="premium" :is-owner="isOwner" />
           </section>
         </template>
       </UTabs>

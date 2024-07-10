@@ -17,12 +17,22 @@ function setItem(i: Order) {
   selectedOrder.value = i
   status.value = i.status?.id
 }
-
+const { t } = useI18n()
 async function updateStatus() {
   if (!selectedOrder.value || !status.value) {
     return
   }
   loading.value = true
+
+  // insert notification for buyer
+  await db.from('notification').insert({
+    action_user_id: selectedOrder.value.buyer_id,
+    message: t('your_order_has_been_updated'),
+    type_app: 'order',
+    url: `/orders/?order=${selectedOrder.value.id}&code=${selectedOrder.value.code}`,
+    title: 'Order updated',
+  })
+
   const { error } = await db
     .from('order')
     .update({ status_id: status.value })
@@ -104,7 +114,7 @@ function getStatus(name: string) {
             {{ i.customer }}
           </td>
           <td class="p-3">
-            <UBadge :color="getStatus(`${i.status?.name}`)" size="md" variant="subtle" @click="setItem(i)">
+            <UBadge :color="getStatus(`${i.status?.name}`)" size="md" variant="subtle" class="cursor-pointer" @click="setItem(i)">
               <div class="flex items-center gap-1">
                 <Icon
                   :name="
@@ -116,30 +126,6 @@ function getStatus(name: string) {
                 </span>
               </div>
             </UBadge>
-            <UModal v-model="isEdit">
-              <UCard>
-                <template #header>
-                  <h1 class="text-xl font-semibold">
-                    {{ $t('edit_status') }}
-                  </h1>
-                </template>
-                <div>
-                  <UFormGroup :label="$t('status')">
-                    <TermInput v-model="status" :term-group="1" />
-                  </UFormGroup>
-                </div>
-                <template #footer>
-                  <div class="flex gap-2">
-                    <UButton :loading="loading" @click="updateStatus">
-                      {{ $t('save') }}
-                    </UButton>
-                    <UButton variant="outline" @click="isEdit = false">
-                      {{ $t('cancel') }}
-                    </UButton>
-                  </div>
-                </template>
-              </UCard>
-            </UModal>
           </td>
           <td v-if="i.payment" class="p-3">
             <UBadge v-if="i.payment[0]?.status === 'paid'" size="md" variant="subtle" :color="getStatus(`${i.payment[0]?.status}`)">
@@ -166,5 +152,30 @@ function getStatus(name: string) {
         <Icon name="svg-spinners:180-ring" /> {{ $t('loading') }}
       </div>
     </div>
+
+    <UModal v-model="isEdit">
+      <UCard>
+        <template #header>
+          <h1 class="text-xl font-semibold">
+            {{ $t('edit_status') }}
+          </h1>
+        </template>
+        <div>
+          <UFormGroup :label="$t('status')">
+            <TermInput v-model="status" :term-group="1" />
+          </UFormGroup>
+        </div>
+        <template #footer>
+          <div class="flex gap-2">
+            <UButton :loading="loading" @click="updateStatus">
+              {{ $t('save') }}
+            </UButton>
+            <UButton variant="outline" @click="isEdit = false">
+              {{ $t('cancel') }}
+            </UButton>
+          </div>
+        </template>
+      </UCard>
+    </UModal>
   </div>
 </template>

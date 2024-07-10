@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import type { Message } from '~/types'
 
-const { roomId } = useRoute('inbox-id-roomId___lo').params
+const { roomId, id: inboxId } = useRoute('inbox-id-roomId___lo').params
 const { supabase: db } = useCustomSupabase()
 const { sendMessage, fetchMessages } = useMessage()
 const route = useRoute('inbox-id-roomId___lo')
-
 const { id } = route.query
 
 const message = ref('')
@@ -39,6 +38,26 @@ const channels = db.channel('custom-all-channel')
     },
   )
   .subscribe()
+
+const { fetchConversations } = useMessage()
+
+const conversations = useConversations()
+const chatId = useDirectChatId()
+async function fetchChats() {
+  if (!id)
+    return
+  const data = await fetchConversations(inboxId)
+  chatId.value = inboxId
+  if (data) {
+    conversations.value = data
+  }
+}
+
+watchEffect(() => {
+  if (inboxId) {
+    fetchChats()
+  }
+})
 
 onMounted(() => {
   getMessages()
@@ -81,7 +100,7 @@ onUnmounted(() => {
           ]"
         >
           <p>{{ i.content || '-' }}</p>
-          <span class="text-xs opacity-50">{{ $d(new Date(i.created_at || '')) }}</span>
+          <span class="text-xs opacity-50">{{ $d(new Date(i.created_at || '')) }}, {{ new Date(i.created_at || '').toLocaleTimeString() }}</span>
         </div>
       </div>
     </div>
