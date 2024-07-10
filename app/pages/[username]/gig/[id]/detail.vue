@@ -28,7 +28,6 @@ function useInlineGig() {
     }
     if (data) {
       gig.value = data[0] as any
-      console.log(gig.value)
       if (gig.value) {
         // fetch products
         await getAllPriceWithProducts()
@@ -164,7 +163,7 @@ function useInlineGig() {
           :languages="languages"
           :freelancer-id="gig.freelancer_id!"
         />
-        <ReviewAdd />
+        <ReviewAdd :freelancer-id="gig.freelancer_id!" />
       </div>
 
       <template v-if="basicPricing && standardPricing && premiumPricing">

@@ -1,15 +1,16 @@
-import type { Message } from 'yup'
-import type { MessageObj } from '~/types'
+import type { Message, MessageObj } from '~/types'
 
 export function useMessage() {
   const message = useState('message', () => '')
 
   const { supabase: db } = useCustomSupabase()
 
-  async function createDirectChatRoom(sellerId: number, buyerId: string) {
+  async function createDirectChatRoom(sellerId: number, buyerId: string, sellerName: string, buyerName: string) {
     const { data, error } = await db.from('direct_chat_rooms').insert({
       seller_id: sellerId,
       buyer_id: buyerId,
+      seller_name: sellerName,
+      buyer_name: buyerName,
     }).select('*').single()
 
     if (error) {
@@ -51,7 +52,6 @@ export function useMessage() {
       const filterCondition = isNumber
         ? `seller_id.eq.${userId}`
         : `buyer_id.eq.${userId}`
-
       // Fetch all direct chat rooms where the user is involved
       const { data: chatRooms, error: chatRoomError } = await db
         .from('direct_chat_rooms')
@@ -78,18 +78,31 @@ export function useMessage() {
             if (messageError) {
               throw messageError
             }
-            let lastMessage: Message[] = []
-
-            if (data.length > 0) {
-              lastMessage = data
+            let lastMessage: Message = {
+              content: '',
+              created_at: null,
+              direct_chat_id: null,
+              id: '',
+              room_id: null,
+              user_id: null,
+            }
+            if (data?.length > 0 && data[0]) {
+              lastMessage = data[0]
             }
             else {
-              lastMessage = []
+              lastMessage = {
+                content: '',
+                created_at: null,
+                direct_chat_id: null,
+                id: '',
+                room_id: null,
+                user_id: null,
+              }
             }
             return {
               chatRoom,
               lastMessage,
-              otherUserId: isNumber ? chatRoom.buyer_id : chatRoom.seller_id,
+              otherUserId: isNumber ? chatRoom.buyer_name : chatRoom.seller_name,
             }
           }
           catch (error: any) {
@@ -104,7 +117,7 @@ export function useMessage() {
 
       return validConversations
     }
-    catch (error) {
+    catch (error: any) {
       console.error('Error fetching conversations:', error.message)
       return [] // Handle overall error in fetching conversations
     }
@@ -124,6 +137,20 @@ export function useMessage() {
     }
   }
 
+  async function fetchMessages(directChatId: string | number) {
+    const { data, error } = await db
+      .from('messages')
+      .select('*')
+      .eq('direct_chat_id', directChatId)
+      .order('created_at', { ascending: true })
+
+    if (error) {
+      throw new Error(`[fetchMessages]: error ${error.message}`)
+    }
+
+    return data
+  }
+
   return {
     message,
     createDirectChatRoom,
@@ -131,5 +158,6 @@ export function useMessage() {
     fetchChatRoomBySellerIdAndUserId,
     fetchChatRoomById,
     fetchConversations,
+    fetchMessages,
   }
 }

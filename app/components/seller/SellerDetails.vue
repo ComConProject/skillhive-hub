@@ -24,7 +24,7 @@ const { createDirectChatRoom } = useMessage()
 const user = useSupabaseUser()
 
 async function handleChat() {
-  const data = await createDirectChatRoom(props.freelancerId!, user.value!.id)
+  const data = await createDirectChatRoom(props.freelancerId!, user.value!.id, props.fullname, user.value!.user_metadata.full_name!)
 
   if (data) {
     navigateTo(`/inbox/${user.value?.id}/`)
