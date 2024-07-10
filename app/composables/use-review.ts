@@ -17,7 +17,6 @@ export function useReview() {
   }
 
   async function insertReview(rating: any) {
-    console.log(rating)
     const { data, error } = await db.from('rating').insert(rating).select()
 
     if (error) {
