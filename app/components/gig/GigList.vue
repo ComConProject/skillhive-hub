@@ -41,7 +41,6 @@ async function getGigsByPricing() {
 
   if (data) {
     gigs.value = data
-    console.log(gigs.value)
     const { data: ratingData, error } = await supabase.from('rating').select('*')
 
     if (error) {
