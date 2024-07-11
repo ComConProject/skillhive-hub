@@ -1,0 +1,51 @@
+@import url('../fonts/stylesheet.css');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+  .lo,
+  .lo,
+  .lo p,
+  .lo div,
+  .lo {
+      font-family: 'Bouasavanh';
+  }
+
+  .en,
+  .en,
+  .en p,
+  .en div,
+  .en {
+      font-family: 'Poppins', sans-serif;
+  }
+
+.slide-left-enter-active,
+  .slide-left-leave-active,
+  .slide-right-enter-active,
+  .slide-right-leave-active {
+    transition: all 0.2s;
+  }
+
+  .slide-left-enter-from {
+    opacity: 0;
+    transform: translate(50px, 0);
+  }
+
+  .slide-left-leave-to {
+    opacity: 0;
+    transform: translate(-50px, 0);
+  }
+
+  .slide-right-enter-from {
+    opacity: 0;
+    transform: translate(-50px, 0);
+  }
+
+  .slide-right-leave-to {
+    opacity: 0;
+    transform: translate(50px, 0);
+  }
+
+html,
+body,
+:root{
+  height: 100%;
+}
