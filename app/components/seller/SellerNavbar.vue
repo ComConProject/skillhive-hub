@@ -88,7 +88,7 @@ async function signOut() {
         </li>
         <li>
           <UTooltip :text="$t('inbox.inbox')">
-            <NuxtLinkLocale to="/inbox">
+            <NuxtLinkLocale :to="`/inbox/${seller?.id}`">
               <UButton color="gray" variant="ghost" icon="i-fluent-chat-12-filled" />
             </NuxtLinkLocale>
           </UTooltip>

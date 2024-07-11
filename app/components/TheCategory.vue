@@ -4,8 +4,10 @@ import type { CustomTerm, Term } from '@/types'
 
 const { supabase } = useCustomSupabase()
 const router = useRouter()
+const categoryId = useCategoryId()
 const category = shallowRef<CustomTerm[]>([])
 const showModal = ref(false)
+const localePath = useLocalePath()
 
 async function fetchCategory() {
   const { data, error } = await supabase.from('term').select('*').eq('group_id', TermGroup.CATEGORY).eq('active', true)
@@ -46,7 +48,9 @@ function organizeCategories(categories: CustomTerm[]) {
 
 // handleClick when user click add subcategory to query
 function handleClick(subcategory: Term) {
-  const router = useRouter()
+  categoryId.value = subcategory.id
+  router.push(localePath(`/?category=${subcategory.name}`))
+  showModal.value = false
 }
 
 onMounted(() => {
@@ -73,9 +77,9 @@ onMounted(() => {
               >
                 <button
                   class="select-none rounded-md p-3 hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                  @click="() => { }"
+                  @click="handleClick(subcategory)"
                 >
-                  <div className="text-sm text-gray-700 font-medium leading-none">
+                  <div class="text-sm text-gray-700 font-medium leading-none">
                     {{ subcategory.name }}
                   </div>
                 </button>

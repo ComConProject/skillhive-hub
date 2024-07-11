@@ -339,5 +339,6 @@
     "read_all": "ອ່ານທັງຫມົດ",
     "no_notification": "ບໍ່ມີຂໍ້ມູນການແຈ້ງເຕືອນ"
   },
-  "your_order_has_been_updated": "ຄຳສັ່ງຊື້ຂອງທ່ານໄດ້ຮັບການອັບເດດ"
+  "your_order_has_been_updated": "ຄຳສັ່ງຊື້ຂອງທ່ານໄດ້ຮັບການອັບເດດ",
+  "clear_filter": "ລ້າງການຄົ້ນຫາ"
 }

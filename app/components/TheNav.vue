@@ -62,6 +62,7 @@ function useInlineSeller() {
     seller,
   }
 }
+const search = useSearchGigs()
 
 async function signOut() {
   const { error } = await supabase.auth.signOut()
@@ -82,7 +83,7 @@ async function signOut() {
           </h1>
         </NuxtLinkLocale>
         <div class="w-96">
-          <UInput :placeholder="$t('what_service_are_you_looking_for_today')" trailing-icon="i-heroicons-magnifying-glass" />
+          <UInput v-model="search" :placeholder="$t('what_service_are_you_looking_for_today')" trailing-icon="i-heroicons-magnifying-glass" />
         </div>
         <div>
           <TheCategory />

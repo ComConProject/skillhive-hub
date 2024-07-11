@@ -2,11 +2,16 @@
 import { _xl } from '#tailwind-config/theme/backdropBlur'
 import type { ProvidingService } from '~/types'
 
+interface CustomService extends ProvidingService {
+  orderCount?: number | null
+  revenue?: number | null
+}
+
 const { username } = useRoute('username-manage-gig___lo').params
 
 const { supabase } = useCustomSupabase()
 
-const gigs = shallowRef<ProvidingService[]>([])
+const gigs = shallowRef<CustomService[]>([])
 const page = ref(1)
 const pageCount = ref(5)
 
@@ -28,10 +33,34 @@ async function getGigs() {
   }
 
   gigs.value = data
+  //  count orders from tb_orders
+  const { data: orderData } = await supabase.from('order').select('*, pricing(*), payment(*)')
+  if (gigs.value.length) {
+    const countOrder = gigs.value.map((i) => {
+      return {
+        ...i,
+        orderCount: orderData?.filter(o => o.pricing?.service_id === i.id).length as any,
+        revenue: orderData?.reduce((a, b) => a + (b.payment[0]?.amount || 0), 0),
+      }
+    })
+    gigs.value = countOrder
+  }
+
   if (count) {
     pageCount.value = count
   }
 }
+
+const search = ref('')
+
+const filterGigs = computed(() => {
+  if (!search.value) {
+    return gigs.value
+  }
+  return gigs.value.filter((i) => {
+    return i.title.toLowerCase().includes(search.value.toLowerCase())
+  })
+})
 
 onMounted(() => {
   getGigs()
@@ -58,7 +87,7 @@ onMounted(() => {
     <UDivider class="my-6" />
     <template v-if="gigs.length">
       <div class="flex max-w-md mb-4">
-        <UInput icon="i-ph-magnifying-glass" class="w-full" placeholder="Search..." />
+        <UInput v-model="search" icon="i-ph-magnifying-glass" class="w-full" placeholder="Search..." />
       </div>
       <div class="relative overflow-x-auto">
         <table class="min-w-full table-fixed divide-y divide-gray-300 dark:divide-gray-700">
@@ -82,7 +111,7 @@ onMounted(() => {
             </tr>
           </thead>
           <tbody class="divide-y divide-gray-200 dark:divide-gray-800">
-            <tr v-for="(gig, idx) in gigs" :key="gig.id" class="hover:bg-gray-50 dark:hover:bg-gray-800/50 cursor-pointer">
+            <tr v-for="(gig, idx) in filterGigs" :key="gig.id" class="hover:bg-gray-50 dark:hover:bg-gray-800/50 cursor-pointer">
               <td class="whitespace-nowrap px-4 py-4 dark:text-gray-400 text-sm">
                 {{ idx + 1 }}
               </td>
@@ -94,10 +123,10 @@ onMounted(() => {
                 0
               </td>
               <td class="whitespace-nowrap px-4 py-4 dark:text-gray-400 text-sm">
-                0
+                {{ gig.orderCount }}
               </td>
               <td class="whitespace-nowrap px-4 py-4 dark:text-gray-400 text-sm">
-                0
+                ${{ formatToDollars(gig.revenue as number) }}
               </td>
             </tr>
           </tbody>

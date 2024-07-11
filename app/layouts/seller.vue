@@ -4,13 +4,13 @@
 
 <template>
   <div class="flex h-[100dvh] flex-col overflow-hidden">
-    <nav class="py-4">
+    <nav class="py-4 px-1">
       <SellerNavbar class="hidden sm:block" />
     </nav>
     <!-- <section>
       <TheCategory />
     </section> -->
-    <main class="flex flex-1 flex-col overflow-auto gap-1">
+    <main class="flex px-1 flex-1 flex-col overflow-auto gap-1">
       <div class="flex-grow text-sm md:text-base">
         <slot />
       </div>

@@ -45,7 +45,7 @@ export default defineEventHandler(async (event) => {
     type_app: 'order',
     title: 'ການສັ່ງຊື້',
     message: `ການບໍລີການຂອງທ່ານໄດ້ຖືກຊື້`,
-    url: `/${order?.freelancer_id}/manage-gig/order`,
+    url: `/${order?.freelancer_id}/manage-gig/order?order=${order?.id}&code=${order?.code}`,
     action_user_id: order?.freelancer_uuid,
     is_read: false,
   }
