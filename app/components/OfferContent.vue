@@ -43,6 +43,25 @@ async function createCheckoutSession() {
   }
   loading.value = false
 }
+
+// const { createDirectChatRoom, fetchChatRoomBySellerIdAndUserId } = useMessage()
+// const user = useSupabaseUser()
+
+// async function handleChat() {
+//   // check that user is have a direct chat room
+//   const checkRoom = await fetchChatRoomBySellerIdAndUserId(props.offer.freelancerId as number, user.value!.id)
+
+//   if (checkRoom) {
+//     navigateTo(`/inbox/${user.value?.id}/`)
+//     return
+//   }
+
+//   const data = await createDirectChatRoom(props.freelancerId!, user.value!.id, props.fullname, user.value!.user_metadata.full_name!)
+
+//   if (data) {
+//     navigateTo(`/inbox/${user.value?.id}/`)
+//   }
+// }
 </script>
 
 <template>
@@ -70,9 +89,9 @@ async function createCheckoutSession() {
       <UButton :loading="loading" @click="createCheckoutSession">
         {{ $t('offer.order') }}
       </UButton>
-      <UButton variant="outline">
+      <!-- <UButton variant="outline">
         {{ $t('offer.send_message') }}
-      </UButton>
+      </UButton> -->
     </div>
     <UButton v-else>
       <NuxtLinkLocale>

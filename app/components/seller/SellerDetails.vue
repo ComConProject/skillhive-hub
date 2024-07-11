@@ -13,6 +13,7 @@ interface Props {
   lastDelivery?: Date | null
   languages?: Language[] | null
   freelancerId?: number
+  isOwner?: boolean
 }
 const props = withDefaults(defineProps<Props>(), {
   averageRating: 0,
@@ -20,10 +21,18 @@ const props = withDefaults(defineProps<Props>(), {
   profileUrl: null,
 })
 
-const { createDirectChatRoom } = useMessage()
+const { createDirectChatRoom, fetchChatRoomBySellerIdAndUserId } = useMessage()
 const user = useSupabaseUser()
 
 async function handleChat() {
+  // check that user is have a direct chat room
+  const checkRoom = await fetchChatRoomBySellerIdAndUserId(props.freelancerId!, user.value!.id)
+
+  if (checkRoom) {
+    navigateTo(`/inbox/${user.value?.id}/`)
+    return
+  }
+
   const data = await createDirectChatRoom(props.freelancerId!, user.value!.id, props.fullname, user.value!.user_metadata.full_name!)
 
   if (data) {
@@ -63,7 +72,7 @@ async function handleChat() {
           </div>
         </div>
       </div>
-      <UButton @click="handleChat">
+      <UButton v-if="isOwner === false" @click="handleChat">
         {{ $t('contact') }}
       </UButton>
       <div class="border border-black/20 p-4 space-y-3 rounded-2xl">
