@@ -35,7 +35,7 @@ const filterConversations = computed(() => {
               </small>
             </div>
             <div>
-              <small>
+              <small v-if="i.lastMessage.created_at">
                 <!-- {{ $d(new Date(i.lastMessage.created_at as string)) }} -->
                 {{ $d(new Date(i.lastMessage.created_at || '')) }}, {{ new Date(i.lastMessage.created_at || '').toLocaleTimeString() }}
               </small>

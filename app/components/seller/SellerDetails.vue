@@ -27,8 +27,7 @@ const user = useSupabaseUser()
 async function handleChat() {
   // check that user is have a direct chat room
   const checkRoom = await fetchChatRoomBySellerIdAndUserId(props.freelancerId!, user.value!.id)
-
-  if (checkRoom) {
+  if (checkRoom !== null) {
     navigateTo(`/inbox/${user.value?.id}/`)
     return
   }
