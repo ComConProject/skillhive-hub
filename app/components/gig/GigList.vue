@@ -19,7 +19,7 @@ function formatGigForCard(gigs: ProvidingService[], rating: Rating[]) {
       img: getImageUrl(gig?.delivery_format?.images?.filesPaths[0] || ''),
       createdAtLabel: d(new Date(gig.created_at)),
       disabled: false,
-      offer: `${gig.pricing?.find(i => i.term?.id === PackageType.BASIC)?.price || 0}`,
+      offer: `${gig.pricing?.find(i => i.type_id === PackageType.BASIC)?.price || 0}`,
       ownerLabel: `${gig?.description}`,
       reviews: rating.length ? rating.filter(r => r.service_id === gig.id).map(r => r.star) : [],
     }
@@ -31,7 +31,7 @@ const rating = shallowRef<Rating[]>([])
 async function getGigsByPricing() {
   const filterCondition = categoryId.value ? `term_id.eq.${categoryId.value}` : ''
   let query = supabase.from('providing_service').select('*, pricing(*)')
-  if (filterCondition) {
+  if (filterCondition !== '') {
     query = query.or(filterCondition)
   }
   const { data, error } = await query
@@ -41,6 +41,7 @@ async function getGigsByPricing() {
 
   if (data) {
     gigs.value = data
+    console.log(gigs.value)
     const { data: ratingData, error } = await supabase.from('rating').select('*')
 
     if (error) {
