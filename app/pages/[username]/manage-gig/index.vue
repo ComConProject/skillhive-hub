@@ -39,8 +39,8 @@ async function getGigs() {
     const countOrder = gigs.value.map((i) => {
       return {
         ...i,
-        orderCount: orderData?.filter(o => o.pricing?.service_id === i.id).length as any,
-        revenue: orderData?.reduce((a, b) => a + (b.payment[0]?.amount || 0), 0),
+        orderCount: orderData?.filter(o => o.pricing?.service_id === i.id).length || 0,
+        revenue: orderData?.filter(o => o.pricing?.service_id === i.id).reduce((a, b) => a + (b.payment[0]?.amount || 0), 0),
       }
     })
     gigs.value = countOrder
@@ -126,7 +126,7 @@ onMounted(() => {
                 {{ gig.orderCount }}
               </td>
               <td class="whitespace-nowrap px-4 py-4 dark:text-gray-400 text-sm">
-                ${{ formatToDollars(gig.revenue as number) }}
+                ${{ formatToDollars(gig.revenue as number || 0) }}
               </td>
             </tr>
           </tbody>
