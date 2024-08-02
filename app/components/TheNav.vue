@@ -24,6 +24,14 @@ const dropdownItems = [
         navigateTo('/orders')
       },
     },
+    {
+      label: t('settings.setting'),
+      icon: 'i-line-md-cog-filled',
+
+      click: () => {
+        navigateTo('/setting')
+      },
+    },
   ],
   [
     {
