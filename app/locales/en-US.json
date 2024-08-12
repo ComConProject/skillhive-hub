@@ -90,7 +90,9 @@
     "main": "Main",
     "edit_profile": "Edit Profile",
     "change_password": "Change Password",
-    "manage_profile_and_security": "Manage your profile and security."
+    "manage_profile_and_security": "Manage your profile and security.",
+    "payment": "Payment",
+    "application": "Application"
   },
   "manage": "Manage",
   "account": "Account",

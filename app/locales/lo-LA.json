@@ -90,7 +90,9 @@
     "main": "ໜ້າຫຼັກ",
     "edit_profile": "ແກ້ໄຂຂໍ້ມູນສ່ວນຕົວ",
     "change_password": "ປ່ຽນລະຫັດຜ່ານ",
-    "manage_profile_and_security": "ຈັດການຂໍ້ມູນຄວາມເປັນສ່ວນຕົວ ແລະ ຄວາມປອດໄພຂອງທ່ານ."
+    "manage_profile_and_security": "ຈັດການຂໍ້ມູນຄວາມເປັນສ່ວນຕົວ ແລະ ຄວາມປອດໄພຂອງທ່ານ.",
+    "application": "ແອັບພິເຄຊັນ",
+    "payment": "ການຊຳລະເງິນ"
   },
   "manage": "ຈັດການ",
   "account": "ບັນຊີ",

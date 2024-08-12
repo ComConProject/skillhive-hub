@@ -164,6 +164,7 @@ function useInlineGig() {
           :description="gig.freelancer?.description"
           :languages="languages"
           :freelancer-id="gig.freelancer_id!"
+          :is-owner="user?.id === gig.freelancer?.user_id"
         />
         <ReviewAdd :freelancer-id="gig.freelancer_id!" />
       </div>

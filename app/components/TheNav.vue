@@ -5,6 +5,7 @@ const user = useSupabaseUser()
 const { supabase } = useCustomSupabase()
 const { seller } = useInlineSeller()
 const { t } = useI18n()
+const localePath = useLocalePath()
 
 const dropdownItems = [
   [
@@ -21,7 +22,15 @@ const dropdownItems = [
       icon: 'i-heroicons-shopping-cart',
 
       click: () => {
-        navigateTo('/orders')
+        navigateTo(localePath('/orders'))
+      },
+    },
+    {
+      label: t('settings.setting'),
+      icon: 'i-line-md-cog-filled',
+
+      click: () => {
+        navigateTo(localePath('/setting'))
       },
     },
   ],

@@ -25,13 +25,13 @@ export function useMessage() {
       .from('direct_chat_rooms')
       .select('id')
       .match({ seller_id: sellerId, buyer_id: buyerId })
-      .single()
+      .limit(1)
 
     if (error) {
       throw new Error(`[fetchChatRoomId]: error ${error.message}`)
     }
 
-    return data
+    return data.length ? data[0] : null
   }
 
   async function fetchChatRoomById(id: string | number) {
