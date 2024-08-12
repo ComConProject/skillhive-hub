@@ -342,5 +342,11 @@
     "no_notification": "No Notifications"
   },
   "your_order_has_been_updated": "Your Order Has Been Updated",
-  "clear_filter": "Clear Filter"
+  "clear_filter": "Clear Filter",
+  "name": "Name",
+  "current_password": "Current Password",
+  "sign_in": "Sign In",
+  "sign_up": "Sign Up",
+  "sign_out": "Sign Out",
+  "payment_history_report": "Payment History Report"
 }

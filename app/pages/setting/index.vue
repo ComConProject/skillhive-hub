@@ -30,21 +30,21 @@ function onPasswordChange() {
     <UCard class="mb-6">
       <template #header>
         <h2 class="text-xl font-semibold">
-          Personal Information
+          {{ $t('settings.edit_profile') }}
         </h2>
       </template>
 
       <UForm :state="form" class="space-y-3" @submit="onSubmit">
-        <UFormGroup label="Full Name" name="fullName">
+        <UFormGroup :label="$t('name')" name="fullName">
           <UInput v-model="form.fullName" placeholder="Enter your full name" />
         </UFormGroup>
 
-        <UFormGroup label="Email" name="email">
+        <UFormGroup :label="$t('email')" name="email">
           <UInput v-model="form.email" type="email" placeholder="Enter your email" />
         </UFormGroup>
 
         <UButton type="submit" color="primary" class="mt-4">
-          Save Changes
+          {{ $t('save') }}
         </UButton>
       </UForm>
     </UCard>
@@ -52,25 +52,25 @@ function onPasswordChange() {
     <UCard class="mb-6">
       <template #header>
         <h2 class="text-xl font-semibold">
-          Change Password
+          {{ $t('settings.change_password') }}
         </h2>
       </template>
 
       <UForm :state="passwordForm" class="space-y-3" @submit="onPasswordChange">
-        <UFormGroup label="Current Password" name="currentPassword">
+        <UFormGroup :label="$t('current_password')" name="currentPassword">
           <UInput v-model="passwordForm.currentPassword" type="password" placeholder="Enter current password" />
         </UFormGroup>
 
-        <UFormGroup label="New Password" name="newPassword">
+        <UFormGroup :label="$t('new_password')" name="newPassword">
           <UInput v-model="passwordForm.newPassword" type="password" placeholder="Enter new password" />
         </UFormGroup>
 
-        <UFormGroup label="Confirm New Password" name="confirmPassword">
+        <UFormGroup :label="$t('confirm_password')" name="confirmPassword">
           <UInput v-model="passwordForm.confirmPassword" type="password" placeholder="Confirm new password" />
         </UFormGroup>
 
         <UButton type="submit" color="primary" class="mt-4">
-          Change Password
+          {{ $t('save') }}
         </UButton>
       </UForm>
     </UCard>

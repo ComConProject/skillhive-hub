@@ -38,24 +38,18 @@ function savePreferences() {
     </h1>
 
     <UCard>
-      <template #header>
-        <h2 class="text-xl font-semibold">
-          Preferences
-        </h2>
-      </template>
-
       <div class="space-y-3">
-        <UFormGroup label="Language">
+        <UFormGroup :label="$t('language')">
           <USelect v-model="preferences.language" :options="languageOptions" />
         </UFormGroup>
-        <UFormGroup label="Theme">
+        <UFormGroup :label="$t('theme')">
           <USelect v-model="preferences.theme" :options="themeOptions" />
         </UFormGroup>
-        <UFormGroup label="Notifications">
+        <UFormGroup :label="$t('notification')">
           <UToggle v-model="preferences.notifications" />
         </UFormGroup>
         <UButton color="primary" class="mt-4" @click="savePreferences">
-          Save Preferences
+          {{ $t('save') }}
         </UButton>
       </div>
     </UCard>
